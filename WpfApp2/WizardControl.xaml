@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="WpfApp2.WizardControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfApp2"
+             mc:Ignorable="d" x:Name="wizardControl"
+             d:DesignHeight="480" d:DesignWidth="640">
+    <Grid>
+        <local:WizardCont x:Name="wizControl" Header="{Binding}">
+            <local:WizardCont.HeaderTemplate>
+                <DataTemplate >
+                    <StackPanel Grid.Row="0" VerticalAlignment="Center" Orientation="Vertical">
+                        <Label Content="{Binding Title,FallbackValue=Heading}" FontSize="14" FontWeight="Bold"/>
+                        <Label Content="{Binding SubTitle,FallbackValue=SubHeading}" FontSize="12" Foreground="Gray"/>
+                    </StackPanel>
+                </DataTemplate>
+            </local:WizardCont.HeaderTemplate>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TabControl  Grid.Row="0" ItemsSource="{Binding Pages}" SelectedIndex="{Binding SelectedIndex}" Background="Transparent">
+                    <TabControl.ItemContainerStyle>
+                        <Style TargetType="{x:Type TabItem}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </Style>
+                    </TabControl.ItemContainerStyle>
+                </TabControl>
+                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+                    <Button Name="btnPrevious" Content="Previous"  Width="75" Margin="0,0,5,0" IsEnabled="{Binding PreviousEnabled}" Command="{Binding PreviousCommand}"/>
+                    <Button Name="btnNext" Content="Next" Width="75" Margin="0,0,5,0" IsEnabled="{Binding NextEnabled}" Command="{Binding NextCommand}"/>
+                    <Button Name="btnFinish" Content="Finish" Width="75" Margin="0,0,5,0" IsEnabled="{Binding FinishEnabled}" Command="{Binding FinishCommand}" />
+                    <Button Name="btnCancel"  Content="Cancel" Width="75" Margin="0,0,5,0" IsEnabled="{Binding CancelEnabled}"/>
+                </StackPanel>
+            </Grid>
+        </local:WizardCont>
+    </Grid>
+</UserControl>
