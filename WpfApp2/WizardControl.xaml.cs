@@ -29,6 +29,13 @@ namespace WpfApp2
         public readonly static DependencyProperty TitleProperty =  DependencyProperty.Register("Title", typeof(string), typeof(WizardControl));
         public readonly static DependencyProperty HeaderTemplateProperty = DependencyProperty.Register("HeaderTemplate", typeof(DataTemplate), typeof(WizardControl));
         public readonly static DependencyProperty ButtonStyleProperty = DependencyProperty.Register("ButtonStyle", typeof(Style), typeof(WizardControl));
+        public readonly static DependencyProperty CancelCommandProperty = DependencyProperty.Register("CancelCommand", typeof(ICommand), typeof(WizardControl));
+
+        public ICommand CancelCommand
+        {
+            get { return (ICommand)GetValue(CancelCommandProperty); }
+            set { SetValue(CancelCommandProperty, value); }
+        }
 
         public string Title
         {
@@ -90,7 +97,7 @@ namespace WpfApp2
 
             ViewModel.Title = Title;
             ViewModel.Pages = Pages;
-
+            ViewModel.CancelCommand = CancelCommand;
             
             if (HeaderTemplate != null)
             {

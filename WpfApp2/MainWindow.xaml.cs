@@ -21,11 +21,32 @@ namespace WpfApp2
     /// </summary>
     public partial class MainWindow : Window
     {
+     
+
+        public ICommand CancelCommand
+        {
+            get
+            {
+                return new DelegateCommand((obj) =>
+                {
+                   
+                });
+            }
+        }
         public MainWindow()
         {
+            DataContext = this;
+
             InitializeComponent();
+
+            wizard.CancelCommand = CancelCommand;
+
+           
 
             //wizard.ViewModel = new TestWizardViewModel();
         }
+
+
     }
+
 }

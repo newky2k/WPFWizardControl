@@ -218,6 +218,14 @@ namespace WpfApp2
             set;
         }
 
+        private ICommand cancelCommand;
+
+        public ICommand CancelCommand
+        {
+            get { return cancelCommand; }
+            set { cancelCommand = value; PropertyDidChange("CancelCommand"); }
+        }
+
         #endregion
 
         #endregion
