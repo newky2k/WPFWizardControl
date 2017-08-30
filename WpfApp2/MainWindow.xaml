@@ -4,23 +4,24 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp2"
+        xmlns:wizard="clr-namespace:Dsoft.WizardControl.WPF;assembly=Dsoft.WizardControl.WPF"
         xmlns:textdata="clr-namespace:WpfApp2.TestData.Pages"
         mc:Ignorable="d"
         Title="MainWindow" Height="480" Width="640">
     <Grid>
-        <local:WizardControl x:Name="wizard" Title="New Job Wizard" ButtonStyle="{StaticResource AccentedSquareButtonStyle}">
-            <local:WizardControl.HeaderTemplate>
+        <wizard:WizardControl x:Name="wizard" Title="New Job Wizard" ButtonStyle="{StaticResource AccentedSquareButtonStyle}">
+            <wizard:WizardControl.HeaderTemplate>
                 <DataTemplate >
                     <StackPanel VerticalAlignment="Center" Orientation="Vertical" Margin="5">
                         <TextBlock Text="{Binding Title,FallbackValue=Heading}" FontSize="36"  Foreground="{StaticResource AccentColorBrush}"/>
                         <TextBlock Text="{Binding SubTitle,FallbackValue=SubHeading}" FontSize="12" Foreground="Gray"/>
                     </StackPanel>
                 </DataTemplate>
-            </local:WizardControl.HeaderTemplate>
-            <local:WizardControl.Pages>
+            </wizard:WizardControl.HeaderTemplate>
+            <wizard:WizardControl.Pages>
                 <textdata:TestWizardPageOne />
                 <textdata:TestWizardPageOne />
-            </local:WizardControl.Pages>
-        </local:WizardControl>
+            </wizard:WizardControl.Pages>
+        </wizard:WizardControl>
     </Grid>
 </Window>

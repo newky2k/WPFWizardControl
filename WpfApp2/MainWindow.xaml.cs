@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dsoft.WizardControl.WPF;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,6 +40,7 @@ namespace WpfApp2
 
             InitializeComponent();
 
+            
             wizard.CancelCommand = CancelCommand;
 
            

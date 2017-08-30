@@ -1,5 +1,5 @@
 ﻿<wizard:WizardPage x:Class="WpfApp2.TestData.Pages.TestWizardPageOne"
-             xmlns:wizard="clr-namespace:WpfApp2"
+             xmlns:wizard="clr-namespace:Dsoft.WizardControl.WPF;assembly=Dsoft.WizardControl.WPF"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 

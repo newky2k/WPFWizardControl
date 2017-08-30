@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,21 +14,21 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfApp2
+namespace Dsoft.WizardControl.WPF
 {
     /// <summary>
     /// Interaction logic for WizardControl.xaml
     /// </summary>
     public partial class WizardControl : UserControl
     {
-   
-        private BaseWizardViewModel mViewModel;
+        private WizardControlViewModel mViewModel;
 
-        public static readonly DependencyProperty ItemsProperty =  DependencyProperty.Register("Pages", typeof(ObservableCollection<WizardPage>), typeof(WizardControl), new PropertyMetadata(new ObservableCollection<WizardPage>()));
-        public readonly static DependencyProperty TitleProperty =  DependencyProperty.Register("Title", typeof(string), typeof(WizardControl));
+        public static readonly DependencyProperty ItemsProperty = DependencyProperty.Register("Pages", typeof(ObservableCollection<WizardPage>), typeof(WizardControl), new PropertyMetadata(new ObservableCollection<WizardPage>()));
+        public readonly static DependencyProperty TitleProperty = DependencyProperty.Register("Title", typeof(string), typeof(WizardControl));
         public readonly static DependencyProperty HeaderTemplateProperty = DependencyProperty.Register("HeaderTemplate", typeof(DataTemplate), typeof(WizardControl));
         public readonly static DependencyProperty ButtonStyleProperty = DependencyProperty.Register("ButtonStyle", typeof(Style), typeof(WizardControl));
         public readonly static DependencyProperty CancelCommandProperty = DependencyProperty.Register("CancelCommand", typeof(ICommand), typeof(WizardControl));
+        
 
         public ICommand CancelCommand
         {
@@ -46,7 +45,7 @@ namespace WpfApp2
         public ObservableCollection<WizardPage> Pages
         {
             get { return (ObservableCollection<WizardPage>)GetValue(ItemsProperty); }
-            set { SetValue(ItemsProperty, value);}
+            set { SetValue(ItemsProperty, value); }
         }
 
         public DataTemplate HeaderTemplate
@@ -64,7 +63,7 @@ namespace WpfApp2
         /// <summary>
         /// Set the view model.  Also sets the window DataContext.
         /// </summary>
-        private BaseWizardViewModel ViewModel
+        private WizardControlViewModel ViewModel
         {
             get
             {
@@ -83,10 +82,10 @@ namespace WpfApp2
             InitializeComponent();
 
 
-            ViewModel = new BaseWizardViewModel();
+            ViewModel = new WizardControlViewModel();
 
-         
-           
+
+
         }
 
         public override void OnApplyTemplate()
@@ -98,12 +97,12 @@ namespace WpfApp2
             ViewModel.Title = Title;
             ViewModel.Pages = Pages;
             ViewModel.CancelCommand = CancelCommand;
-            
+
             if (HeaderTemplate != null)
             {
                 wizControl.HeaderTemplate = HeaderTemplate;
             }
-            
+
             if (ButtonStyle != null)
             {
                 btnFinish.Style = ButtonStyle;

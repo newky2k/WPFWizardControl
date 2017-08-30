@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace WpfApp2
+namespace Dsoft.WizardControl.WPF
 {
     /// <summary>
     /// Delegated Command object

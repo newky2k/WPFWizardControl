@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dsoft.WizardControl.WPF;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -7,12 +8,12 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
-namespace WpfApp2
+namespace Dsoft.WizardControl.WPF
 {
     /// <summary>
     /// Base Wizard ViewModel class
     /// </summary>
-    public class BaseWizardViewModel : BaseViewModel
+    internal class WizardControlViewModel : BaseViewModel
     {
         #region Fields
 
@@ -233,9 +234,9 @@ namespace WpfApp2
         #region Contructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseWizardViewModel"/> class.
+        /// Initializes a new instance of the <see cref="WizardControlViewModel"/> class.
         /// </summary>
-        public BaseWizardViewModel()
+        public WizardControlViewModel()
         {
             
             this.CancelEnabled = false;
