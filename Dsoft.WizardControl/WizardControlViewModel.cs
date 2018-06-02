@@ -130,7 +130,7 @@ namespace Dsoft.WizardControl.WPF
                 {
                     foreach (IWizardPage NewPage in mPages)
                     {
-                        NewPage.ViewModel.Parameters = mParameters;
+                        NewPage.Parameters = mParameters;
                     }
                 }
 
@@ -159,7 +159,7 @@ namespace Dsoft.WizardControl.WPF
                 {
                     if (Pages != null && Pages.Count != 0)
                     {
-                        mHeading = Pages[0].ViewModel.Title;
+                        mHeading = Pages[0].Title;
                     }
                     else
                     {
@@ -176,7 +176,7 @@ namespace Dsoft.WizardControl.WPF
                 {
                     mHeading = value;
 
-                    NotifyPropertyChanged("Heading");
+                    NotifyPropertyChanged("SubTitle");
                 }
             }
         }
@@ -260,7 +260,7 @@ namespace Dsoft.WizardControl.WPF
             {
                 this.SelectedIndex = this.SelectedIndex - 1;
 
-                this.SubTitle = Pages[this.SelectedIndex].ViewModel.Title;
+                this.SubTitle = Pages[this.SelectedIndex].Title;
 
                 this.FinishEnabled = false;
                 this.PreviousEnabled = false;
@@ -271,11 +271,13 @@ namespace Dsoft.WizardControl.WPF
             {
                 var cuItem = this.Pages[SelectedIndex];
 
-                if (cuItem.ViewModel.Validate())
+                if (cuItem.Validate())
                 {
                     this.SelectedIndex = this.SelectedIndex + 1;
-                    this.SubTitle = Pages[this.SelectedIndex].ViewModel.Title;
+                    this.SubTitle = Pages[this.SelectedIndex].Title;
                     this.PreviousEnabled = true;
+
+                    this.SubTitle = Pages[this.SelectedIndex].Title;
 
                     if (this.SelectedIndex == mPages.Count - 1)
                     {
@@ -329,7 +331,7 @@ namespace Dsoft.WizardControl.WPF
         {
             foreach (IWizardPage NewPage in e.NewItems)
             {
-                NewPage.ViewModel.Parameters = mParameters;
+                NewPage.Parameters = mParameters;
             }
 
             if (Pages.Count == 1)

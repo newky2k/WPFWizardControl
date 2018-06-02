@@ -66,6 +66,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="TestData\Pages\TestPageTwo.xaml.cs">
+      <DependentUpon>TestPageTwo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TestData\Pages\TestWizardPageOne.xaml.cs">
       <DependentUpon>TestWizardPageOne.xaml</DependentUpon>
     </Compile>
@@ -82,6 +85,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="TestData\Pages\TestPageTwo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="TestData\Pages\TestWizardPageOne.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

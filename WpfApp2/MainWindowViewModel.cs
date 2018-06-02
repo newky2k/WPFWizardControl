@@ -14,6 +14,9 @@ namespace WpfApp2
 {
     public class MainWindowViewModel : ViewModel
     {
+
+        public event EventHandler<bool> OnRequestCloseWindow;
+
         private string _title;
         private ObservableCollection<IWizardPage> _pages;
 
@@ -36,6 +39,8 @@ namespace WpfApp2
                 return new DelegateCommand(() =>
                 {
                     MessageBox.Show("Bye!");
+
+                    OnRequestCloseWindow?.Invoke(this, false);
                 });
             }
         }
@@ -47,7 +52,7 @@ namespace WpfApp2
             Pages = new ObservableCollection<IWizardPage>()
             {
                 new TestWizardPageOne(),
-                new TestWizardPageOne(),
+                new TestPageTwo(),
             };
         }
     }

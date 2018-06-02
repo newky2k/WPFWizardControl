@@ -50,10 +50,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseWizardPageViewModel.cs" />
     <Compile Include="WizardControlViewModel.cs" />
     <Compile Include="IWizardPage.cs" />
-    <Compile Include="IWizardPageViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

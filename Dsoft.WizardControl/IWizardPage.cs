@@ -8,7 +8,13 @@ namespace Dsoft.WizardControl.WPF
 {
     public interface IWizardPage
     {
-        IWizardPageViewModel ViewModel { get; }
+        string Title { get; }
+
+        List<KeyValuePair<String, Object>> Parameters { get; set; }
+
+        bool Validate();
+
+        //IWizardPageViewModel ViewModel { get; }
 
 
     }

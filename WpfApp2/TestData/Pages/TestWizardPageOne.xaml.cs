@@ -22,22 +22,33 @@ namespace WpfApp2.TestData.Pages
     /// </summary>
     public partial class TestWizardPageOne : UserControl, IWizardPage
     {
-       
-        
+
+        private TestPageOneViewModel _viewModel;
+
+        public TestPageOneViewModel ViewModel
+        {
+            get { return _viewModel; }
+            set { _viewModel = value; DataContext = _viewModel; }
+        }
+
         public TestWizardPageOne()
         {
             InitializeComponent();
 
-            
+            ViewModel = new TestPageOneViewModel();
         }
 
-        public IWizardPageViewModel ViewModel
+
+        public string Title
         {
-            get
-            {
-                return new TestPageOneViewModel();
-            }
+            get { return ViewModel.Title; }
         }
 
+        public List<KeyValuePair<string, object>> Parameters { get => ViewModel.Parameters; set => ViewModel.Parameters = value; }
+
+        public bool Validate()
+        {
+            return ViewModel.Validate();
+        }
     }
 }
