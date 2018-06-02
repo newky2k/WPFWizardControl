@@ -20,7 +20,7 @@ namespace WpfApp2.TestData.Pages
     /// <summary>
     /// Interaction logic for TestWizardPageOne.xaml
     /// </summary>
-    public partial class TestWizardPageOne : WizardPage
+    public partial class TestWizardPageOne : UserControl, IWizardPage
     {
        
         
@@ -31,7 +31,7 @@ namespace WpfApp2.TestData.Pages
             
         }
 
-        public override BaseWizardPageViewModel ViewModel
+        public IWizardPageViewModel ViewModel
         {
             get
             {

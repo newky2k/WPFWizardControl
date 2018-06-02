@@ -1,21 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Mvvm;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Dsoft.WizardControl.WPF
 {
-    public abstract class BaseWizardPageViewModel : BaseViewModel
+    public abstract class BaseWizardPageViewModel : ViewModel, IWizardPageViewModel
     {
         #region Fields
 
         private String mTitle = String.Empty;
         private List<KeyValuePair<String, Object>> mParameters;
+        private string _title;
 
         #endregion
 
         #region Properties
+
+        public string Title
+        {
+            get { return _title; }
+            set { _title = value; NotifyPropertyChanged("Title"); }
+        }
 
         public List<KeyValuePair<String, Object>> Parameters
         {

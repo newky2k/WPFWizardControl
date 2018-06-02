@@ -8,7 +8,7 @@ namespace Dsoft.WizardControl.WPF
 {
     public interface IWizardPage
     {
-        IWizardPageViewModel WizardPageViewModel { get; }
+        IWizardPageViewModel ViewModel { get; }
 
 
     }

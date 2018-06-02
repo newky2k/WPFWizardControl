@@ -33,6 +33,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Mvvm, Version=1.0.6350.40081, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Mvvm.1.0.0\lib\portable45-net45+win8+wpa81\System.Mvvm.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -47,10 +50,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseViewModel.cs" />
     <Compile Include="BaseWizardPageViewModel.cs" />
     <Compile Include="WizardControlViewModel.cs" />
-    <Compile Include="DelegateCommand.cs" />
     <Compile Include="IWizardPage.cs" />
     <Compile Include="IWizardPageViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -70,12 +71,12 @@
     <Compile Include="WizardControl.xaml.cs">
       <DependentUpon>WizardControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WizardPage.cs" />
     <Compile Include="WizardParameterSet.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

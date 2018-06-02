@@ -8,20 +8,13 @@
         xmlns:textdata="clr-namespace:WpfApp2.TestData.Pages"
         mc:Ignorable="d"
         Title="MainWindow" Height="480" Width="640">
+    <Window.DataContext>
+        <local:MainWindowViewModel />
+    </Window.DataContext>
     <Grid>
-        <wizard:WizardControl x:Name="wizard" Title="New Job Wizard" ButtonStyle="{StaticResource AccentedSquareButtonStyle}">
-            <wizard:WizardControl.HeaderTemplate>
-                <DataTemplate >
-                    <StackPanel VerticalAlignment="Center" Orientation="Vertical" Margin="5">
-                        <TextBlock Text="{Binding Title,FallbackValue=Heading}" FontSize="36"  Foreground="{StaticResource AccentColorBrush}"/>
-                        <TextBlock Text="{Binding SubTitle,FallbackValue=SubHeading}" FontSize="12" Foreground="Gray"/>
-                    </StackPanel>
-                </DataTemplate>
-            </wizard:WizardControl.HeaderTemplate>
-            <wizard:WizardControl.Pages>
-                <textdata:TestWizardPageOne />
-                <textdata:TestWizardPageOne />
-            </wizard:WizardControl.Pages>
-        </wizard:WizardControl>
+        <wizard:WizardControl Title="{Binding Title}" 
+                             
+                              Pages="{Binding Pages}" 
+                              CancelCommand="{Binding CancelCommand}" />
     </Grid>
 </Window>

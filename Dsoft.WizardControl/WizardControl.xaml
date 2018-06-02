@@ -6,16 +6,19 @@
              xmlns:local="clr-namespace:Dsoft.WizardControl.WPF"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
+    <Grid x:Name="rootGrid">
+        <Grid.DataContext>
+            <local:WizardControlViewModel />
+        </Grid.DataContext>
         <local:WizardCont x:Name="wizControl" Header="{Binding}">
-            <local:WizardCont.HeaderTemplate>
+            <!--<local:WizardCont.HeaderTemplate>
                 <DataTemplate >
                     <StackPanel Grid.Row="0" VerticalAlignment="Center" Orientation="Vertical">
                         <Label Content="{Binding Title,FallbackValue=Heading}" FontSize="14" FontWeight="Bold"/>
                         <Label Content="{Binding SubTitle,FallbackValue=SubHeading}" FontSize="12" Foreground="Gray"/>
                     </StackPanel>
                 </DataTemplate>
-            </local:WizardCont.HeaderTemplate>
+            </local:WizardCont.HeaderTemplate>-->
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />

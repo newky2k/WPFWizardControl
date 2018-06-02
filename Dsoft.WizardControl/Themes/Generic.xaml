@@ -21,15 +21,16 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <!--<Setter Property="HeaderTemplate">
+        <Setter Property="HeaderTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <StackPanel Grid.Row="0" VerticalAlignment="Center" Orientation="Horizontal">
-                        <Label Content="{TemplateBinding Content}"/>
+                    <StackPanel Grid.Row="0" VerticalAlignment="Center" Orientation="Vertical">
+                        <Label Content="{Binding Title,FallbackValue=Heading}" FontSize="14" FontWeight="Bold"/>
+                        <Label Content="{Binding SubTitle,FallbackValue=SubHeading}" FontSize="12" Foreground="Gray"/>
                     </StackPanel>
                 </DataTemplate>
             </Setter.Value>
-        </Setter>-->
+        </Setter>
     </Style>
     
 </ResourceDictionary>

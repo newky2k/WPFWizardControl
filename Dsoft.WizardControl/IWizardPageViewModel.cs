@@ -10,7 +10,8 @@ namespace Dsoft.WizardControl.WPF
     {
         string Title { get; }
 
-        WizardParameterSet ParameterSet { get; set; }
+        List<KeyValuePair<String, Object>> Parameters { get; set; }
 
+        bool Validate();
     }
 }

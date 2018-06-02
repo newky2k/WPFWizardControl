@@ -21,9 +21,9 @@ namespace Dsoft.WizardControl.WPF
     /// </summary>
     public partial class WizardControl : UserControl
     {
-        private WizardControlViewModel mViewModel;
+        private WizardControlViewModel _viewModel;
 
-        public static readonly DependencyProperty ItemsProperty = DependencyProperty.Register("Pages", typeof(ObservableCollection<WizardPage>), typeof(WizardControl), new PropertyMetadata(new ObservableCollection<WizardPage>()));
+        public static readonly DependencyProperty ItemsProperty = DependencyProperty.Register("Pages", typeof(ObservableCollection<IWizardPage>), typeof(WizardControl), new PropertyMetadata(new ObservableCollection<IWizardPage>()));
         public readonly static DependencyProperty TitleProperty = DependencyProperty.Register("Title", typeof(string), typeof(WizardControl));
         public readonly static DependencyProperty HeaderTemplateProperty = DependencyProperty.Register("HeaderTemplate", typeof(DataTemplate), typeof(WizardControl));
         public readonly static DependencyProperty ButtonStyleProperty = DependencyProperty.Register("ButtonStyle", typeof(Style), typeof(WizardControl));
@@ -42,9 +42,9 @@ namespace Dsoft.WizardControl.WPF
             set { SetValue(TitleProperty, value); }
         }
 
-        public ObservableCollection<WizardPage> Pages
+        public ObservableCollection<IWizardPage> Pages
         {
-            get { return (ObservableCollection<WizardPage>)GetValue(ItemsProperty); }
+            get { return (ObservableCollection<IWizardPage>)GetValue(ItemsProperty); }
             set { SetValue(ItemsProperty, value); }
         }
 
@@ -60,29 +60,13 @@ namespace Dsoft.WizardControl.WPF
             set { SetValue(ButtonStyleProperty, value); }
         }
 
-        /// <summary>
-        /// Set the view model.  Also sets the window DataContext.
-        /// </summary>
-        private WizardControlViewModel ViewModel
-        {
-            get
-            {
-                return mViewModel;
-            }
-            set
-            {
-                mViewModel = value;
-                this.DataContext = mViewModel;
-            }
-
-        }
 
         public WizardControl()
         {
             InitializeComponent();
 
 
-            ViewModel = new WizardControlViewModel();
+            _viewModel = (WizardControlViewModel)rootGrid.DataContext;
 
 
 
@@ -94,14 +78,14 @@ namespace Dsoft.WizardControl.WPF
 
             var somePages = Pages;
 
-            ViewModel.Title = Title;
-            ViewModel.Pages = Pages;
-            ViewModel.CancelCommand = CancelCommand;
+            _viewModel.Title = Title;
+            _viewModel.Pages = Pages;
+            _viewModel.CancelCommand = CancelCommand;
 
-            if (HeaderTemplate != null)
-            {
-                wizControl.HeaderTemplate = HeaderTemplate;
-            }
+            //if (HeaderTemplate != null)
+            //{
+            //    wizControl.HeaderTemplate = HeaderTemplate;
+            //}
 
             if (ButtonStyle != null)
             {

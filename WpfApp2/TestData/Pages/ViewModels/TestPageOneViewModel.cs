@@ -16,7 +16,7 @@ namespace WpfApp2.TestData.Pages.ViewModels
 
         public TestPageOneViewModel()
         {
-            Title = "Do something now";
+            Title = "Enter the details of the Job";
         }
     }
 }

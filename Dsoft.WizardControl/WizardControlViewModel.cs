@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Mvvm;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,7 +14,7 @@ namespace Dsoft.WizardControl.WPF
     /// <summary>
     /// Base Wizard ViewModel class
     /// </summary>
-    internal class WizardControlViewModel : BaseViewModel
+    internal class WizardControlViewModel : ViewModel
     {
         #region Fields
 
@@ -24,11 +25,19 @@ namespace Dsoft.WizardControl.WPF
         private int mSelectedIndex;
         private List<KeyValuePair<String, Object>> mParameters;
         private String mHeading;
-        private ObservableCollection<WizardPage> mPages;
+        private ObservableCollection<IWizardPage> mPages;
 
         #endregion
 
         #region Properties
+
+        private string _title;
+
+        public string Title
+        {
+            get { return _title; }
+            set { _title = value; NotifyPropertyChanged("Title"); }
+        }
 
         /// <summary>
         /// Whats is the current selected index
@@ -43,7 +52,7 @@ namespace Dsoft.WizardControl.WPF
             {
                 mSelectedIndex = value;
 
-                PropertyDidChange("SelectedIndex");
+                NotifyPropertyChanged("SelectedIndex");
 
             }
         }
@@ -58,7 +67,7 @@ namespace Dsoft.WizardControl.WPF
             {
                 mPreviousEnabled = value;
 
-                PropertyDidChange("PreviousEnabled");
+                NotifyPropertyChanged("PreviousEnabled");
             }
         }
 
@@ -72,7 +81,7 @@ namespace Dsoft.WizardControl.WPF
             {
                 mNextEnabled = value;
 
-                PropertyDidChange("NextEnabled");
+                NotifyPropertyChanged("NextEnabled");
             }
         }
 
@@ -86,7 +95,7 @@ namespace Dsoft.WizardControl.WPF
             {
                 mFinishEnabled = value;
 
-                PropertyDidChange("FinishEnabled");
+                NotifyPropertyChanged("FinishEnabled");
             }
         }
 
@@ -100,14 +109,14 @@ namespace Dsoft.WizardControl.WPF
             {
                 mCancelEnabled = value;
 
-                PropertyDidChange("CancelEnabled");
+                NotifyPropertyChanged("CancelEnabled");
             }
         }
 
         /// <summary>
         /// Gets the pages for the wizard
         /// </summary>
-        public ObservableCollection<WizardPage> Pages
+        public ObservableCollection<IWizardPage> Pages
         {
             get { return mPages; }
             set
@@ -115,11 +124,11 @@ namespace Dsoft.WizardControl.WPF
                 
                 mPages = value;
                 //mPages.CollectionChanged += mPages_CollectionChanged;
-                PropertyDidChange("Pages");
+                NotifyPropertyChanged("Pages");
 
                 if (mPages != null)
                 {
-                    foreach (WizardPage NewPage in mPages)
+                    foreach (IWizardPage NewPage in mPages)
                     {
                         NewPage.ViewModel.Parameters = mParameters;
                     }
@@ -167,7 +176,7 @@ namespace Dsoft.WizardControl.WPF
                 {
                     mHeading = value;
 
-                    PropertyDidChange("Heading");
+                    NotifyPropertyChanged("Heading");
                 }
             }
         }
@@ -224,7 +233,7 @@ namespace Dsoft.WizardControl.WPF
         public ICommand CancelCommand
         {
             get { return cancelCommand; }
-            set { cancelCommand = value; PropertyDidChange("CancelCommand"); }
+            set { cancelCommand = value; NotifyPropertyChanged("CancelCommand"); }
         }
 
         #endregion
@@ -244,10 +253,10 @@ namespace Dsoft.WizardControl.WPF
             this.PreviousEnabled = false;
             this.NextEnabled = false;
 
-            this.Pages = new ObservableCollection<WizardPage>();
+            this.Pages = new ObservableCollection<IWizardPage>();
             this.Parameters = new List<KeyValuePair<string, object>>();
 
-            PreviousCommand = new DelegateCommand(_ =>
+            PreviousCommand = new DelegateCommand(() =>
             {
                 this.SelectedIndex = this.SelectedIndex - 1;
 
@@ -258,7 +267,7 @@ namespace Dsoft.WizardControl.WPF
                 this.NextEnabled = true;
             });
 
-            NextCommand = new DelegateCommand(_ =>
+            NextCommand = new DelegateCommand(() =>
             {
                 var cuItem = this.Pages[SelectedIndex];
 
@@ -277,13 +286,13 @@ namespace Dsoft.WizardControl.WPF
 
             });
 
-            FinishCommand = new DelegateCommand(_ =>
+            FinishCommand = new DelegateCommand(() =>
             {
                 Application.Current.Dispatcher.BeginInvoke((Action)(() => { DidFinish(); }));
 
             });
 
-            CompleteCommand = new DelegateCommand(_ => { });
+            CompleteCommand = new DelegateCommand(() => { });
         }
         #endregion
 
@@ -318,7 +327,7 @@ namespace Dsoft.WizardControl.WPF
         /// <param name="e"></param>
         void mPages_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            foreach (WizardPage NewPage in e.NewItems)
+            foreach (IWizardPage NewPage in e.NewItems)
             {
                 NewPage.ViewModel.Parameters = mParameters;
             }
