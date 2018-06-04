@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp2.TestData.Pages.ViewModels;
 
 namespace WpfApp2.TestData.Pages
 {
@@ -21,20 +22,28 @@ namespace WpfApp2.TestData.Pages
     /// </summary>
     public partial class TestPageTwo : UserControl, IWizardPage
     {
+        private TestPageTwoViewModel _viewModel;
+
+        public TestPageTwoViewModel ViewModel
+        {
+            get { return _viewModel; }
+            set { _viewModel = value; DataContext = _viewModel; }
+        }
+
         public TestPageTwo()
         {
             InitializeComponent();
+
+            ViewModel = new TestPageTwoViewModel();
         }
 
-        public string Title => "Test Page 2";
+        public string Title => ViewModel.Title;
 
-        private List<KeyValuePair<string, object>> _parameters;
-
-        public List<KeyValuePair<string, object>> Parameters { get => _parameters; set => _parameters = value; }
+        public List<KeyValuePair<string, object>> Parameters { get => ViewModel.Parameters; set => ViewModel.Parameters = value; }
 
         public bool Validate()
         {
-            return true;
+            return ViewModel.Validate();
         }
     }
 }

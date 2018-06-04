@@ -33,8 +33,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Mvvm, Version=1.0.6350.40081, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Mvvm.1.0.0\lib\portable45-net45+win8+wpa81\System.Mvvm.dll</HintPath>
+    <Reference Include="System.Mvvm, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Mvvm.1.1.1\lib\netstandard2.0\System.Mvvm.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
