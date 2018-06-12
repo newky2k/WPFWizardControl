@@ -30,11 +30,17 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>wpfkey.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Mvvm, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Mvvm.1.1.1\lib\netstandard2.0\System.Mvvm.dll</HintPath>
+    <Reference Include="System.Mvvm, Version=1.1.2.0, Culture=neutral, PublicKeyToken=2096e095e41b3c95, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Mvvm.1.1.2\lib\netstandard2.0\System.Mvvm.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -79,6 +85,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="wpfkey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Themes\Generic.xaml">

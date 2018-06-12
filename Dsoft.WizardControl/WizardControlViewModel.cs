@@ -265,11 +265,10 @@ namespace Dsoft.WizardControl.WPF
                 this.SubTitle = Pages[this.SelectedIndex].Title;
 
                 this.FinishEnabled = false;
-                this.PreviousEnabled = false;
                 this.NextEnabled = true;
 
-                if (this.SelectedIndex > 0)
-                    this.PreviousEnabled = true;
+                if (this.SelectedIndex == 0)
+                    this.PreviousEnabled = false;
             });
 
             NextCommand = new DelegateCommand(() =>
