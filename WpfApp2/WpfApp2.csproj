@@ -68,6 +68,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="TestData\Pages\PageOne.xaml.cs">
+      <DependentUpon>PageOne.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TestData\Pages\PageThree.xaml.cs">
+      <DependentUpon>PageThree.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TestData\Pages\PageTwo.xaml.cs">
+      <DependentUpon>PageTwo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TestData\Pages\TestPageTwo.xaml.cs">
       <DependentUpon>TestPageTwo.xaml</DependentUpon>
     </Compile>
@@ -76,6 +85,7 @@
     </Compile>
     <Compile Include="TestData\Pages\ViewModels\TestPageOneViewModel.cs" />
     <Compile Include="TestData\Pages\ViewModels\TestPageTwoViewModel.cs" />
+    <Compile Include="TestData\SharedViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -88,6 +98,18 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="TestData\Pages\PageOne.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TestData\Pages\PageThree.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TestData\Pages\PageTwo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="TestData\Pages\TestPageTwo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

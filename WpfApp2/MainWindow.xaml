@@ -12,9 +12,6 @@
         <local:MainWindowViewModel />
     </Window.DataContext>
     <Grid>
-        <wizard:WizardControl Title="{Binding Title}" 
-                             
-                              Pages="{Binding Pages}" 
-                              CancelCommand="{Binding CancelCommand}" />
+        <wizard:WizardControl Title="{Binding Title}"  Pages="{Binding Pages}"  CancelCommand="{Binding CancelCommand}" FinishCommand="{Binding FinishCommand}"/>
     </Grid>
 </Window>

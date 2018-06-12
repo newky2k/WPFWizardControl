@@ -28,12 +28,18 @@ namespace Dsoft.WizardControl.WPF
         public readonly static DependencyProperty HeaderTemplateProperty = DependencyProperty.Register("HeaderTemplate", typeof(DataTemplate), typeof(WizardControl));
         public readonly static DependencyProperty ButtonStyleProperty = DependencyProperty.Register("ButtonStyle", typeof(Style), typeof(WizardControl));
         public readonly static DependencyProperty CancelCommandProperty = DependencyProperty.Register("CancelCommand", typeof(ICommand), typeof(WizardControl));
-        
+        public readonly static DependencyProperty FinishCommandProperty = DependencyProperty.Register("FinishCommand", typeof(ICommand), typeof(WizardControl));
 
         public ICommand CancelCommand
         {
             get { return (ICommand)GetValue(CancelCommandProperty); }
             set { SetValue(CancelCommandProperty, value); }
+        }
+
+        public ICommand FinishCommand
+        {
+            get { return (ICommand)GetValue(FinishCommandProperty); }
+            set { SetValue(FinishCommandProperty, value); }
         }
 
         public string Title
@@ -81,6 +87,7 @@ namespace Dsoft.WizardControl.WPF
             _viewModel.Title = Title;
             _viewModel.Pages = Pages;
             _viewModel.CancelCommand = CancelCommand;
+            _viewModel.FinishCommand = FinishCommand;
 
             //if (HeaderTemplate != null)
             //{

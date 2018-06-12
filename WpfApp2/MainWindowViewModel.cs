@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using WpfApp2.TestData;
 using WpfApp2.TestData.Pages;
 
 namespace WpfApp2
@@ -45,14 +46,45 @@ namespace WpfApp2
             }
         }
 
+        public ICommand FinishCommand
+        {
+            get
+            {
+                return new DelegateCommand(() =>
+                {
+                    MessageBox.Show("Fin!");
+
+                    OnRequestCloseWindow?.Invoke(this, false);
+                });
+            }
+        }
+
+        private SharedViewModel _sharedViewModel;
+
+        public SharedViewModel SharedViewModel
+        {
+            get { return _sharedViewModel; }
+            set { _sharedViewModel = value; }
+        }
+
+
         public MainWindowViewModel()
         {
-            Title = "Test This";
+            Title = "Create Supplier";
+
+            SharedViewModel = new SharedViewModel();
 
             Pages = new ObservableCollection<IWizardPage>()
             {
-                new TestWizardPageOne(),
-                new TestPageTwo(),
+                new PageOne(SharedViewModel),
+                new PageTwo()
+                {
+                    ViewModel = SharedViewModel,
+                },
+                new PageThree()
+                {
+                    ViewModel = SharedViewModel,
+                },
             };
         }
     }

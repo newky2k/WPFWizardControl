@@ -207,6 +207,8 @@ namespace Dsoft.WizardControl.WPF
             internal set;
         }
 
+        private ICommand finishCommand;
+
         /// <summary>
         /// Gets the finish command.
         /// </summary>
@@ -215,8 +217,8 @@ namespace Dsoft.WizardControl.WPF
         /// </value>
         public ICommand FinishCommand
         {
-            get;
-            protected set;
+            get { return finishCommand; }
+            set { finishCommand = value; NotifyPropertyChanged(nameof(FinishCommand)); }
         }
 
         /// <summary>
@@ -265,6 +267,9 @@ namespace Dsoft.WizardControl.WPF
                 this.FinishEnabled = false;
                 this.PreviousEnabled = false;
                 this.NextEnabled = true;
+
+                if (this.SelectedIndex > 0)
+                    this.PreviousEnabled = true;
             });
 
             NextCommand = new DelegateCommand(() =>
@@ -288,11 +293,7 @@ namespace Dsoft.WizardControl.WPF
 
             });
 
-            FinishCommand = new DelegateCommand(() =>
-            {
-                Application.Current.Dispatcher.BeginInvoke((Action)(() => { DidFinish(); }));
-
-            });
+            FinishCommand = new DelegateCommand(() => { });
 
             CompleteCommand = new DelegateCommand(() => { });
         }
