@@ -35,7 +35,7 @@
                 <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
                     <Button Name="btnPrevious" Content="Previous"  Width="75" Margin="0,0,5,0" IsEnabled="{Binding PreviousEnabled}" Command="{Binding PreviousCommand}"/>
                     <Button Name="btnNext" Content="Next" Width="75" Margin="0,0,5,0" IsEnabled="{Binding NextEnabled}" Command="{Binding NextCommand}"/>
-                    <Button Name="btnFinish" Content="Finish" Width="75" Margin="0,0,5,0" IsEnabled="{Binding FinishEnabled}" Command="{Binding FinishCommand}" />
+                    <Button Name="btnFinish" Content="Finish" Width="75" Margin="0,0,5,0" IsEnabled="{Binding FinishEnabled}" Command="{Binding FinishButtonCommand}" />
                     <Button Name="btnCancel"  Content="Cancel" Width="75" Margin="0,0,5,0" IsEnabled="{Binding CancelEnabled}" Command="{Binding CancelCommand}"  />
                 </StackPanel>
             </Grid>

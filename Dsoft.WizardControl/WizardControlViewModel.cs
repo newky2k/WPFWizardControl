@@ -19,8 +19,6 @@ namespace Dsoft.WizardControl.WPF
         #region Fields
 
         private bool mPreviousEnabled;
-        private bool mNextEnabled;
-        private bool mFinishEnabled;
         private bool mCancelEnabled;
         private int mSelectedIndex;
         private List<KeyValuePair<String, Object>> mParameters;
@@ -62,40 +60,49 @@ namespace Dsoft.WizardControl.WPF
         /// </summary>
         public Boolean PreviousEnabled
         {
-            get { return mPreviousEnabled; }
-            set
+            get
             {
-                mPreviousEnabled = value;
-
-                NotifyPropertyChanged("PreviousEnabled");
+                return SelectedIndex != 0;
             }
         }
+        //{
+        //    get { return mPreviousEnabled; }
+        //    set
+        //    {
+        //        mPreviousEnabled = value;
+
+        //        NotifyPropertyChanged("PreviousEnabled");
+        //    }
+        //}
 
         /// <summary>
         /// Is next button enabled
         /// </summary>
         public Boolean NextEnabled
         {
-            get { return mNextEnabled; }
-            set
+            get
             {
-                mNextEnabled = value;
-
-                NotifyPropertyChanged("NextEnabled");
+                return SelectedIndex != LastPageIndex;
             }
         }
+        //{
+        //    get { return mNextEnabled; }
+        //    set
+        //    {
+        //        mNextEnabled = value;
+
+        //        NotifyPropertyChanged("NextEnabled");
+        //    }
+        //}
 
         /// <summary>
         /// Is finish button enabled
         /// </summary>
         public Boolean FinishEnabled
         {
-            get { return mFinishEnabled; }
-            set
+            get
             {
-                mFinishEnabled = value;
-
-                NotifyPropertyChanged("FinishEnabled");
+                return SelectedIndex == LastPageIndex;
             }
         }
 
@@ -207,6 +214,12 @@ namespace Dsoft.WizardControl.WPF
             internal set;
         }
 
+        public ICommand FinishButtonCommand
+        {
+            get;
+            internal set;
+        }
+
         private ICommand finishCommand;
 
         /// <summary>
@@ -238,6 +251,13 @@ namespace Dsoft.WizardControl.WPF
             set { cancelCommand = value; NotifyPropertyChanged("CancelCommand"); }
         }
 
+        private int LastPageIndex
+        {
+            get
+            {
+                return Pages.Count - 1;
+            }
+        }
         #endregion
 
         #endregion
@@ -251,9 +271,7 @@ namespace Dsoft.WizardControl.WPF
         {
             
             this.CancelEnabled = false;
-            this.FinishEnabled = false;
-            this.PreviousEnabled = false;
-            this.NextEnabled = false;
+
 
             this.Pages = new ObservableCollection<IWizardPage>();
             this.Parameters = new List<KeyValuePair<string, object>>();
@@ -264,11 +282,8 @@ namespace Dsoft.WizardControl.WPF
 
                 this.SubTitle = Pages[this.SelectedIndex].Title;
 
-                this.FinishEnabled = false;
-                this.NextEnabled = true;
+                RecalculateNavigation();
 
-                if (this.SelectedIndex == 0)
-                    this.PreviousEnabled = false;
             });
 
             NextCommand = new DelegateCommand(() =>
@@ -279,20 +294,28 @@ namespace Dsoft.WizardControl.WPF
                 {
                     this.SelectedIndex = GetNextPageIndex(SelectedIndex);
                     this.SubTitle = Pages[this.SelectedIndex].Title;
-                    this.PreviousEnabled = true;
 
                     this.SubTitle = Pages[this.SelectedIndex].Title;
 
-                    if (this.SelectedIndex == Pages.Count - 1)
-                    {
-                        this.NextEnabled = false;
-                        this.FinishEnabled = true;
-                    }
+                    RecalculateNavigation();
                 }
 
             });
 
-            FinishCommand = new DelegateCommand(() => { });
+            FinishButtonCommand = new DelegateCommand(() => 
+            {
+                var cuItem = this.Pages[SelectedIndex];
+
+                if (cuItem.Validate())
+                {
+                    if (finishCommand != null && finishCommand.CanExecute(null))
+                    {
+                        finishCommand.Execute(null);
+                    }
+                }
+
+
+            });
 
             CompleteCommand = new DelegateCommand(() => { });
         }
@@ -334,19 +357,17 @@ namespace Dsoft.WizardControl.WPF
 
         public void RecalculateNavigation()
         {
+            NotifyPropertyChanged("FinishEnabled");
+            NotifyPropertyChanged("NextEnabled");
+            NotifyPropertyChanged("PreviousEnabled");
+
             if (Pages.Count == 1)
             {
                 this.CancelEnabled = false;
-                this.FinishEnabled = true;
-                this.PreviousEnabled = false;
-                this.NextEnabled = false;
             }
             else
             {
                 this.CancelEnabled = true;
-                this.FinishEnabled = false;
-                this.PreviousEnabled = false;
-                this.NextEnabled = true;
             }
         }
         /// <summary>
@@ -361,20 +382,7 @@ namespace Dsoft.WizardControl.WPF
                 NewPage.Parameters = mParameters;
             }
 
-            if (Pages.Count == 1)
-            {
-                this.CancelEnabled = false;
-                this.FinishEnabled = true;
-                this.PreviousEnabled = false;
-                this.NextEnabled = false;
-            }
-            else
-            {
-                this.CancelEnabled = true;
-                this.FinishEnabled = false;
-                this.PreviousEnabled = false;
-                this.NextEnabled = true;
-            }
+            RecalculateNavigation();
 
         }
 
