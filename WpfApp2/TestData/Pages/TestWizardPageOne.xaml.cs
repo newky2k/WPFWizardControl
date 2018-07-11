@@ -38,6 +38,7 @@ namespace WpfApp2.TestData.Pages
             ViewModel = new TestPageOneViewModel();
         }
 
+        public bool IsHidden => false;
 
         public string Title
         {

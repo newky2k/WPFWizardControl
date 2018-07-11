@@ -36,6 +36,8 @@ namespace WpfApp2.TestData.Pages
 
         public string Title => "Select the databases";
 
+        public bool IsHidden => false;
+
         public List<KeyValuePair<string, object>> Parameters { get => new List<KeyValuePair<string, object>>(); set => Console.WriteLine(""); }
 
         public bool Validate()

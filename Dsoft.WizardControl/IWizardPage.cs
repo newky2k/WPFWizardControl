@@ -10,6 +10,8 @@ namespace Dsoft.WizardControl.WPF
     {
         string Title { get; }
 
+        bool IsHidden { get; }
+
         List<KeyValuePair<String, Object>> Parameters { get; set; }
 
         bool Validate();

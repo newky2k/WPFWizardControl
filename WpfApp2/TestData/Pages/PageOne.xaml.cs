@@ -24,6 +24,7 @@ namespace WpfApp2.TestData.Pages
 
         private SharedViewModel _viewModel;
 
+
         public SharedViewModel ViewModel
         {
             get { return _viewModel; }
@@ -40,6 +41,8 @@ namespace WpfApp2.TestData.Pages
         public string Title => "Enter the accounts information";
 
         public List<KeyValuePair<string, object>> Parameters { get => new List<KeyValuePair<string, object>>(); set => Console.WriteLine(""); }
+
+        public bool IsHidden => false;
 
         public bool Validate()
         {

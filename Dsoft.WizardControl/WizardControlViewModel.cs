@@ -260,7 +260,7 @@ namespace Dsoft.WizardControl.WPF
 
             PreviousCommand = new DelegateCommand(() =>
             {
-                this.SelectedIndex = this.SelectedIndex - 1;
+                this.SelectedIndex = GetPreviousPageIndex(SelectedIndex);
 
                 this.SubTitle = Pages[this.SelectedIndex].Title;
 
@@ -277,13 +277,13 @@ namespace Dsoft.WizardControl.WPF
 
                 if (cuItem.Validate())
                 {
-                    this.SelectedIndex = this.SelectedIndex + 1;
+                    this.SelectedIndex = GetNextPageIndex(SelectedIndex);
                     this.SubTitle = Pages[this.SelectedIndex].Title;
                     this.PreviousEnabled = true;
 
                     this.SubTitle = Pages[this.SelectedIndex].Title;
 
-                    if (this.SelectedIndex == mPages.Count - 1)
+                    if (this.SelectedIndex == Pages.Count - 1)
                     {
                         this.NextEnabled = false;
                         this.FinishEnabled = true;
@@ -295,6 +295,33 @@ namespace Dsoft.WizardControl.WPF
             FinishCommand = new DelegateCommand(() => { });
 
             CompleteCommand = new DelegateCommand(() => { });
+        }
+
+        private int GetPreviousPageIndex(int currentIndex)
+        {
+            if (currentIndex == 0)
+                return currentIndex;
+
+            var newIndex = currentIndex - 1;
+
+
+            if (Pages[newIndex].IsHidden)
+                return GetPreviousPageIndex(newIndex);
+
+            return newIndex;
+        }
+
+        private int GetNextPageIndex(int currentIndex)
+        {
+            if (currentIndex == Pages.Count - 1)
+                return currentIndex;
+
+            var newIndex = currentIndex + 1;
+
+            if (Pages[newIndex].IsHidden)
+                return GetNextPageIndex(newIndex);
+
+            return newIndex;
         }
         #endregion
 

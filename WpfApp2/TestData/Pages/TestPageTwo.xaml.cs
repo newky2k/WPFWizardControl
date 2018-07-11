@@ -37,6 +37,8 @@ namespace WpfApp2.TestData.Pages
             ViewModel = new TestPageTwoViewModel();
         }
 
+        public bool IsHidden => false;
+
         public string Title => ViewModel.Title;
 
         public List<KeyValuePair<string, object>> Parameters { get => ViewModel.Parameters; set => ViewModel.Parameters = value; }

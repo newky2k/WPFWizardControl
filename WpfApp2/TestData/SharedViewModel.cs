@@ -31,6 +31,15 @@ namespace WpfApp2.TestData
             set { datbaseName = value; NotifyPropertyChanged(nameof(DatabaseName)); ValidateProperty(); }
         }
 
+        private bool _hidePage2;
+
+        public bool HidePage2
+        {
+            get { return _hidePage2; }
+            set { _hidePage2 = value; NotifyPropertyChanged(nameof(HidePage2)); }
+        }
+
+
         public SharedViewModel()
         {
             Code = "Test Code";
