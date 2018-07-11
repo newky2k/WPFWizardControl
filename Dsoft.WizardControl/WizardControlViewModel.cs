@@ -82,18 +82,12 @@ namespace Dsoft.WizardControl.WPF
         {
             get
             {
-                return SelectedIndex != LastPageIndex;
+                if (Pages.Count == 0 || ActivePages.Count == 0)
+                    return false;
+
+                return SelectedIndex != ActivePages.Max(x => x.Key);
             }
         }
-        //{
-        //    get { return mNextEnabled; }
-        //    set
-        //    {
-        //        mNextEnabled = value;
-
-        //        NotifyPropertyChanged("NextEnabled");
-        //    }
-        //}
 
         /// <summary>
         /// Is finish button enabled
@@ -102,7 +96,10 @@ namespace Dsoft.WizardControl.WPF
         {
             get
             {
-                return SelectedIndex == LastPageIndex;
+                if (Pages.Count == 0 || ActivePages.Count == 0)
+                    return false;
+
+                return SelectedIndex == ActivePages.Max(x => x.Key);
             }
         }
 
@@ -146,6 +143,26 @@ namespace Dsoft.WizardControl.WPF
             }
         }
 
+        public Dictionary<int,IWizardPage> ActivePages
+        {
+            get
+            {
+                var aDict = new Dictionary<int, IWizardPage>();
+
+                var aPages = Pages.Where(x => x.IsHidden.Equals(false));
+
+                if (aPages.Any())
+                {
+                    foreach (var aPage in aPages)
+                    {
+                        aDict.Add(Pages.IndexOf(aPage), aPage);
+                    }
+                }
+                   
+
+                return aDict;
+            }
+        }
         /// <summary>
         /// Parameter list for communicating parameters / variables between pages.
         /// </summary>
@@ -336,7 +353,7 @@ namespace Dsoft.WizardControl.WPF
 
         private int GetNextPageIndex(int currentIndex)
         {
-            if (currentIndex == Pages.Count - 1)
+            if (currentIndex == ActivePages.Max(x => x.Key))
                 return currentIndex;
 
             var newIndex = currentIndex + 1;
