@@ -397,36 +397,18 @@ namespace Dsoft.WizardControl.WPF
             internal set;
         }
 
-        private ICommand finishCommand;
+        internal Func<Task<WizardProcessResult>> ProcessFunction { get; set; }
 
-        /// <summary>
-        /// Gets the finish command.
-        /// </summary>
-        /// <value>
-        /// The finish command.
-        /// </value>
-        public ICommand FinishCommand
-        {
-            get { return finishCommand; }
-            set { finishCommand = value; NotifyPropertyChanged(nameof(FinishCommand)); }
-        }
+        internal Action CloseFunction { get; set; }
+
+        internal Action CancelFunction { get; set; }
 
         /// <summary>
         /// Command to be called when the wizard completes.  Should be set in the View to be called by the view model
         /// </summary>
-        public ICommand CompleteCommand
-        {
-            get;
-            set;
-        }
+        public ICommand CompleteCommand { get; internal set; }
 
-        private ICommand cancelCommand;
-
-        public ICommand CancelCommand
-        {
-            get { return cancelCommand; }
-            set { cancelCommand = value; NotifyPropertyChanged("CancelCommand"); }
-        }
+        public ICommand CancelCommand { get; internal set; }
 
         private int LastActivePageIndex
         {
@@ -490,15 +472,34 @@ namespace Dsoft.WizardControl.WPF
 
                         try
                         {
-                            await Task.Delay(TimeSpan.FromSeconds(5));
+                            
+                            if (ProcessFunction != null)
+                            {
+                                var result = await ProcessFunction();
 
-                            throw new Exception("An Error occured");
-
-                            SetPage(Pages.IndexOf(CompletePage));
+                                switch (result)
+                                {
+                                    case WizardProcessResult.Complete:
+                                        {
+                                            SetPage(Pages.IndexOf(CompletePage));
+                                        }
+                                        break;
+                                    default:
+                                        {
+                                            SetPage(Pages.IndexOf(ErrorPage));
+                                        }
+                                        break;
+                                }
+                            }
+                           else
+                            {
+                                SetPage(Pages.IndexOf(CompletePage));
+                            }
+                            
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
-                            SetPage(Pages.IndexOf(ErrorPage));
+                            
                         }
                         
 
@@ -517,7 +518,15 @@ namespace Dsoft.WizardControl.WPF
 
             });
 
-            CompleteCommand = new DelegateCommand(() => { });
+            CompleteCommand = new DelegateCommand(() => 
+            {
+                CloseFunction?.Invoke();
+            });
+
+            CancelCommand = new DelegateCommand(() => 
+            {
+                CancelFunction?.Invoke();
+            });
         }
 
 

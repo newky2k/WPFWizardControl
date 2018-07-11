@@ -46,19 +46,46 @@ namespace WpfApp2
             }
         }
 
-        public ICommand FinishCommand
+        public Action CloseFunction
         {
             get
             {
-                return new DelegateCommand(() =>
+                return () =>
                 {
-                    MessageBox.Show("Fin!");
-
                     OnRequestCloseWindow?.Invoke(this, false);
-                });
+                };
             }
         }
 
+        public Action CancelFunction
+        {
+            get
+            {
+                return () =>
+                {
+                    OnRequestCloseWindow?.Invoke(this, false);
+                };
+            }
+        }
+
+
+        public Func<Task<WizardProcessResult>> ProcessFunction
+        {
+            get
+            {
+                return () =>
+                {
+                    return ProcessAsync();
+                };
+            }
+        }
+
+        public async Task<WizardProcessResult> ProcessAsync()
+        {
+            await Task.Delay(TimeSpan.FromSeconds(5));
+
+            return WizardProcessResult.Complete;
+        }
         private SharedViewModel _sharedViewModel;
 
         public SharedViewModel SharedViewModel

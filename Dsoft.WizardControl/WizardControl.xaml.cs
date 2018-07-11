@@ -27,20 +27,33 @@ namespace Dsoft.WizardControl.WPF
         public readonly static DependencyProperty TitleProperty = DependencyProperty.Register("Title", typeof(string), typeof(WizardControl));
         public readonly static DependencyProperty HeaderTemplateProperty = DependencyProperty.Register("HeaderTemplate", typeof(DataTemplate), typeof(WizardControl));
         public readonly static DependencyProperty ButtonStyleProperty = DependencyProperty.Register("ButtonStyle", typeof(Style), typeof(WizardControl));
-        public readonly static DependencyProperty CancelCommandProperty = DependencyProperty.Register("CancelCommand", typeof(ICommand), typeof(WizardControl));
-        public readonly static DependencyProperty FinishCommandProperty = DependencyProperty.Register("FinishCommand", typeof(ICommand), typeof(WizardControl));
 
-        public ICommand CancelCommand
+        public static readonly DependencyProperty ProcessingPageProperty = DependencyProperty.Register("ProcessingPage", typeof(IWizardPage), typeof(WizardControl));
+        public static readonly DependencyProperty CompletePageProperty = DependencyProperty.Register("CompletePage", typeof(IWizardPage), typeof(WizardControl));
+        public static readonly DependencyProperty ErrorPageProperty = DependencyProperty.Register("ErrorPage", typeof(IWizardPage), typeof(WizardControl));
+
+        public static readonly DependencyProperty ProcessFunctionProperty = DependencyProperty.Register("ProcessFunction", typeof(Func<Task<WizardProcessResult>>), typeof(WizardControl));
+        public static readonly DependencyProperty CloseFunctionProperty = DependencyProperty.Register("CloseFunction", typeof(Action), typeof(WizardControl));
+        public static readonly DependencyProperty CancelFunctionProperty = DependencyProperty.Register("CancelFunction", typeof(Action), typeof(WizardControl));
+
+        public Func<Task<WizardProcessResult>> ProcessFunction
         {
-            get { return (ICommand)GetValue(CancelCommandProperty); }
-            set { SetValue(CancelCommandProperty, value); }
+            get { return (Func<Task<WizardProcessResult>>)GetValue(ProcessFunctionProperty); }
+            set { SetValue(ProcessFunctionProperty, value); }
         }
 
-        public ICommand FinishCommand
+        public Action CloseFunction
         {
-            get { return (ICommand)GetValue(FinishCommandProperty); }
-            set { SetValue(FinishCommandProperty, value); }
+            get { return (Action)GetValue(CloseFunctionProperty); }
+            set { SetValue(CloseFunctionProperty, value); }
         }
+
+        public Action CancelFunction
+        {
+            get { return (Action)GetValue(CancelFunctionProperty); }
+            set { SetValue(CancelFunctionProperty, value); }
+        }
+
 
         public string Title
         {
@@ -52,6 +65,24 @@ namespace Dsoft.WizardControl.WPF
         {
             get { return (ObservableCollection<IWizardPage>)GetValue(ItemsProperty); }
             set { SetValue(ItemsProperty, value); }
+        }
+
+        public IWizardPage ProcessingPage
+        {
+            get { return (IWizardPage)GetValue(ProcessingPageProperty); }
+            set { SetValue(ProcessingPageProperty, value); }
+        }
+
+        public IWizardPage CompletePage
+        {
+            get { return (IWizardPage)GetValue(CompletePageProperty); }
+            set { SetValue(CompletePageProperty, value); }
+        }
+
+        public IWizardPage ErrorPage
+        {
+            get { return (IWizardPage)GetValue(ErrorPageProperty); }
+            set { SetValue(ErrorPageProperty, value); }
         }
 
         public DataTemplate HeaderTemplate
@@ -96,8 +127,10 @@ namespace Dsoft.WizardControl.WPF
 
             _viewModel.Title = Title;
             _viewModel.Pages = Pages;
-            _viewModel.CancelCommand = CancelCommand;
-            _viewModel.FinishCommand = FinishCommand;
+
+            _viewModel.ProcessFunction = ProcessFunction;
+            _viewModel.CloseFunction = CloseFunction;
+            _viewModel.CancelFunction = CancelFunction;
 
             //if (HeaderTemplate != null)
             //{
