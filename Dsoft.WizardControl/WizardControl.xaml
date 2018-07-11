@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Dsoft.WizardControl.WPF"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="480">
     <Grid x:Name="rootGrid">
         <Grid.DataContext>
             <local:WizardControlViewModel />
@@ -33,11 +33,15 @@
                     </TabControl.ItemContainerStyle>
                 </TabControl>
                 <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-                    <Button Name="btnPrevious" Content="Previous"  Width="75" Margin="0,0,5,0" IsEnabled="{Binding PreviousEnabled}" Command="{Binding PreviousCommand}"/>
-                    <Button Name="btnNext" Content="Next" Width="75" Margin="0,0,5,0" IsEnabled="{Binding NextEnabled}" Command="{Binding NextCommand}"/>
-                    <Button Name="btnFinish" Content="Finish" Width="75" Margin="0,0,5,0" IsEnabled="{Binding FinishEnabled}" Command="{Binding FinishButtonCommand}" />
-                    <Button Name="btnCancel"  Content="Cancel" Width="75" Margin="0,0,5,0" IsEnabled="{Binding CancelEnabled}" Command="{Binding CancelCommand}"  />
+                    <Button Name="btnPrevious" Content="Previous"  Width="75" Margin="0,0,5,0" IsEnabled="{Binding PreviousEnabled}" Command="{Binding PreviousCommand}" Visibility="{Binding PreviousButtonVisibility}"/>
+                    <Button Name="btnNext" Content="Next" Width="75" Margin="0,0,5,0" IsEnabled="{Binding NextEnabled}" Command="{Binding NextCommand}" Visibility="{Binding NextButtonVisibility}"/>
+                    <Button Name="btnFinish" Content="Process" Width="75" Margin="0,0,5,0" IsEnabled="{Binding ProcessEnabled}" Command="{Binding ProcessButtonCommand}" Visibility="{Binding ProcessButtonVisibility}" />
+                    <Button Name="btnCancel"  Content="Cancel" Width="75" Margin="0,0,5,0" IsEnabled="{Binding CancelEnabled}" Command="{Binding CancelCommand}"  Visibility="{Binding CancelButtonVisibility}" />
+                    <Button Name="btnComplete" Content="Close" Width="75" Margin="0,0,5,0" IsEnabled="{Binding CompleteEnabled}" Command="{Binding CompleteCommand}"  Visibility="{Binding CompleteButtonVisibility}"/>
                 </StackPanel>
+
+
+
             </Grid>
         </local:WizardCont>
     </Grid>

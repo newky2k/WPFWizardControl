@@ -18,18 +18,19 @@ namespace Dsoft.WizardControl.WPF
     {
         #region Fields
 
-        private bool mPreviousEnabled;
-        private bool mCancelEnabled;
         private int mSelectedIndex;
         private List<KeyValuePair<String, Object>> mParameters;
         private String mHeading;
-        private ObservableCollection<IWizardPage> mPages;
+        private ObservableCollection<IWizardPage> _pages;
+        private IWizardPage _progressPage;
+        private IWizardPage _completePage;
+        private string _title;
+
+        private WizardStage _currentStage = WizardStage.Setup;
 
         #endregion
 
         #region Properties
-
-        private string _title;
 
         public string Title
         {
@@ -62,18 +63,21 @@ namespace Dsoft.WizardControl.WPF
         {
             get
             {
-                return SelectedIndex != 0;
+                switch (_currentStage)
+                {
+                    case WizardStage.Working:
+                        return false;
+
+                    case WizardStage.Complete:
+                        return false;
+
+                    default:
+                        return SelectedIndex != 0;
+                }
+
+                
             }
         }
-        //{
-        //    get { return mPreviousEnabled; }
-        //    set
-        //    {
-        //        mPreviousEnabled = value;
-
-        //        NotifyPropertyChanged("PreviousEnabled");
-        //    }
-        //}
 
         /// <summary>
         /// Is next button enabled
@@ -85,21 +89,47 @@ namespace Dsoft.WizardControl.WPF
                 if (Pages.Count == 0 || ActivePages.Count == 0)
                     return false;
 
-                return SelectedIndex != ActivePages.Max(x => x.Key);
+                switch (_currentStage)
+                {
+                    case WizardStage.Working:
+                        return false;
+
+                    case WizardStage.Complete:
+                        return false;
+                    case WizardStage.Error:
+                        return false;
+
+                    default:
+                        return SelectedIndex != ActivePages.Max(x => x.Key);
+                }
+
+                
             }
         }
 
         /// <summary>
         /// Is finish button enabled
         /// </summary>
-        public Boolean FinishEnabled
+        public Boolean ProcessEnabled
         {
             get
             {
                 if (Pages.Count == 0 || ActivePages.Count == 0)
                     return false;
 
-                return SelectedIndex == ActivePages.Max(x => x.Key);
+                switch (_currentStage)
+                {
+                    case WizardStage.Working:
+                        return false;
+
+                    case WizardStage.Complete:
+                        return false;
+
+                    default:
+                        return SelectedIndex == ActivePages.Max(x => x.Key);
+                }
+
+                
             }
         }
 
@@ -108,12 +138,42 @@ namespace Dsoft.WizardControl.WPF
         /// </summary>
         public Boolean CancelEnabled
         {
-            get { return mCancelEnabled; }
-            set
+            get
             {
-                mCancelEnabled = value;
+                switch (_currentStage)
+                {
+                    case WizardStage.Setup:
+                        return true;
+                    case WizardStage.Error:
+                        return true;
+                    default:
+                        return false;
+                }
 
-                NotifyPropertyChanged("CancelEnabled");
+            }
+            //get { return mCancelEnabled; }
+            //set
+            //{
+            //    mCancelEnabled = value;
+
+            //    NotifyPropertyChanged("CancelEnabled");
+            //}
+        }
+
+        public Boolean CompleteEnabled
+        {
+            get
+            {
+                switch (_currentStage)
+                {
+                    case WizardStage.Complete:
+                        return true;
+
+                    default:
+                        return false;
+                }
+
+
             }
         }
 
@@ -122,20 +182,39 @@ namespace Dsoft.WizardControl.WPF
         /// </summary>
         public ObservableCollection<IWizardPage> Pages
         {
-            get { return mPages; }
+            get
+            {
+                if (_pages == null)
+                    _pages = new ObservableCollection<IWizardPage>();
+
+                return _pages;
+            }
             set
             {
+
+                _pages = value;
+
                 
-                mPages = value;
                 //mPages.CollectionChanged += mPages_CollectionChanged;
                 NotifyPropertyChanged("Pages");
 
-                if (mPages != null)
+                if (Pages != null)
                 {
-                    foreach (IWizardPage NewPage in mPages)
+                    if (!Pages.Contains(ProgressPage))
+                        Pages.Add(ProgressPage);
+
+                    if (!Pages.Contains(CompletePage))
+                        Pages.Add(CompletePage);
+
+                    if (!Pages.Contains(ErrorPage))
+                        Pages.Add(ErrorPage);
+
+                    foreach (IWizardPage NewPage in Pages)
                     {
                         NewPage.Parameters = mParameters;
                     }
+
+                    
                 }
 
 
@@ -149,7 +228,7 @@ namespace Dsoft.WizardControl.WPF
             {
                 var aDict = new Dictionary<int, IWizardPage>();
 
-                var aPages = Pages.Where(x => x.IsHidden.Equals(false));
+                var aPages = Pages.Where(x => x.IsHidden.Equals(false) && (!x.Equals(ProgressPage) && !x.Equals(CompletePage) && !x.Equals(ErrorPage)));
 
                 if (aPages.Any())
                 {
@@ -205,7 +284,88 @@ namespace Dsoft.WizardControl.WPF
             }
         }
 
+        public IWizardPage ProgressPage
+        {
+            get
+            {
+                if (_progressPage == null)
+                    _progressPage = new DefaultProgressView();
+
+                return _progressPage;
+            }
+            set { _progressPage = value; NotifyPropertyChanged(nameof(ProgressPage)); }
+        }
+
+        public IWizardPage CompletePage
+        {
+            get
+            {
+                if (_completePage == null)
+                    _completePage = new DefaultCompleteView();
+
+                return _completePage;
+            }
+            set { _completePage = value; NotifyPropertyChanged(nameof(CompletePage)); }
+        }
+
+        private IWizardPage _errorPage;
+
+        public IWizardPage ErrorPage
+        {
+            get
+            {
+                if (_errorPage == null)
+                    _errorPage = new DefaultErrorView();
+
+                return _errorPage;
+            }
+            set { _errorPage = value; NotifyPropertyChanged(nameof(ErrorPage)); }
+        }
+
+
+        public Visibility CompleteButtonVisibility
+        {
+            get
+            {
+                return (CompleteEnabled) ? Visibility.Visible : Visibility.Collapsed;
+            }
+
+        }
+
+        public Visibility CancelButtonVisibility
+        {
+            get
+            {
+                return (CancelEnabled) ? Visibility.Visible : Visibility.Hidden;
+            }
+
+        }
+
+        public Visibility ProcessButtonVisibility
+        {
+            get
+            {
+                return (ProcessEnabled) ? Visibility.Visible : Visibility.Collapsed;
+            }
+           
+        }
+
+        public Visibility NextButtonVisibility
+        {
+            get { return (NextEnabled) ? Visibility.Visible : Visibility.Collapsed; }
+
+        }
+
+        public Visibility PreviousButtonVisibility
+        {
+            get { return (PreviousEnabled) ? Visibility.Visible : Visibility.Collapsed; }
+
+        }
+
         #region Commands
+
+
+
 
         /// <summary>
         /// Gets the previous command.
@@ -231,7 +391,7 @@ namespace Dsoft.WizardControl.WPF
             internal set;
         }
 
-        public ICommand FinishButtonCommand
+        public ICommand ProcessButtonCommand
         {
             get;
             internal set;
@@ -268,11 +428,11 @@ namespace Dsoft.WizardControl.WPF
             set { cancelCommand = value; NotifyPropertyChanged("CancelCommand"); }
         }
 
-        private int LastPageIndex
+        private int LastActivePageIndex
         {
             get
             {
-                return Pages.Count - 1;
+                return ActivePages.Max(x => x.Key);
             }
         }
         #endregion
@@ -286,20 +446,21 @@ namespace Dsoft.WizardControl.WPF
         /// </summary>
         public WizardControlViewModel()
         {
-            
-            this.CancelEnabled = false;
-
 
             this.Pages = new ObservableCollection<IWizardPage>();
             this.Parameters = new List<KeyValuePair<string, object>>();
 
             PreviousCommand = new DelegateCommand(() =>
             {
-                this.SelectedIndex = GetPreviousPageIndex(SelectedIndex);
-
-                this.SubTitle = Pages[this.SelectedIndex].Title;
-
-                RecalculateNavigation();
+                if (SelectedIndex == Pages.IndexOf(ErrorPage))
+                {
+                    SetPage(LastActivePageIndex);
+                }
+                else
+                {
+                    SetPage(GetPreviousPageIndex(SelectedIndex));
+                }
+                
 
             });
 
@@ -309,32 +470,104 @@ namespace Dsoft.WizardControl.WPF
 
                 if (cuItem.Validate())
                 {
-                    this.SelectedIndex = GetNextPageIndex(SelectedIndex);
-                    this.SubTitle = Pages[this.SelectedIndex].Title;
-
-                    this.SubTitle = Pages[this.SelectedIndex].Title;
-
-                    RecalculateNavigation();
+                    SetPage(GetNextPageIndex(SelectedIndex));
                 }
 
             });
 
-            FinishButtonCommand = new DelegateCommand(() => 
+            ProcessButtonCommand = new DelegateCommand(() => 
             {
                 var cuItem = this.Pages[SelectedIndex];
 
                 if (cuItem.Validate())
                 {
-                    if (finishCommand != null && finishCommand.CanExecute(null))
+
+                    IsBusy = true;
+
+                    Task.Run(async () =>
                     {
-                        finishCommand.Execute(null);
-                    }
+                        SetPage(Pages.IndexOf(ProgressPage));
+
+                        try
+                        {
+                            await Task.Delay(TimeSpan.FromSeconds(5));
+
+                            throw new Exception("An Error occured");
+
+                            SetPage(Pages.IndexOf(CompletePage));
+                        }
+                        catch (Exception ex)
+                        {
+                            SetPage(Pages.IndexOf(ErrorPage));
+                        }
+                        
+
+                        
+                    });
+
+                    
+
+                    
+
+                    //
+
+                    IsBusy = false;
                 }
 
 
             });
 
             CompleteCommand = new DelegateCommand(() => { });
+        }
+
+
+        #endregion
+
+        #region Methods
+        private void SetPage(int newIndex)
+        {
+            if (newIndex == Pages.IndexOf(ProgressPage))
+            {
+                StartProcessingStage();
+            }
+            else if (newIndex == Pages.IndexOf(CompletePage))
+            {
+                StartCompletionStage();
+            }
+            else if (newIndex == Pages.IndexOf(ErrorPage))
+            {
+                StartErrorStage();
+            }
+            else
+            {
+                StartSetupStage();
+            }
+
+            this.SelectedIndex = newIndex;
+
+            this.SubTitle = Pages[this.SelectedIndex].Title;
+
+            RecalculateNavigation();
+        }
+
+        public void StartProcessingStage()
+        {
+            _currentStage = WizardStage.Working;
+        }
+
+        public void StartCompletionStage()
+        {
+            _currentStage = WizardStage.Complete;
+        }
+
+        public void StartSetupStage()
+        {
+            _currentStage = WizardStage.Setup;
+        }
+
+        public void StartErrorStage()
+        {
+            _currentStage = WizardStage.Error;
         }
 
         private int GetPreviousPageIndex(int currentIndex)
@@ -363,10 +596,6 @@ namespace Dsoft.WizardControl.WPF
 
             return newIndex;
         }
-        #endregion
-
-        #region Methods
-
         public virtual void DidFinish()
         {
 
@@ -374,18 +603,19 @@ namespace Dsoft.WizardControl.WPF
 
         public void RecalculateNavigation()
         {
-            NotifyPropertyChanged("FinishEnabled");
-            NotifyPropertyChanged("NextEnabled");
-            NotifyPropertyChanged("PreviousEnabled");
 
-            if (Pages.Count == 1)
-            {
-                this.CancelEnabled = false;
-            }
-            else
-            {
-                this.CancelEnabled = true;
-            }
+            NotifyPropertyChanged(nameof(ProcessEnabled));
+            NotifyPropertyChanged(nameof(NextEnabled));
+            NotifyPropertyChanged(nameof(PreviousEnabled));
+            NotifyPropertyChanged(nameof(CompleteEnabled));
+            NotifyPropertyChanged(nameof(CancelEnabled));
+
+
+            NotifyPropertyChanged(nameof(ProcessButtonVisibility));
+            NotifyPropertyChanged(nameof(NextButtonVisibility));
+            NotifyPropertyChanged(nameof(PreviousButtonVisibility));
+            NotifyPropertyChanged(nameof(CancelButtonVisibility));
+            NotifyPropertyChanged(nameof(CompleteButtonVisibility));
         }
         /// <summary>
         /// Set the Parameters property of the Pages added to be that of this class. ie centralise them to point here.

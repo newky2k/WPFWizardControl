@@ -56,6 +56,15 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefaultCompleteView.xaml.cs">
+      <DependentUpon>DefaultCompleteView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DefaultErrorView.xaml.cs">
+      <DependentUpon>DefaultErrorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DefaultProgressView.xaml.cs">
+      <DependentUpon>DefaultProgressView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WizardControlViewModel.cs" />
     <Compile Include="IWizardPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -76,6 +85,7 @@
       <DependentUpon>WizardControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="WizardParameterSet.cs" />
+    <Compile Include="WizardStage.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -89,6 +99,18 @@
     <None Include="wpfkey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="DefaultCompleteView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DefaultErrorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DefaultProgressView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

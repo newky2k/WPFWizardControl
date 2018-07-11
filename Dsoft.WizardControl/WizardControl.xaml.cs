@@ -74,7 +74,17 @@ namespace Dsoft.WizardControl.WPF
 
             _viewModel = (WizardControlViewModel)rootGrid.DataContext;
 
+            _viewModel.OnIsBusyChanged += OnIsBusyChanged;
 
+        }
+
+        private void OnIsBusyChanged(object sender, bool isbusy)
+        {
+            this.Dispatcher.BeginInvoke((Action)(() =>
+            {
+                //pgrProgess.Visibility = (isbusy) ? Visibility.Visible : Visibility.Hidden;
+
+            }));
 
         }
 
@@ -100,6 +110,7 @@ namespace Dsoft.WizardControl.WPF
                 btnCancel.Style = ButtonStyle;
                 btnNext.Style = ButtonStyle;
                 btnPrevious.Style = ButtonStyle;
+                btnComplete.Style = ButtonStyle;
             }
         }
     }
