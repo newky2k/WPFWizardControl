@@ -68,6 +68,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="TestData\Pages\CompletePageView.xaml.cs">
+      <DependentUpon>CompletePageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TestData\Pages\ErrorPage.xaml.cs">
+      <DependentUpon>ErrorPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TestData\Pages\PageOne.xaml.cs">
       <DependentUpon>PageOne.xaml</DependentUpon>
     </Compile>
@@ -77,14 +83,9 @@
     <Compile Include="TestData\Pages\PageTwo.xaml.cs">
       <DependentUpon>PageTwo.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TestData\Pages\TestPageTwo.xaml.cs">
-      <DependentUpon>TestPageTwo.xaml</DependentUpon>
+    <Compile Include="TestData\Pages\ProcessingPage.xaml.cs">
+      <DependentUpon>ProcessingPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TestData\Pages\TestWizardPageOne.xaml.cs">
-      <DependentUpon>TestWizardPageOne.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="TestData\Pages\ViewModels\TestPageOneViewModel.cs" />
-    <Compile Include="TestData\Pages\ViewModels\TestPageTwoViewModel.cs" />
     <Compile Include="TestData\SharedViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -98,6 +99,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="TestData\Pages\CompletePageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TestData\Pages\ErrorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="TestData\Pages\PageOne.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -110,11 +119,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TestData\Pages\TestPageTwo.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="TestData\Pages\TestWizardPageOne.xaml">
+    <Page Include="TestData\Pages\ProcessingPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -13,39 +13,40 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WpfApp2.TestData.Pages.ViewModels;
 
 namespace WpfApp2.TestData.Pages
 {
     /// <summary>
-    /// Interaction logic for TestPageTwo.xaml
+    /// Interaction logic for ProcessingPage.xaml
     /// </summary>
-    public partial class TestPageTwo : UserControl, IWizardPage
+    public partial class ProcessingPage : UserControl, IWizardPage
     {
-        private TestPageTwoViewModel _viewModel;
 
-        public TestPageTwoViewModel ViewModel
+        private SharedViewModel _viewModel;
+
+
+        public SharedViewModel ViewModel
         {
             get { return _viewModel; }
             set { _viewModel = value; DataContext = _viewModel; }
         }
 
-        public TestPageTwo()
+        public ProcessingPage(SharedViewModel viewModel)
         {
             InitializeComponent();
 
-            ViewModel = new TestPageTwoViewModel();
+            ViewModel = viewModel;
         }
+
+        public string Title => "Wizard is Doing something";
+
+        public List<KeyValuePair<string, object>> Parameters { get => new List<KeyValuePair<string, object>>(); set => Console.WriteLine(""); }
 
         public bool IsHidden => false;
 
-        public string Title => ViewModel.Title;
-
-        public List<KeyValuePair<string, object>> Parameters { get => ViewModel.Parameters; set => ViewModel.Parameters = value; }
-
         public bool Validate()
         {
-            return ViewModel.Validate();
+            return true;
         }
     }
 }

@@ -15,11 +15,15 @@ namespace WpfApp2
 {
     public class MainWindowViewModel : ViewModel
     {
-
-        public event EventHandler<bool> OnRequestCloseWindow;
-
-        private string _title;
+        #region Fields
+        private SharedViewModel _sharedViewModel;
         private ObservableCollection<IWizardPage> _pages;
+        private string _title;
+        private IWizardPage _completePage;
+        private IWizardPage _errorPage;
+        private IWizardPage _processingPage;
+        #endregion
+        public event EventHandler<bool> OnRequestCloseWindow;
 
         public string Title
         {
@@ -33,19 +37,26 @@ namespace WpfApp2
             set { _pages = value; NotifyPropertyChanged("Pages"); }
         }
 
-        public ICommand CancelCommand
-        {
-            get
-            {
-                return new DelegateCommand(() =>
-                {
-                    MessageBox.Show("Bye!");
 
-                    OnRequestCloseWindow?.Invoke(this, false);
-                });
-            }
+        public IWizardPage CompletePage
+        {
+            get { return _completePage; }
+            set { _completePage = value; NotifyPropertyChanged(nameof(CompletePage)); }
         }
 
+        public IWizardPage ErrorPage
+        {
+            get { return _errorPage; }
+            set { _errorPage = value; NotifyPropertyChanged(nameof(ErrorPage)); }
+        }
+
+        public IWizardPage ProcessPage
+        {
+            get { return _processingPage; }
+            set { _processingPage = value; NotifyPropertyChanged(nameof(ProcessPage)); }
+        }
+
+        #region Functions
         public Action CloseFunction
         {
             get
@@ -63,11 +74,11 @@ namespace WpfApp2
             {
                 return () =>
                 {
+
                     OnRequestCloseWindow?.Invoke(this, false);
                 };
             }
         }
-
 
         public Func<Task<WizardProcessResult>> ProcessFunction
         {
@@ -79,14 +90,7 @@ namespace WpfApp2
                 };
             }
         }
-
-        public async Task<WizardProcessResult> ProcessAsync()
-        {
-            await Task.Delay(TimeSpan.FromSeconds(5));
-
-            return WizardProcessResult.Complete;
-        }
-        private SharedViewModel _sharedViewModel;
+        #endregion
 
         public SharedViewModel SharedViewModel
         {
@@ -101,6 +105,10 @@ namespace WpfApp2
 
             SharedViewModel = new SharedViewModel();
 
+            CompletePage = new CompletePageView(SharedViewModel);
+            ErrorPage = new ErrorPage(SharedViewModel);
+            ProcessPage = new ProcessingPage(SharedViewModel);
+
             Pages = new ObservableCollection<IWizardPage>()
             {
                 new PageOne(SharedViewModel),
@@ -113,6 +121,13 @@ namespace WpfApp2
                     ViewModel = SharedViewModel,
                 },
             };
+        }
+
+        public async Task<WizardProcessResult> ProcessAsync()
+        {
+            await Task.Delay(TimeSpan.FromSeconds(5));
+
+            return WizardProcessResult.Complete;
         }
     }
 }

@@ -13,8 +13,11 @@
     </Window.DataContext>
     <Grid>
         <wizard:WizardControl Title="{Binding Title}"  Pages="{Binding Pages}"  
+                              ProcessingPage="{Binding ProcessPage}" 
+                              ErrorPage="{Binding ErrorPage}" 
+                              CompletePage="{Binding CompletePage}"
                               ProcessFunction="{Binding ProcessFunction}" 
-                              CloseFunction="{Binding CloseFunction}"
+                              CloseFunction="{Binding CloseFunction}" 
                               CancelFunction="{Binding CancelFunction}"/>
     </Grid>
 </Window>

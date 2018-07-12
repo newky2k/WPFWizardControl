@@ -13,43 +13,40 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WpfApp2.TestData.Pages.ViewModels;
 
 namespace WpfApp2.TestData.Pages
 {
     /// <summary>
-    /// Interaction logic for TestWizardPageOne.xaml
+    /// Interaction logic for ErrorPage.xaml
     /// </summary>
-    public partial class TestWizardPageOne : UserControl, IWizardPage
+    public partial class ErrorPage : UserControl, IWizardPage
     {
 
-        private TestPageOneViewModel _viewModel;
+        private SharedViewModel _viewModel;
 
-        public TestPageOneViewModel ViewModel
+
+        public SharedViewModel ViewModel
         {
             get { return _viewModel; }
             set { _viewModel = value; DataContext = _viewModel; }
         }
 
-        public TestWizardPageOne()
+        public ErrorPage(SharedViewModel viewModel)
         {
             InitializeComponent();
 
-            ViewModel = new TestPageOneViewModel();
+            ViewModel = viewModel;
         }
+
+        public string Title => "Wizard Failed";
+
+        public List<KeyValuePair<string, object>> Parameters { get => new List<KeyValuePair<string, object>>(); set => Console.WriteLine(""); }
 
         public bool IsHidden => false;
 
-        public string Title
-        {
-            get { return ViewModel.Title; }
-        }
-
-        public List<KeyValuePair<string, object>> Parameters { get => ViewModel.Parameters; set => ViewModel.Parameters = value; }
-
         public bool Validate()
         {
-            return ViewModel.Validate();
+            return true;
         }
     }
 }

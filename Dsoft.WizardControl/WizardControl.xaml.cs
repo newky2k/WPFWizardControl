@@ -126,6 +126,11 @@ namespace Dsoft.WizardControl.WPF
             var somePages = Pages;
 
             _viewModel.Title = Title;
+
+            _viewModel.CompletePage = CompletePage;
+            _viewModel.ErrorPage = ErrorPage;
+            _viewModel.ProgressPage = ProcessingPage;
+
             _viewModel.Pages = Pages;
 
             _viewModel.ProcessFunction = ProcessFunction;
