@@ -4,7 +4,7 @@
     <!--*-->
     <id>Dsoft.WizardControl.WPF</id>
     <!--*-->
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <title>Dsoft.WizardControl.WPF</title>
     <!--*-->
     <authors>DSoft</authors>
@@ -18,7 +18,7 @@
     <!--*-->
     <description>Dsoft.WizardControl.WPF is a simple user control for WPF</description>
     <!--*-->
-    <releaseNotes>Initial release</releaseNotes>
+    <releaseNotes>Reworked to add error, completion and progress page suppport</releaseNotes>
     <copyright>Copyright ©  2018</copyright>
     <tags>
     </tags>
