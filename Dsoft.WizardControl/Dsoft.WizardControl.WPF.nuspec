@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
-<package>
+<package >
   <metadata>
     <id>Dsoft.WizardControl.WPF</id>
-    <version>1.2.0</version>
+    <version>$version$</version>
     <title>Dsoft.WizardControl.WPF</title>
     <authors>DSoft</authors>
     <owners>DSoft</owners>
@@ -10,10 +10,5 @@
     <description>Dsoft.WizardControl.WPF is a simple wizard user control for WPF</description>
     <releaseNotes>Added ability provide button titles</releaseNotes>
     <copyright>Copyright ©  2019</copyright>
-    <tags>
-    </tags>
-    <dependencies>
-
-    </dependencies>
   </metadata>
 </package>
