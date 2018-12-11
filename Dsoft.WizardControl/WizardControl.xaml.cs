@@ -36,6 +36,12 @@ namespace Dsoft.WizardControl.WPF
         public static readonly DependencyProperty CloseFunctionProperty = DependencyProperty.Register("CloseFunction", typeof(Action), typeof(WizardControl));
         public static readonly DependencyProperty CancelFunctionProperty = DependencyProperty.Register("CancelFunction", typeof(Action), typeof(WizardControl));
 
+        public readonly static DependencyProperty ProcessButtonTitleProperty = DependencyProperty.Register("ProcessButtonTitle", typeof(string), typeof(WizardControl), new PropertyMetadata("Process"));
+        public readonly static DependencyProperty CloseButtonTitleProperty = DependencyProperty.Register("CloseButtonTitle", typeof(string), typeof(WizardControl), new PropertyMetadata("Close"));
+        public readonly static DependencyProperty CancelButtonTitleProperty = DependencyProperty.Register("CancelButtonTitle", typeof(string), typeof(WizardControl), new PropertyMetadata("Cancel"));
+        public readonly static DependencyProperty NextButtonTitleProperty = DependencyProperty.Register("NextButtonTitle", typeof(string), typeof(WizardControl), new PropertyMetadata("Next"));
+        public readonly static DependencyProperty PreviousButtonTitleProperty = DependencyProperty.Register("PreviousButtonTitle", typeof(string), typeof(WizardControl), new PropertyMetadata("Previous"));
+
         public Func<Task<WizardProcessResult>> ProcessFunction
         {
             get { return (Func<Task<WizardProcessResult>>)GetValue(ProcessFunctionProperty); }
@@ -59,6 +65,36 @@ namespace Dsoft.WizardControl.WPF
         {
             get { return (string)GetValue(TitleProperty); }
             set { SetValue(TitleProperty, value); }
+        }
+
+        public string ProcessButtonTitle
+        {
+            get { return (string)GetValue(ProcessButtonTitleProperty); }
+            set { SetValue(ProcessButtonTitleProperty, value); }
+        }
+
+        public string CloseButtonTitle
+        {
+            get { return (string)GetValue(CloseButtonTitleProperty); }
+            set { SetValue(CloseButtonTitleProperty, value); }
+        }
+
+        public string CancelButtonTitle
+        {
+            get { return (string)GetValue(CancelButtonTitleProperty); }
+            set { SetValue(CancelButtonTitleProperty, value); }
+        }
+
+        public string NextButtonTitle
+        {
+            get { return (string)GetValue(NextButtonTitleProperty); }
+            set { SetValue(NextButtonTitleProperty, value); }
+        }
+
+        public string PreviousButtonTitle
+        {
+            get { return (string)GetValue(PreviousButtonTitleProperty); }
+            set { SetValue(PreviousButtonTitleProperty, value); }
         }
 
         public ObservableCollection<IWizardPage> Pages
@@ -126,6 +162,11 @@ namespace Dsoft.WizardControl.WPF
             var somePages = Pages;
 
             _viewModel.Title = Title;
+            _viewModel.ProcessButtonTitle = ProcessButtonTitle;
+            _viewModel.CloseButtonTitle = CloseButtonTitle;
+            _viewModel.CancelButtonTitle = CancelButtonTitle;
+            _viewModel.NextButtonTitle = NextButtonTitle;
+            _viewModel.PreviousButtonTitle = PreviousButtonTitle;
 
             _viewModel.CompletePage = CompletePage;
             _viewModel.ErrorPage = ErrorPage;

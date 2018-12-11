@@ -12,7 +12,7 @@
         <local:MainWindowViewModel />
     </Window.DataContext>
     <Grid>
-        <wizard:WizardControl Title="{Binding Title}"  Pages="{Binding Pages}"  
+        <wizard:WizardControl Title="{Binding Title}"  Pages="{Binding Pages}"  ProcessButtonTitle="Create" CloseButtonTitle="Finish" CancelButtonTitle="Abort" NextButtonTitle="Forward" PreviousButtonTitle="Back"
                               ProcessingPage="{Binding ProcessPage}" 
                               ErrorPage="{Binding ErrorPage}" 
                               CompletePage="{Binding CompletePage}"

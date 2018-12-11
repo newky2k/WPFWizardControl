@@ -25,7 +25,11 @@ namespace Dsoft.WizardControl.WPF
         private IWizardPage _progressPage;
         private IWizardPage _completePage;
         private string _title;
-
+        private string _closeButtonTitle;
+        private string _processButtonTitle;
+        private string _cancelButtonTitle;
+        private string _nextButtonTitle;
+        private string _previousButtonTitle;
         private WizardStage _currentStage = WizardStage.Setup;
 
         #endregion
@@ -35,7 +39,37 @@ namespace Dsoft.WizardControl.WPF
         public string Title
         {
             get { return _title; }
-            set { _title = value; NotifyPropertyChanged("Title"); }
+            set { _title = value; NotifyPropertyChanged(nameof(Title)); }
+        }
+
+        public string ProcessButtonTitle
+        {
+            get { return _processButtonTitle; }
+            set { _processButtonTitle = value; NotifyPropertyChanged(nameof(ProcessButtonTitle)); }
+        }
+
+        public string CloseButtonTitle
+        {
+            get { return _closeButtonTitle; }
+            set { _closeButtonTitle = value; NotifyPropertyChanged(nameof(CloseButtonTitle)); }
+        }
+
+        public string CancelButtonTitle
+        {
+            get { return _cancelButtonTitle; }
+            set { _cancelButtonTitle = value; NotifyPropertyChanged(nameof(CancelButtonTitle)); }
+        }
+
+        public string NextButtonTitle
+        {
+            get { return _nextButtonTitle; }
+            set { _nextButtonTitle = value; NotifyPropertyChanged(nameof(NextButtonTitle)); }
+        }
+
+        public string PreviousButtonTitle
+        {
+            get { return _previousButtonTitle; }
+            set { _previousButtonTitle = value; NotifyPropertyChanged(nameof(PreviousButtonTitle)); }
         }
 
         /// <summary>
@@ -72,7 +106,7 @@ namespace Dsoft.WizardControl.WPF
                         return false;
 
                     default:
-                        return SelectedIndex != 0;
+                        return SelectedIndex > 0;
                 }
 
                 
