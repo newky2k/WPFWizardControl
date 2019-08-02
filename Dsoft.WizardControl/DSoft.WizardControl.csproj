@@ -8,6 +8,8 @@
     <PackageId>DSoft.WizardControl.WPF</PackageId>
     <Authors>newky2k</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>DSoft.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="2.1.1" />

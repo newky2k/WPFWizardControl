@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp2"
-        xmlns:wizard="clr-namespace:Dsoft.WizardControl.WPF;assembly=Dsoft.WizardControl.WPF"
+        xmlns:wizard="clr-namespace:Dsoft.WizardControl.WPF;assembly=DSoft.WizardControl"
         xmlns:textdata="clr-namespace:WpfApp2.TestData.Pages"
         mc:Ignorable="d"
         Title="MainWindow" Height="480" Width="640">
