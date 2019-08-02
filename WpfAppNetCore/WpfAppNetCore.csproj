@@ -1,0 +1,59 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0455" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Dsoft.WizardControl\DSoft.WizardControl.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="TestData\Pages\CompletePageView.xaml.cs">
+      <DependentUpon>CompletePageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="TestData\Pages\ErrorPage.xaml.cs">
+      <DependentUpon>ErrorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="TestData\Pages\PageOne.xaml.cs">
+      <DependentUpon>PageOne.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="TestData\Pages\PageThree.xaml.cs">
+      <DependentUpon>PageThree.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="TestData\Pages\PageTwo.xaml.cs">
+      <DependentUpon>PageTwo.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="TestData\Pages\ProcessingPage.xaml.cs">
+      <DependentUpon>ProcessingPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="TestData\Pages\CompletePageView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="TestData\Pages\ErrorPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="TestData\Pages\PageOne.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="TestData\Pages\PageThree.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="TestData\Pages\PageTwo.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="TestData\Pages\ProcessingPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
+</Project>

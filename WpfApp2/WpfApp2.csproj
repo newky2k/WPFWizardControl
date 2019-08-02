@@ -123,10 +123,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Generic.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -156,9 +152,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Dsoft.WizardControl\Dsoft.WizardControl.WPF.csproj">
-      <Project>{fc5753bc-0fcc-4b5c-98f3-d65f50b19843}</Project>
-      <Name>Dsoft.WizardControl.WPF</Name>
+    <ProjectReference Include="..\Dsoft.WizardControl\DSoft.WizardControl.csproj">
+      <Project>{9755bab9-5d3d-46be-8286-d2a77f821e35}</Project>
+      <Name>DSoft.WizardControl</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
