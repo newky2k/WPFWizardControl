@@ -20,7 +20,7 @@
     <Copyright>Copyright © 2019 DSoft</Copyright>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Windows.Compatibility" Version="2.1.1" />
-    <PackageReference Include="System.Mvvm" Version="1.1.2" />
+    <PackageReference Include="DSoft.System.Mvvm" Version="1.2.1908.819" />
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="3.0.0-preview9.19421.4" />
   </ItemGroup>
 </Project>

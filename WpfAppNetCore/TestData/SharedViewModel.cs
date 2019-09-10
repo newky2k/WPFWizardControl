@@ -46,20 +46,14 @@ namespace WpfAppNetCore.TestData
             BankAccountName = "STUFF LTD";
             DatabaseName = "Database1";
 
-            AddValidator(nameof(Code), () =>
+            AddValidator(nameof(Code), "You must enter a code", () =>
             {
-                if (string.IsNullOrWhiteSpace(Code))
-                    return "You must enter a code";
-
-                return null;
+                return string.IsNullOrWhiteSpace(Code);
             });
 
-            AddValidator(nameof(BankAccountName), () =>
+            AddValidator(nameof(BankAccountName), "You must enter a bank account name", () =>
             {
-                if (string.IsNullOrWhiteSpace(BankAccountName))
-                    return "You must enter a bank account name";
-
-                return null;
+                return string.IsNullOrWhiteSpace(BankAccountName);
             });
         }
     }
