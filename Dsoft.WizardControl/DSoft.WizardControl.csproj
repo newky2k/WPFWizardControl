@@ -16,11 +16,13 @@
     <RepositoryUrl>https://github.com/newky2k/WPFWizardControl</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <PackageTags>WPF Wizard</PackageTags>
-    <PackageReleaseNotes>Added .NET Core WPF support</PackageReleaseNotes>
+    <PackageReleaseNotes>Removed depdency on Microsoft.Windows.Compatibility for .Net Framwework</PackageReleaseNotes>
     <Copyright>Copyright © 2019 DSoft</Copyright>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="DSoft.System.Mvvm" Version="1.2.1908.819" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="3.0.0-preview9.19421.4" />
   </ItemGroup>
 </Project>
