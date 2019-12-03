@@ -48,13 +48,13 @@ namespace WpfApp2.TestData
 
             AddValidator(nameof(Code),"You must enter a code", () =>
             {
-                return string.IsNullOrWhiteSpace(Code);
+                return !string.IsNullOrWhiteSpace(Code);
             });
 
-            AddValidator(nameof(BankAccountName), "You must enter a bank account name", () =>
-            {
-                return string.IsNullOrWhiteSpace(BankAccountName);
-            });
+            //AddValidator(nameof(BankAccountName), "You must enter a bank account name", () =>
+            //{
+            //    return string.IsNullOrWhiteSpace(BankAccountName);
+            //});
         }
     }
 }

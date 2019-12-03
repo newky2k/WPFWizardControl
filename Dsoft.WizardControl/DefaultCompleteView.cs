@@ -16,16 +16,24 @@ using System.Windows.Shapes;
 namespace Dsoft.WizardControl.WPF
 {
     /// <summary>
-    /// Interaction logic for DefaultProgressView.xaml
+    /// Interaction logic for DefaultCompleteView.xaml
     /// </summary>
-    public partial class DefaultProgressView : UserControl, IWizardPage
+    public class DefaultCompleteView : UserControl, IWizardPage
     {
-        public DefaultProgressView()
+        public DefaultCompleteView()
         {
-            InitializeComponent();
+            var grd = new Grid();
+            grd.Children.Add(new Label()
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                Content = "The Wizard has finished...",
+            });
+
+            this.Content = grd;
         }
 
-        public string Title => "Wizard is doing stuff";
+        public string Title => "Wizard Complete";
 
         public bool IsHidden => false;
 

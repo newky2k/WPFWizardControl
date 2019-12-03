@@ -16,16 +16,24 @@ using System.Windows.Shapes;
 namespace Dsoft.WizardControl.WPF
 {
     /// <summary>
-    /// Interaction logic for DefaultCompleteView.xaml
+    /// Interaction logic for DefaultErrorView.xaml
     /// </summary>
-    public partial class DefaultCompleteView : UserControl, IWizardPage
+    public class DefaultErrorView : UserControl, IWizardPage
     {
-        public DefaultCompleteView()
+        public DefaultErrorView()
         {
-            InitializeComponent();
+            var grd = new Grid();
+            grd.Children.Add(new Label()
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                Content = "Ooops there was an error....",
+            });
+
+            this.Content = grd;
         }
 
-        public string Title => "Wizard Complete";
+        public string Title => "Wizard is doing stuff";
 
         public bool IsHidden => false;
 

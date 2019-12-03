@@ -16,13 +16,21 @@ using System.Windows.Shapes;
 namespace Dsoft.WizardControl.WPF
 {
     /// <summary>
-    /// Interaction logic for DefaultErrorView.xaml
+    /// Interaction logic for DefaultProgressView.xaml
     /// </summary>
-    public partial class DefaultErrorView : UserControl, IWizardPage
+    public class DefaultProgressView : UserControl, IWizardPage
     {
-        public DefaultErrorView()
+        public DefaultProgressView()
         {
-            InitializeComponent();
+            var grd = new Grid();
+            grd.Children.Add(new Label()
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                Content = "Wizard is Working...",
+            });
+
+            this.Content = grd;
         }
 
         public string Title => "Wizard is doing stuff";
