@@ -16,13 +16,15 @@
     <RepositoryUrl>https://github.com/newky2k/WPFWizardControl</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <PackageTags>WPF Wizard</PackageTags>
-    <PackageReleaseNotes>Updated to stable version of Microsoft.Windows.Compatibility 3.0.0 and latest DSoft.System.Mvvm</PackageReleaseNotes>
+    <PackageReleaseNotes>Updated to Microsoft.Windows.Compatibility to 3.1.0 and latest DSoft.System.Mvvm
+    Fixed build issues
+    </PackageReleaseNotes>
     <Copyright>Copyright © 2019 DSoft</Copyright>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="DSoft.System.Mvvm" Version="1.2.1909.202" />
+    <PackageReference Include="DSoft.System.Mvvm" Version="1.2.1911.261" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
-    <PackageReference Include="Microsoft.Windows.Compatibility" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="3.1.0" />
   </ItemGroup>
 </Project>

@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DSoft.System.Mvvm" Version="1.2.1909.202" />
-    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0479" />
+    <PackageReference Include="DSoft.System.Mvvm" Version="1.2.1911.261" />
+    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0660" />
   </ItemGroup>
 
   <ItemGroup>

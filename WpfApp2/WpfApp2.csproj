@@ -152,7 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="DSoft.System.Mvvm">
-      <Version>1.2.1909.202</Version>
+      <Version>1.2.1911.261</Version>
     </PackageReference>
     <PackageReference Include="MahApps.Metro">
       <Version>2.0.0-alpha0479</Version>
