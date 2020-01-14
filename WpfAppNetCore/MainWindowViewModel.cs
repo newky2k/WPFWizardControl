@@ -57,6 +57,35 @@ namespace WpfAppNetCore
             set { _processingPage = value; NotifyPropertyChanged(nameof(ProcessPage)); }
         }
 
+        private IWizardPage _selectedPage;
+
+        public IWizardPage SelectedPage
+        {
+            get { return _selectedPage; }
+            set 
+            { 
+                _selectedPage = value; NotifyPropertyChanged(nameof(SelectedPage)); 
+
+                if (_selectedPage is PageTwo)
+                {
+                    NextTitle = "Go";
+                }
+                else
+                {
+                    NextTitle = "Fowards";
+                }
+            }
+        }
+
+        private string _nextTitle = "Forwards";
+
+        public string NextTitle
+        {
+            get { return _nextTitle; }
+            set { _nextTitle = value; NotifyPropertyChanged(nameof(NextTitle)); }
+        }
+
+
         #region Functions
         public Action CloseFunction
         {

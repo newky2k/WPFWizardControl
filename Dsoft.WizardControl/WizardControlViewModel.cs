@@ -17,6 +17,11 @@ namespace Dsoft.WizardControl.WPF
     /// </summary>
     internal class WizardControlViewModel : ViewModel
     {
+        #region Events
+
+        public event EventHandler<IWizardPage> OnSelectedPageChanged = delegate { };
+
+        #endregion
         #region Fields
 
         private int mSelectedIndex;
@@ -32,6 +37,7 @@ namespace Dsoft.WizardControl.WPF
         private string _nextButtonTitle;
         private string _previousButtonTitle;
         private WizardStage _currentStage = WizardStage.Setup;
+        private IWizardPage _selectedPage;
 
         #endregion
 
@@ -90,6 +96,16 @@ namespace Dsoft.WizardControl.WPF
 
             }
         }
+
+        /// <summary>
+        /// Gets the current page
+        /// </summary>
+        public IWizardPage SelectedPage
+        {
+            get { return _selectedPage; }
+            set { _selectedPage = value; NotifyPropertyChanged(nameof(SelectedPage)); OnSelectedPageChanged?.Invoke(this, _selectedPage); }
+        }
+
 
         /// <summary>
         /// Is previous button enabled
@@ -252,6 +268,8 @@ namespace Dsoft.WizardControl.WPF
                     
                 }
 
+                if (Pages?.Count > 0)
+                    SelectedPage = Pages[0];
 
                 RecalculateNavigation();
             }
@@ -562,6 +580,7 @@ namespace Dsoft.WizardControl.WPF
             {
                 CancelFunction?.Invoke();
             });
+
         }
 
 
@@ -588,6 +607,7 @@ namespace Dsoft.WizardControl.WPF
             }
 
             this.SelectedIndex = newIndex;
+            this.SelectedPage = Pages[this.SelectedIndex];
 
             this.SubTitle = Pages[this.SelectedIndex].Title;
 

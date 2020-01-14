@@ -246,7 +246,25 @@ namespace Dsoft.WizardControl.WPF
 
         #endregion
 
+        #region Selection
 
+        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register("SelectedItem", typeof(IWizardPage), typeof(WizardControl), new FrameworkPropertyMetadata(null,
+            FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+            OnSelectedItemChanged));
+
+        public IWizardPage SelectedItem
+        {
+            get { return (IWizardPage)GetValue(SelectedItemProperty); }
+            set { SetValue(SelectedItemProperty, value); }
+        }
+
+        private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            WizardControl sh = (WizardControl)d;
+            //sh._viewModel.CancelFunction = (Action)e.NewValue;
+        }
+
+        #endregion
         public WizardControl()
         {
             InitializeComponent();
@@ -256,6 +274,12 @@ namespace Dsoft.WizardControl.WPF
 
             _viewModel.OnIsBusyChanged += OnIsBusyChanged;
 
+            _viewModel.OnSelectedPageChanged += OnSelectedPageChanged;
+        }
+
+        private void OnSelectedPageChanged(object sender, IWizardPage e)
+        {
+            this.SelectedItem = e;
         }
 
         private void OnIsBusyChanged(object sender, bool isbusy)
