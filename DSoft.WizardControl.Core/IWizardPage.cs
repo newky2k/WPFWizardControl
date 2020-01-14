@@ -8,15 +8,11 @@ namespace DSoft.WizardControl.Core
 {
     public interface IWizardPage
     {
-        string Title { get; }
-
-        bool IsHidden { get; }
+        WizardPageConfiguration PageConfig { get; }
 
         List<KeyValuePair<String, Object>> Parameters { get; set; }
 
         bool Validate();
-
-        //IWizardPageViewModel ViewModel { get; }
 
 
     }

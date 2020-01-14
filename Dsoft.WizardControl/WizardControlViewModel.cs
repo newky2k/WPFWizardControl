@@ -281,7 +281,7 @@ namespace Dsoft.WizardControl.WPF
             {
                 var aDict = new Dictionary<int, IWizardPage>();
 
-                var aPages = Pages.Where(x => x.IsHidden.Equals(false) && (!x.Equals(ProgressPage) && !x.Equals(CompletePage) && !x.Equals(ErrorPage)));
+                var aPages = Pages.Where(x => x.PageConfig.IsHidden.Equals(false) && (!x.Equals(ProgressPage) && !x.Equals(CompletePage) && !x.Equals(ErrorPage)));
 
                 if (aPages.Any())
                 {
@@ -315,7 +315,7 @@ namespace Dsoft.WizardControl.WPF
                 {
                     if (Pages != null && Pages.Count != 0)
                     {
-                        mHeading = Pages[0].Title;
+                        mHeading = Pages[0].PageConfig.Title;
                     }
                     else
                     {
@@ -587,7 +587,7 @@ namespace Dsoft.WizardControl.WPF
         #endregion
 
         #region Methods
-        private void SetPage(int newIndex)
+        internal void SetPage(int newIndex)
         {
             if (newIndex == Pages.IndexOf(ProgressPage))
             {
@@ -609,7 +609,7 @@ namespace Dsoft.WizardControl.WPF
             this.SelectedIndex = newIndex;
             this.SelectedPage = Pages[this.SelectedIndex];
 
-            this.SubTitle = Pages[this.SelectedIndex].Title;
+            this.SubTitle = Pages[this.SelectedIndex].PageConfig.Title;
 
             RecalculateNavigation();
         }
@@ -642,7 +642,7 @@ namespace Dsoft.WizardControl.WPF
             var newIndex = currentIndex - 1;
 
 
-            if (Pages[newIndex].IsHidden)
+            if (Pages[newIndex].PageConfig.IsHidden)
                 return GetPreviousPageIndex(newIndex);
 
             return newIndex;
@@ -655,7 +655,7 @@ namespace Dsoft.WizardControl.WPF
 
             var newIndex = currentIndex + 1;
 
-            if (Pages[newIndex].IsHidden)
+            if (Pages[newIndex].PageConfig.IsHidden)
                 return GetNextPageIndex(newIndex);
 
             return newIndex;

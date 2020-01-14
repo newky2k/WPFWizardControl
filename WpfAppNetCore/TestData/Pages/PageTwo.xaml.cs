@@ -37,6 +37,11 @@ namespace WpfAppNetCore.TestData.Pages
 
         public bool IsHidden => ViewModel.HidePage2;
 
+        public WizardPageConfiguration PageConfig => new WizardPageConfiguration("Enter the banking information")
+                                                {
+                                                    IsHidden = ViewModel.HidePage2,
+                                                };
+
         public string Title => "Enter the banking information";
 
         public List<KeyValuePair<string, object>> Parameters { get => new List<KeyValuePair<string, object>>(); set => Console.WriteLine(""); }

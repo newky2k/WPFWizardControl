@@ -39,11 +39,10 @@ namespace WpfApp2.TestData.Pages
             ViewModel = viewModel;
         }
 
-        public string Title => "Wizard is Doing something";
+        public WizardPageConfiguration PageConfig => new WizardPageConfiguration("Wizard is Doing something");
 
         public List<KeyValuePair<string, object>> Parameters { get => new List<KeyValuePair<string, object>>(); set => Console.WriteLine(""); }
 
-        public bool IsHidden => false;
 
         public bool Validate()
         {

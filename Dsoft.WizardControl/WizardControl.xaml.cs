@@ -248,9 +248,12 @@ namespace Dsoft.WizardControl.WPF
 
         #region Selection
 
+
         public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register("SelectedItem", typeof(IWizardPage), typeof(WizardControl), new FrameworkPropertyMetadata(null,
             FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
             OnSelectedItemChanged));
+
+        public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register("SelectedIndex", typeof(int), typeof(WizardControl), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnSelectedIndexChanged));
 
         public IWizardPage SelectedItem
         {
@@ -258,10 +261,22 @@ namespace Dsoft.WizardControl.WPF
             set { SetValue(SelectedItemProperty, value); }
         }
 
+        public int SelectedIndex
+        {
+            get { return (int)GetValue(SelectedIndexProperty); }
+            set { SetValue(SelectedIndexProperty, value); }
+        }
+
         private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             WizardControl sh = (WizardControl)d;
             //sh._viewModel.CancelFunction = (Action)e.NewValue;
+        }
+
+        private static void OnSelectedIndexChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            WizardControl sh = (WizardControl)d;
+            sh._viewModel.SetPage((int)e.NewValue);
         }
 
         #endregion

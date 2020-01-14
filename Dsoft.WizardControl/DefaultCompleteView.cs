@@ -34,11 +34,9 @@ namespace Dsoft.WizardControl.WPF
             this.Content = grd;
         }
 
-        public string Title => "Wizard Complete";
-
-        public bool IsHidden => false;
-
         public List<KeyValuePair<string, object>> Parameters { get => new List<KeyValuePair<string, object>>(); set => Console.WriteLine(""); }
+
+        public WizardPageConfiguration PageConfig => new WizardPageConfiguration("Wizard Complete");
 
         public bool Validate()
         {

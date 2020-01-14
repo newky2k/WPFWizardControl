@@ -35,9 +35,7 @@ namespace WpfApp2.TestData.Pages
             InitializeComponent();
         }
 
-        public string Title => "Select the databases";
-
-        public bool IsHidden => false;
+        public WizardPageConfiguration PageConfig => new WizardPageConfiguration("Select the databases");
 
         public List<KeyValuePair<string, object>> Parameters { get => new List<KeyValuePair<string, object>>(); set => Console.WriteLine(""); }
 
