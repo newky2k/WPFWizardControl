@@ -18,6 +18,7 @@
                               ProcessFunction="{Binding ProcessFunction}" 
                               CloseFunction="{Binding CloseFunction}" 
                               CancelFunction="{Binding CancelFunction}"
+                              SelectedIndex="{Binding SelectedPageIndex}"
                               SelectedItem="{Binding SelectedPage}"/>
     </Grid>
 </Window>

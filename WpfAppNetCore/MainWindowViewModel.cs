@@ -23,7 +23,10 @@ namespace WpfAppNetCore
         private IWizardPage _completePage;
         private IWizardPage _errorPage;
         private IWizardPage _processingPage;
+        private IWizardPage _selectedPage;
+        private int _selectedPageIndex;
         #endregion
+
         public event EventHandler<bool> OnRequestCloseWindow;
 
         public string Title
@@ -57,8 +60,6 @@ namespace WpfAppNetCore
             set { _processingPage = value; NotifyPropertyChanged(nameof(ProcessPage)); }
         }
 
-        private IWizardPage _selectedPage;
-
         public IWizardPage SelectedPage
         {
             get { return _selectedPage; }
@@ -75,6 +76,12 @@ namespace WpfAppNetCore
                     NextTitle = "Fowards";
                 }
             }
+        }
+
+        public int SelectedPageIndex
+        {
+            get { return _selectedPageIndex; }
+            set { _selectedPageIndex = value; NotifyPropertyChanged(nameof(SelectedPageIndex)); }
         }
 
         private string _nextTitle = "Forwards";

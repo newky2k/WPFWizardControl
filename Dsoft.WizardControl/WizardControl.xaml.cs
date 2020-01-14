@@ -295,6 +295,13 @@ namespace Dsoft.WizardControl.WPF
             _viewModel.OnSelectedIndexChanged += OnSelectedIndexChanged;
         }
 
+        ~WizardControl()
+        {
+            _viewModel.OnIsBusyChanged -= OnIsBusyChanged;
+            _viewModel.OnSelectedPageChanged -= OnSelectedPageChanged;
+            _viewModel.OnSelectedIndexChanged -= OnSelectedIndexChanged;
+        }
+
         private void OnSelectedIndexChanged(object sender, int e) => this.SelectedIndex = e;
 
         private void OnSelectedPageChanged(object sender, IWizardPage e) => this.SelectedItem = e;
