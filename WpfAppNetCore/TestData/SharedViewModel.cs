@@ -39,6 +39,27 @@ namespace WpfAppNetCore.TestData
             set { _hidePage2 = value; NotifyPropertyChanged(nameof(HidePage2)); }
         }
 
+        public Action MoveNextAction { get; set; }
+
+        public System.Windows.Input.ICommand MoveNextPageCommand
+        {
+            get
+            {
+                return new DelegateCommand(() =>
+                {
+                    try
+                    {
+                        MoveNextAction?.Invoke();
+                    }
+                    catch (Exception ex)
+                    {
+
+                        NotifyErrorOccured(ex);
+                    }
+                });
+            }
+        }
+
 
         public SharedViewModel()
         {
@@ -55,6 +76,11 @@ namespace WpfAppNetCore.TestData
             //{
             //    return string.IsNullOrWhiteSpace(BankAccountName);
             //});
+        }
+
+        public SharedViewModel(Action moveNextAction) : this()
+        {
+            MoveNextAction = moveNextAction;
         }
     }
 }

@@ -9,6 +9,7 @@
         <StackPanel>
             <TextBlock>Bank Account Name</TextBlock>
             <TextBox Text="{Binding BankAccountName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+            <Button Content="Next" Command="{Binding MoveNextPageCommand}" />
         </StackPanel>
     </Grid>
 </UserControl>

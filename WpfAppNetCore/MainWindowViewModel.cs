@@ -135,12 +135,14 @@ namespace WpfAppNetCore
             set { _sharedViewModel = value; }
         }
 
-
         public MainWindowViewModel()
         {
             Title = "Create Supplier";
 
-            SharedViewModel = new SharedViewModel();
+            SharedViewModel = new SharedViewModel(()=>
+            {
+                SelectedPageIndex = _selectedPageIndex + 1;
+            });
 
             CompletePage = new CompletePageView(SharedViewModel);
             ErrorPage = new ErrorPage(SharedViewModel);
