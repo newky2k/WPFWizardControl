@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dsoft.WizardControl.WPF
+namespace DSoft.WizardControl.Core
 {
     public enum WizardStage
     {

@@ -27,4 +27,7 @@
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="3.1.0" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DSoft.WizardControl.Core\DSoft.WizardControl.Core.csproj" />
+  </ItemGroup>
 </Project>

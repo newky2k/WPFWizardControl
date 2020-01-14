@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DSoft.WizardControl.Core;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -154,8 +155,8 @@ namespace Dsoft.WizardControl.WPF
 
         public string CloseButtonTitle
         {
-            get { return (string)GetValue(CloseButtonTitleProperty); }
-            set { SetValue(CloseButtonTitleProperty, value); }
+            get => (string)GetValue(CloseButtonTitleProperty);
+            set => SetValue(CloseButtonTitleProperty, value);
         }
 
         private static void OnCloseButtonTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -166,8 +167,8 @@ namespace Dsoft.WizardControl.WPF
 
         public string CancelButtonTitle
         {
-            get { return (string)GetValue(CancelButtonTitleProperty); }
-            set { SetValue(CancelButtonTitleProperty, value); }
+            get => (string)GetValue(CancelButtonTitleProperty);
+            set => SetValue(CancelButtonTitleProperty, value);
         }
 
         private static void OnCancelButtonTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
