@@ -98,7 +98,6 @@ namespace WpfApp2
             set { _sharedViewModel = value; }
         }
 
-
         public MainWindowViewModel()
         {
             Title = "Create Supplier";
