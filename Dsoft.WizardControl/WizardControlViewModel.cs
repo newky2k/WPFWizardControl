@@ -20,7 +20,7 @@ namespace Dsoft.WizardControl.WPF
         #region Events
 
         public event EventHandler<IWizardPage> OnSelectedPageChanged = delegate { };
-
+        public event EventHandler<int> OnSelectedIndexChanged = delegate { };
         #endregion
         #region Fields
 
@@ -90,10 +90,14 @@ namespace Dsoft.WizardControl.WPF
             }
             set
             {
-                mSelectedIndex = value;
+                if (mSelectedIndex != value)
+                {
+                    mSelectedIndex = value;
 
-                NotifyPropertyChanged("SelectedIndex");
+                    NotifyPropertyChanged("SelectedIndex");
 
+                    OnSelectedIndexChanged?.Invoke(this, mSelectedIndex);
+                }
             }
         }
 

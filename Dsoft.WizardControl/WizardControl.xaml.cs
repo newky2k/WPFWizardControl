@@ -276,7 +276,9 @@ namespace Dsoft.WizardControl.WPF
         private static void OnSelectedIndexChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             WizardControl sh = (WizardControl)d;
-            sh._viewModel.SetPage((int)e.NewValue);
+
+            if (sh._viewModel.SelectedIndex != (int)e.NewValue)
+                sh._viewModel.SetPage((int)e.NewValue);
         }
 
         #endregion
@@ -290,12 +292,12 @@ namespace Dsoft.WizardControl.WPF
             _viewModel.OnIsBusyChanged += OnIsBusyChanged;
 
             _viewModel.OnSelectedPageChanged += OnSelectedPageChanged;
+            _viewModel.OnSelectedIndexChanged += OnSelectedIndexChanged;
         }
 
-        private void OnSelectedPageChanged(object sender, IWizardPage e)
-        {
-            this.SelectedItem = e;
-        }
+        private void OnSelectedIndexChanged(object sender, int e) => this.SelectedIndex = e;
+
+        private void OnSelectedPageChanged(object sender, IWizardPage e) => this.SelectedItem = e;
 
         private void OnIsBusyChanged(object sender, bool isbusy)
         {
