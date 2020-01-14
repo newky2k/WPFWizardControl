@@ -407,6 +407,19 @@ namespace Dsoft.WizardControl.WPF
            
         }
 
+        public Visibility ButtonStackVisibility
+        {
+            get
+            {
+                if (SelectedPage != null)
+                {
+                    if (SelectedPage.PageConfig?.HideButtons == true)
+                        return Visibility.Hidden;
+                }
+                return Visibility.Visible;
+            }
+        }
+
         public Visibility NextButtonVisibility
         {
             get { return (NextEnabled) ? Visibility.Visible : Visibility.Collapsed; }
@@ -684,7 +697,9 @@ namespace Dsoft.WizardControl.WPF
             NotifyPropertyChanged(nameof(PreviousButtonVisibility));
             NotifyPropertyChanged(nameof(CancelButtonVisibility));
             NotifyPropertyChanged(nameof(CompleteButtonVisibility));
+            NotifyPropertyChanged(nameof(ButtonStackVisibility));
         }
+
         /// <summary>
         /// Set the Parameters property of the Pages added to be that of this class. ie centralise them to point here.
         /// </summary>

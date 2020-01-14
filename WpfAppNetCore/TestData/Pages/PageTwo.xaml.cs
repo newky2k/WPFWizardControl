@@ -40,6 +40,7 @@ namespace WpfAppNetCore.TestData.Pages
         public WizardPageConfiguration PageConfig => new WizardPageConfiguration("Enter the banking information")
                                                 {
                                                     IsHidden = ViewModel.HidePage2,
+                                                    HideButtons = true,
                                                 };
 
         public string Title => "Enter the banking information";
