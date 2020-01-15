@@ -1,4 +1,5 @@
 ﻿using Dsoft.WizardControl.WPF;
+using DSoft.WizardControl.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +36,12 @@ namespace WpfAppNetCore.TestData.Pages
         }
 
         public bool IsHidden => ViewModel.HidePage2;
+
+        public WizardPageConfiguration PageConfig => new WizardPageConfiguration("Enter the banking information")
+                                                {
+                                                    IsHidden = ViewModel.HidePage2,
+                                                    HideButtons = true,
+                                                };
 
         public string Title => "Enter the banking information";
 

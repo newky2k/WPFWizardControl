@@ -1,4 +1,5 @@
 ﻿using Dsoft.WizardControl.WPF;
+using DSoft.WizardControl.Core;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -97,7 +98,6 @@ namespace WpfApp2
             get { return _sharedViewModel; }
             set { _sharedViewModel = value; }
         }
-
 
         public MainWindowViewModel()
         {

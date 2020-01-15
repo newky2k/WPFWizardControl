@@ -1,4 +1,5 @@
 ﻿using Dsoft.WizardControl.WPF;
+using DSoft.WizardControl.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,12 +38,9 @@ namespace WpfAppNetCore.TestData.Pages
 
             ViewModel = viewModel;
         }
-
-        public string Title => "Wizard Complete";
+        public WizardPageConfiguration PageConfig => new WizardPageConfiguration("Wizard Complete");
 
         public List<KeyValuePair<string, object>> Parameters { get => new List<KeyValuePair<string, object>>(); set => Console.WriteLine(""); }
-
-        public bool IsHidden => false;
 
         public bool Validate()
         {

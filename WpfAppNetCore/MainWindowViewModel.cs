@@ -1,4 +1,5 @@
 ﻿using Dsoft.WizardControl.WPF;
+using DSoft.WizardControl.Core;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,7 +23,10 @@ namespace WpfAppNetCore
         private IWizardPage _completePage;
         private IWizardPage _errorPage;
         private IWizardPage _processingPage;
+        private IWizardPage _selectedPage;
+        private int _selectedPageIndex;
         #endregion
+
         public event EventHandler<bool> OnRequestCloseWindow;
 
         public string Title
@@ -55,6 +59,39 @@ namespace WpfAppNetCore
             get { return _processingPage; }
             set { _processingPage = value; NotifyPropertyChanged(nameof(ProcessPage)); }
         }
+
+        public IWizardPage SelectedPage
+        {
+            get { return _selectedPage; }
+            set 
+            { 
+                _selectedPage = value; NotifyPropertyChanged(nameof(SelectedPage)); 
+
+                if (_selectedPage is PageTwo)
+                {
+                    NextTitle = "Go";
+                }
+                else
+                {
+                    NextTitle = "Fowards";
+                }
+            }
+        }
+
+        public int SelectedPageIndex
+        {
+            get { return _selectedPageIndex; }
+            set { _selectedPageIndex = value; NotifyPropertyChanged(nameof(SelectedPageIndex)); }
+        }
+
+        private string _nextTitle = "Forwards";
+
+        public string NextTitle
+        {
+            get { return _nextTitle; }
+            set { _nextTitle = value; NotifyPropertyChanged(nameof(NextTitle)); }
+        }
+
 
         #region Functions
         public Action CloseFunction
@@ -98,12 +135,14 @@ namespace WpfAppNetCore
             set { _sharedViewModel = value; }
         }
 
-
         public MainWindowViewModel()
         {
             Title = "Create Supplier";
 
-            SharedViewModel = new SharedViewModel();
+            SharedViewModel = new SharedViewModel(()=>
+            {
+                SelectedPageIndex = _selectedPageIndex + 1;
+            });
 
             CompletePage = new CompletePageView(SharedViewModel);
             ErrorPage = new ErrorPage(SharedViewModel);

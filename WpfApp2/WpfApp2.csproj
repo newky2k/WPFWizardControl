@@ -145,6 +145,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DSoft.WizardControl.Core\DSoft.WizardControl.Core.csproj">
+      <Project>{b3de0a62-8cf7-41be-8911-2c3e5f2e8550}</Project>
+      <Name>DSoft.WizardControl.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Dsoft.WizardControl\DSoft.WizardControl.csproj">
       <Project>{9755bab9-5d3d-46be-8286-d2a77f821e35}</Project>
       <Name>DSoft.WizardControl</Name>

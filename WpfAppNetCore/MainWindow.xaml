@@ -11,12 +11,14 @@
         <local:MainWindowViewModel />
     </Window.DataContext>
     <Grid>
-        <wizard:WizardControl Title="{Binding Title}"  Pages="{Binding Pages}"  ProcessButtonTitle="Create" CloseButtonTitle="Finish" CancelButtonTitle="Abort" NextButtonTitle="Forward" PreviousButtonTitle="Back"
+        <wizard:WizardControl Title="{Binding Title}"  Pages="{Binding Pages}"  ProcessButtonTitle="Create" CloseButtonTitle="Finish" CancelButtonTitle="Abort" NextButtonTitle="{Binding NextTitle}" PreviousButtonTitle="Back"
                               ProcessingPage="{Binding ProcessPage}" 
                               ErrorPage="{Binding ErrorPage}" 
                               CompletePage="{Binding CompletePage}"
                               ProcessFunction="{Binding ProcessFunction}" 
                               CloseFunction="{Binding CloseFunction}" 
-                              CancelFunction="{Binding CancelFunction}"/>
+                              CancelFunction="{Binding CancelFunction}"
+                              SelectedIndex="{Binding SelectedPageIndex}"
+                              SelectedItem="{Binding SelectedPage}"/>
     </Grid>
 </Window>

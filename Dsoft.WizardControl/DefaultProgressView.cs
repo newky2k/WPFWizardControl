@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DSoft.WizardControl.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,9 +34,7 @@ namespace Dsoft.WizardControl.WPF
             this.Content = grd;
         }
 
-        public string Title => "Wizard is doing stuff";
-
-        public bool IsHidden => false;
+        public WizardPageConfiguration PageConfig => new WizardPageConfiguration("Wizard is doing stuff");
 
         public List<KeyValuePair<string, object>> Parameters { get => new List<KeyValuePair<string, object>>(); set => Console.WriteLine(""); }
 

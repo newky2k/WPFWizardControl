@@ -1,4 +1,5 @@
 ﻿using Dsoft.WizardControl.WPF;
+using DSoft.WizardControl.Core;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,6 +17,11 @@ namespace Dsoft.WizardControl.WPF
     /// </summary>
     internal class WizardControlViewModel : ViewModel
     {
+        #region Events
+
+        public event EventHandler<IWizardPage> OnSelectedPageChanged = delegate { };
+        public event EventHandler<int> OnSelectedIndexChanged = delegate { };
+        #endregion
         #region Fields
 
         private int mSelectedIndex;
@@ -31,6 +37,7 @@ namespace Dsoft.WizardControl.WPF
         private string _nextButtonTitle;
         private string _previousButtonTitle;
         private WizardStage _currentStage = WizardStage.Setup;
+        private IWizardPage _selectedPage;
 
         #endregion
 
@@ -83,12 +90,26 @@ namespace Dsoft.WizardControl.WPF
             }
             set
             {
-                mSelectedIndex = value;
+                if (mSelectedIndex != value)
+                {
+                    mSelectedIndex = value;
 
-                NotifyPropertyChanged("SelectedIndex");
+                    NotifyPropertyChanged("SelectedIndex");
 
+                    OnSelectedIndexChanged?.Invoke(this, mSelectedIndex);
+                }
             }
         }
+
+        /// <summary>
+        /// Gets the current page
+        /// </summary>
+        public IWizardPage SelectedPage
+        {
+            get { return _selectedPage; }
+            set { _selectedPage = value; NotifyPropertyChanged(nameof(SelectedPage)); OnSelectedPageChanged?.Invoke(this, _selectedPage); }
+        }
+
 
         /// <summary>
         /// Is previous button enabled
@@ -106,7 +127,13 @@ namespace Dsoft.WizardControl.WPF
                         return false;
 
                     default:
-                        return SelectedIndex > 0;
+                        {
+                            if (SelectedPage?.PageConfig?.CanGoBack == false)
+                                return false;
+
+                            return SelectedIndex > 0;
+                        }
+                        
                 }
 
                 
@@ -251,6 +278,8 @@ namespace Dsoft.WizardControl.WPF
                     
                 }
 
+                if (Pages?.Count > 0)
+                    SelectedPage = Pages[0];
 
                 RecalculateNavigation();
             }
@@ -262,7 +291,7 @@ namespace Dsoft.WizardControl.WPF
             {
                 var aDict = new Dictionary<int, IWizardPage>();
 
-                var aPages = Pages.Where(x => x.IsHidden.Equals(false) && (!x.Equals(ProgressPage) && !x.Equals(CompletePage) && !x.Equals(ErrorPage)));
+                var aPages = Pages.Where(x => x.PageConfig.IsHidden.Equals(false) && (!x.Equals(ProgressPage) && !x.Equals(CompletePage) && !x.Equals(ErrorPage)));
 
                 if (aPages.Any())
                 {
@@ -296,7 +325,7 @@ namespace Dsoft.WizardControl.WPF
                 {
                     if (Pages != null && Pages.Count != 0)
                     {
-                        mHeading = Pages[0].Title;
+                        mHeading = Pages[0].PageConfig.Title;
                     }
                     else
                     {
@@ -382,6 +411,19 @@ namespace Dsoft.WizardControl.WPF
                 return (ProcessEnabled) ? Visibility.Visible : Visibility.Collapsed;
             }
            
+        }
+
+        public Visibility ButtonStackVisibility
+        {
+            get
+            {
+                if (SelectedPage != null)
+                {
+                    if (SelectedPage.PageConfig?.HideButtons == true)
+                        return Visibility.Hidden;
+                }
+                return Visibility.Visible;
+            }
         }
 
         public Visibility NextButtonVisibility
@@ -561,13 +603,14 @@ namespace Dsoft.WizardControl.WPF
             {
                 CancelFunction?.Invoke();
             });
+
         }
 
 
         #endregion
 
         #region Methods
-        private void SetPage(int newIndex)
+        internal void SetPage(int newIndex)
         {
             if (newIndex == Pages.IndexOf(ProgressPage))
             {
@@ -587,8 +630,9 @@ namespace Dsoft.WizardControl.WPF
             }
 
             this.SelectedIndex = newIndex;
+            this.SelectedPage = Pages[this.SelectedIndex];
 
-            this.SubTitle = Pages[this.SelectedIndex].Title;
+            this.SubTitle = Pages[this.SelectedIndex].PageConfig.Title;
 
             RecalculateNavigation();
         }
@@ -621,7 +665,7 @@ namespace Dsoft.WizardControl.WPF
             var newIndex = currentIndex - 1;
 
 
-            if (Pages[newIndex].IsHidden)
+            if (Pages[newIndex].PageConfig.IsHidden)
                 return GetPreviousPageIndex(newIndex);
 
             return newIndex;
@@ -634,7 +678,7 @@ namespace Dsoft.WizardControl.WPF
 
             var newIndex = currentIndex + 1;
 
-            if (Pages[newIndex].IsHidden)
+            if (Pages[newIndex].PageConfig.IsHidden)
                 return GetNextPageIndex(newIndex);
 
             return newIndex;
@@ -659,7 +703,9 @@ namespace Dsoft.WizardControl.WPF
             NotifyPropertyChanged(nameof(PreviousButtonVisibility));
             NotifyPropertyChanged(nameof(CancelButtonVisibility));
             NotifyPropertyChanged(nameof(CompleteButtonVisibility));
+            NotifyPropertyChanged(nameof(ButtonStackVisibility));
         }
+
         /// <summary>
         /// Set the Parameters property of the Pages added to be that of this class. ie centralise them to point here.
         /// </summary>

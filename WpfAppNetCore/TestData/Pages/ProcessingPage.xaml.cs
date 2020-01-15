@@ -1,4 +1,5 @@
 ﻿using Dsoft.WizardControl.WPF;
+using DSoft.WizardControl.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,9 +41,11 @@ namespace WpfAppNetCore.TestData.Pages
 
         public string Title => "Wizard is Doing something";
 
-        public List<KeyValuePair<string, object>> Parameters { get => new List<KeyValuePair<string, object>>(); set => Console.WriteLine(""); }
 
-        public bool IsHidden => false;
+        public WizardPageConfiguration PageConfig => new WizardPageConfiguration("Wizard is Doing something"){};
+
+
+        public List<KeyValuePair<string, object>> Parameters { get => new List<KeyValuePair<string, object>>(); set => Console.WriteLine(""); }
 
         public bool Validate()
         {

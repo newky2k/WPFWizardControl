@@ -32,7 +32,7 @@
                         </Style>
                     </TabControl.ItemContainerStyle>
                 </TabControl>
-                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+                <StackPanel x:Name="btnStack" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5" Visibility="{Binding ButtonStackVisibility}">
                     <Button Name="btnPrevious" Content="{Binding PreviousButtonTitle}"  Width="75" Margin="0,0,5,0" IsEnabled="{Binding PreviousEnabled}" Command="{Binding PreviousCommand}" Visibility="{Binding PreviousButtonVisibility}"/>
                     <Button Name="btnNext" Content="{Binding NextButtonTitle}" Width="75" Margin="0,0,5,0" IsEnabled="{Binding NextEnabled}" Command="{Binding NextCommand}" Visibility="{Binding NextButtonVisibility}"/>
                     <Button Name="btnFinish" Content="{Binding ProcessButtonTitle}" Width="75" Margin="0,0,5,0" IsEnabled="{Binding ProcessEnabled}" Command="{Binding ProcessButtonCommand}" Visibility="{Binding ProcessButtonVisibility}" />
