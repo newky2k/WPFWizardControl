@@ -127,7 +127,13 @@ namespace Dsoft.WizardControl.WPF
                         return false;
 
                     default:
-                        return SelectedIndex > 0;
+                        {
+                            if (SelectedPage?.PageConfig?.CanGoBack == false)
+                                return false;
+
+                            return SelectedIndex > 0;
+                        }
+                        
                 }
 
                 
