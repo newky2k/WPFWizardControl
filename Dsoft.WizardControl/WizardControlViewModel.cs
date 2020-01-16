@@ -356,7 +356,16 @@ namespace Dsoft.WizardControl.WPF
 
                 return _progressPage;
             }
-            set { _progressPage = value; NotifyPropertyChanged(nameof(ProgressPage)); }
+            set 
+            { 
+                if (_progressPage != null && _progressPage != value)
+                {
+                    ReplacePage(_progressPage, value);
+                }
+
+                _progressPage = value; 
+                NotifyPropertyChanged(nameof(ProgressPage)); 
+            }
         }
 
         public IWizardPage CompletePage
@@ -368,7 +377,16 @@ namespace Dsoft.WizardControl.WPF
 
                 return _completePage;
             }
-            set { _completePage = value; NotifyPropertyChanged(nameof(CompletePage)); }
+            set 
+            {
+                if (_completePage != null && _completePage != value)
+                {
+                    ReplacePage(_completePage, value);
+                }
+
+                _completePage = value; 
+                NotifyPropertyChanged(nameof(CompletePage)); 
+            }
         }
 
         private IWizardPage _errorPage;
@@ -382,7 +400,16 @@ namespace Dsoft.WizardControl.WPF
 
                 return _errorPage;
             }
-            set { _errorPage = value; NotifyPropertyChanged(nameof(ErrorPage)); }
+            set 
+            {
+                if (_errorPage != null && _errorPage != value)
+                {
+                    ReplacePage(_errorPage, value);
+                }
+
+                _errorPage = value; 
+                NotifyPropertyChanged(nameof(ErrorPage));
+            }
         }
 
 
@@ -722,6 +749,26 @@ namespace Dsoft.WizardControl.WPF
 
         }
 
+        private void ReplacePage(IWizardPage oldPage, IWizardPage newPage)
+        {
+            
+            if (Pages.Contains(oldPage))
+            {
+                if (newPage != null)
+                {
+                    Pages.Insert(Pages.IndexOf(oldPage), newPage);
+                }
+                
+                Pages.Remove(oldPage);
+            }
+            else
+            {
+                if (newPage != null)
+                    Pages.Add(newPage);
+            }
+
+            
+        }
         #endregion
     }
 }
