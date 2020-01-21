@@ -20,11 +20,21 @@ namespace WpfAppNetCore
     /// </summary>
     public partial class MainWindow : Window
     {
+        private MainWindowViewModel _viewModel;
+
+        public MainWindowViewModel ViewModel
+        {
+            get { return _viewModel; }
+            set { _viewModel = value; DataContext = _viewModel; }
+        }
+
         public MainWindow()
         {
             InitializeComponent();
 
-            ((MainWindowViewModel)this.DataContext).OnRequestCloseWindow += OnCloseWindowRequest;
+            ViewModel = new MainWindowViewModel(wzrControl);
+
+            //((MainWindowViewModel)this.DataContext).OnRequestCloseWindow += OnCloseWindowRequest;
         }
 
         private void OnCloseWindowRequest(object sender, bool e)

@@ -41,6 +41,7 @@ namespace WpfAppNetCore.TestData.Pages
                                                 {
                                                     IsHidden = ViewModel.HidePage2,
                                                     HideButtons = true,
+                                                    NavigationHandler = NavigationHandler
                                                 };
 
         public string Title => "Enter the banking information";
@@ -50,6 +51,23 @@ namespace WpfAppNetCore.TestData.Pages
         public bool Validate()
         {
             return true;
+        }
+
+        public void NavigationHandler(DSoft.WizardControl.Core.WizardNavigationEventArgs evts)
+        {
+            switch (evts.Direction)
+            {
+                case NavigationDirection.Backwards:
+                    {
+
+                    }
+                    break;
+                case NavigationDirection.Forward:
+                    {
+
+                    }
+                    break;
+            }
         }
     }
 }

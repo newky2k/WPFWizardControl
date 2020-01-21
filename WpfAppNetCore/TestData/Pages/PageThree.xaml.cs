@@ -50,7 +50,7 @@ namespace WpfAppNetCore.TestData.Pages
             {
                 case NavigationDirection.Backwards:
                     {
-                        evts.Handled = true;
+                        
                     }
                     break;
                 case NavigationDirection.Forward:

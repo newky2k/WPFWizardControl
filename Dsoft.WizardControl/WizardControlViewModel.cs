@@ -550,30 +550,34 @@ namespace Dsoft.WizardControl.WPF
 
             PreviousCommand = new DelegateCommand(() =>
             {
-                if (SelectedIndex == Pages.IndexOf(ErrorPage))
-                {
-                    SetPage(LastActivePageIndex);
-                }
-                else
-                {
-                    var cuItem = this.Pages[SelectedIndex];
+                Navigate(NavigationDirection.Backwards);
 
-                    if (CanNavigate(NavigationDirection.Backwards, cuItem))
-                        SetPage(GetPreviousPageIndex(SelectedIndex));
-                }
+                //if (SelectedIndex == Pages.IndexOf(ErrorPage))
+                //{
+                //    SetPage(LastActivePageIndex);
+                //}
+                //else
+                //{
+                //    var cuItem = this.Pages[SelectedIndex];
+
+                //    if (CanNavigate(NavigationDirection.Backwards, cuItem))
+                //        SetPage(GetPreviousPageIndex(SelectedIndex));
+                //}
                 
 
             });
 
             NextCommand = new DelegateCommand(() =>
             {
-                var cuItem = this.Pages[SelectedIndex];
+                Navigate(NavigationDirection.Forward);
 
-                if (cuItem.Validate())
-                {
-                    if (CanNavigate(NavigationDirection.Forward, cuItem))
-                        SetPage(GetNextPageIndex(SelectedIndex));
-                }
+                //var cuItem = this.Pages[SelectedIndex];
+
+                //if (cuItem.Validate())
+                //{
+                //    if (CanNavigate(NavigationDirection.Forward, cuItem))
+                //        SetPage(GetNextPageIndex(SelectedIndex));
+                //}
 
             });
 
@@ -745,6 +749,7 @@ namespace Dsoft.WizardControl.WPF
 
             return newIndex;
         }
+
         public virtual void DidFinish()
         {
 
@@ -803,6 +808,39 @@ namespace Dsoft.WizardControl.WPF
             }
 
             
+        }
+
+        internal void Navigate(NavigationDirection direction)
+        {
+            switch (direction)
+            {
+                case NavigationDirection.Backwards:
+                    {
+                        if (SelectedIndex == Pages.IndexOf(ErrorPage))
+                        {
+                            SetPage(LastActivePageIndex);
+                        }
+                        else
+                        {
+                            var cuItem = this.Pages[SelectedIndex];
+
+                            if (CanNavigate(NavigationDirection.Backwards, cuItem))
+                                SetPage(GetPreviousPageIndex(SelectedIndex));
+                        }
+                    }
+                    break;
+                case NavigationDirection.Forward:
+                    {
+                        var cuItem = this.Pages[SelectedIndex];
+
+                        if (cuItem.Validate())
+                        {
+                            if (CanNavigate(NavigationDirection.Forward, cuItem))
+                                SetPage(GetNextPageIndex(SelectedIndex));
+                        }
+                    }
+                    break;
+            }
         }
         #endregion
     }
