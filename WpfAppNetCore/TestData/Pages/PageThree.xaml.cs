@@ -35,7 +35,7 @@ namespace WpfAppNetCore.TestData.Pages
             InitializeComponent();
         }
 
-        public WizardPageConfiguration PageConfig => new WizardPageConfiguration("Select the databases") { CanGoBack = false };
+        public WizardPageConfiguration PageConfig => new WizardPageConfiguration("Select the databases") { CanGoBack = true };
 
         public List<KeyValuePair<string, object>> Parameters { get => new List<KeyValuePair<string, object>>(); set => Console.WriteLine(""); }
 
