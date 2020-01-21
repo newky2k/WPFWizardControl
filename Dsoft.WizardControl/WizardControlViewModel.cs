@@ -38,7 +38,7 @@ namespace Dsoft.WizardControl.WPF
         private string _previousButtonTitle;
         private WizardStage _currentStage = WizardStage.Setup;
         private IWizardPage _selectedPage;
-
+        private ProcessMode processMode;
         #endregion
 
         #region Properties
@@ -47,6 +47,12 @@ namespace Dsoft.WizardControl.WPF
         {
             get { return _title; }
             set { _title = value; NotifyPropertyChanged(nameof(Title)); }
+        }
+
+        public ProcessMode ProcessMode
+        {
+            get { return processMode; }
+            set { processMode = value; NotifyPropertyChanged(nameof(ProcessMode)); }
         }
 
         public string ProcessButtonTitle
@@ -178,6 +184,9 @@ namespace Dsoft.WizardControl.WPF
                 if (Pages.Count == 0 || ActivePages.Count == 0)
                     return false;
 
+                if (ProcessMode == ProcessMode.None)
+                    return false;
+
                 switch (_currentStage)
                 {
                     case WizardStage.Working:
@@ -201,6 +210,11 @@ namespace Dsoft.WizardControl.WPF
         {
             get
             {
+                if (ProcessMode == ProcessMode.None)
+                {
+                    if (SelectedIndex == ActivePages.Max(x => x.Key))
+                        return false;
+                }
                 switch (_currentStage)
                 {
                     case WizardStage.Setup:
@@ -212,19 +226,18 @@ namespace Dsoft.WizardControl.WPF
                 }
 
             }
-            //get { return mCancelEnabled; }
-            //set
-            //{
-            //    mCancelEnabled = value;
-
-            //    NotifyPropertyChanged("CancelEnabled");
-            //}
         }
 
         public Boolean CompleteEnabled
         {
             get
             {
+                if (ProcessMode == ProcessMode.None)
+                {
+                    if (SelectedIndex == ActivePages.Max(x => x.Key))
+                        return true;
+                }
+
                 switch (_currentStage)
                 {
                     case WizardStage.Complete:
@@ -426,7 +439,7 @@ namespace Dsoft.WizardControl.WPF
         {
             get
             {
-                return (CancelEnabled) ? Visibility.Visible : Visibility.Hidden;
+                return (CancelEnabled) ? Visibility.Visible : Visibility.Collapsed;
             }
 
         }
@@ -543,7 +556,10 @@ namespace Dsoft.WizardControl.WPF
                 }
                 else
                 {
-                    SetPage(GetPreviousPageIndex(SelectedIndex));
+                    var cuItem = this.Pages[SelectedIndex];
+
+                    if (CanNavigate(NavigationDirection.Backwards, cuItem))
+                        SetPage(GetPreviousPageIndex(SelectedIndex));
                 }
                 
 
@@ -555,7 +571,8 @@ namespace Dsoft.WizardControl.WPF
 
                 if (cuItem.Validate())
                 {
-                    SetPage(GetNextPageIndex(SelectedIndex));
+                    if (CanNavigate(NavigationDirection.Forward, cuItem))
+                        SetPage(GetNextPageIndex(SelectedIndex));
                 }
 
             });
@@ -630,6 +647,24 @@ namespace Dsoft.WizardControl.WPF
             {
                 CancelFunction?.Invoke();
             });
+
+        }
+
+        private bool CanNavigate(NavigationDirection direction, IWizardPage curItem)
+        {
+            if (curItem.PageConfig.NavigationHandler != null)
+            {
+                var evt = new WizardNavigationEventArgs()
+                {
+                    Direction = direction,
+                };
+
+                curItem.PageConfig.NavigationHandler(evt);
+
+                return !evt.Handled;
+            }
+
+            return true;
 
         }
 

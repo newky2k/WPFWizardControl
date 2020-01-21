@@ -29,6 +29,7 @@ namespace Dsoft.WizardControl.WPF
         public readonly static DependencyProperty TitleProperty = DependencyProperty.Register("Title", typeof(string), typeof(WizardControl), new PropertyMetadata(null, OnTitleChanged));
         public readonly static DependencyProperty HeaderTemplateProperty = DependencyProperty.Register("HeaderTemplate", typeof(DataTemplate), typeof(WizardControl), new PropertyMetadata(null, OnHeaderTemplateChanged));
         public readonly static DependencyProperty ButtonStyleProperty = DependencyProperty.Register("ButtonStyle", typeof(Style), typeof(WizardControl), new PropertyMetadata(null, OnButtonStyleChanged));
+        public readonly static DependencyProperty ProcessModeProperty = DependencyProperty.Register("ProcessMode", typeof(ProcessMode), typeof(WizardControl), new PropertyMetadata(ProcessMode.Default, OnProcessModeChanged));
 
         public string Title
         {
@@ -73,6 +74,19 @@ namespace Dsoft.WizardControl.WPF
                 sh.btnPrevious.Style = sh.ButtonStyle;
                 sh.btnComplete.Style = sh.ButtonStyle;
             }
+        }
+
+        public ProcessMode ProcessMode
+        {
+            get { return (ProcessMode)GetValue(ProcessModeProperty); }
+            set { SetValue(TitleProperty, value); }
+        }
+
+        private static void OnProcessModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            WizardControl sh = (WizardControl)d;
+
+            sh._viewModel.ProcessMode = (ProcessMode)e.NewValue;
         }
         #endregion
 
@@ -323,6 +337,7 @@ namespace Dsoft.WizardControl.WPF
             var somePages = Pages;
 
             _viewModel.Title = Title;
+            _viewModel.ProcessMode = ProcessMode;
             _viewModel.ProcessButtonTitle = ProcessButtonTitle;
             _viewModel.CloseButtonTitle = CloseButtonTitle;
             _viewModel.CancelButtonTitle = CancelButtonTitle;

@@ -35,13 +35,30 @@ namespace WpfAppNetCore.TestData.Pages
             InitializeComponent();
         }
 
-        public WizardPageConfiguration PageConfig => new WizardPageConfiguration("Select the databases") { CanGoBack = false };
+        public WizardPageConfiguration PageConfig => new WizardPageConfiguration("Select the databases") { CanGoBack = true, NavigationHandler = NavigationHandler};
 
         public List<KeyValuePair<string, object>> Parameters { get => new List<KeyValuePair<string, object>>(); set => Console.WriteLine(""); }
 
         public bool Validate()
         {
             return true;
+        }
+
+        public void NavigationHandler(DSoft.WizardControl.Core.WizardNavigationEventArgs evts)
+        {
+            switch (evts.Direction)
+            {
+                case NavigationDirection.Backwards:
+                    {
+                        evts.Handled = true;
+                    }
+                    break;
+                case NavigationDirection.Forward:
+                    {
+
+                    }
+                    break;
+            }
         }
     }
 }
