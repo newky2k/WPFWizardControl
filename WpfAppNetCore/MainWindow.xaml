@@ -7,19 +7,17 @@
         xmlns:local="clr-namespace:WpfAppNetCore"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Window.DataContext>
+    <!--<Window.DataContext>
         <local:MainWindowViewModel />
-    </Window.DataContext>
+    </Window.DataContext>-->
     <Grid>
-        <wizard:WizardControl Title="{Binding Title}"  Pages="{Binding Pages}"  ProcessMode="Default"
+        <wizard:WizardControl x:Name="wzrControl" Title="{Binding Title}"  Pages="{Binding Pages}"  ProcessMode="Default"
                               ProcessButtonTitle="Create" CloseButtonTitle="Finish" CancelButtonTitle="Abort" NextButtonTitle="{Binding NextTitle}" PreviousButtonTitle="Back"
                               ProcessingPage="{Binding ProcessPage}" 
                               ErrorPage="{Binding ErrorPage}" 
                               CompletePage="{Binding CompletePage}"
                               ProcessFunction="{Binding ProcessFunction}" 
                               CloseFunction="{Binding CloseFunction}" 
-                              CancelFunction="{Binding CancelFunction}"
-                              SelectedIndex="{Binding SelectedPageIndex}"
-                              SelectedItem="{Binding SelectedPage}"/>
+                              CancelFunction="{Binding CancelFunction}" />
     </Grid>
 </Window>

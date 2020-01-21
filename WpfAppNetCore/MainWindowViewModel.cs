@@ -24,7 +24,6 @@ namespace WpfAppNetCore
         private IWizardPage _errorPage;
         private IWizardPage _processingPage;
         private IWizardPage _selectedPage;
-        private int _selectedPageIndex;
         #endregion
 
         public event EventHandler<bool> OnRequestCloseWindow;
@@ -78,12 +77,6 @@ namespace WpfAppNetCore
             }
         }
 
-        public int SelectedPageIndex
-        {
-            get { return _selectedPageIndex; }
-            set { _selectedPageIndex = value; NotifyPropertyChanged(nameof(SelectedPageIndex)); }
-        }
-
         private string _nextTitle = "Forwards";
 
         public string NextTitle
@@ -135,14 +128,12 @@ namespace WpfAppNetCore
             set { _sharedViewModel = value; }
         }
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(IWizardControl wizard)
         {
             Title = "Create Supplier";
 
-            SharedViewModel = new SharedViewModel(()=>
-            {
-                SelectedPageIndex = _selectedPageIndex + 1;
-            });
+            
+            SharedViewModel = new SharedViewModel(wizard);
 
             CompletePage = new CompletePageView(SharedViewModel);
             ErrorPage = new ErrorPage(SharedViewModel);

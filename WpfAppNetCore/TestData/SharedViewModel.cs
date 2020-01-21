@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DSoft.WizardControl.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Mvvm;
@@ -12,6 +13,7 @@ namespace WpfAppNetCore.TestData
         private string _code;
         private string _bankAccountName;
         private string datbaseName;
+        private IWizardControl _wizardControl;
 
         public string Code
         {
@@ -49,7 +51,7 @@ namespace WpfAppNetCore.TestData
                 {
                     try
                     {
-                        MoveNextAction?.Invoke();
+                        _wizardControl.Navigate(NavigationDirection.Forward);
                     }
                     catch (Exception ex)
                     {
@@ -61,8 +63,10 @@ namespace WpfAppNetCore.TestData
         }
 
 
-        public SharedViewModel()
+        public SharedViewModel(IWizardControl wizard)
         {
+            _wizardControl = wizard;
+
             Code = "Test Code";
             BankAccountName = "STUFF LTD";
             DatabaseName = "Database1";
@@ -78,9 +82,5 @@ namespace WpfAppNetCore.TestData
             //});
         }
 
-        public SharedViewModel(Action moveNextAction) : this()
-        {
-            MoveNextAction = moveNextAction;
-        }
     }
 }
