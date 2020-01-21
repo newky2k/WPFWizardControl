@@ -556,7 +556,10 @@ namespace Dsoft.WizardControl.WPF
                 }
                 else
                 {
-                    SetPage(GetPreviousPageIndex(SelectedIndex));
+                    var cuItem = this.Pages[SelectedIndex];
+
+                    if (CanNavigate(NavigationDirection.Backwards, cuItem))
+                        SetPage(GetPreviousPageIndex(SelectedIndex));
                 }
                 
 
@@ -568,7 +571,8 @@ namespace Dsoft.WizardControl.WPF
 
                 if (cuItem.Validate())
                 {
-                    SetPage(GetNextPageIndex(SelectedIndex));
+                    if (CanNavigate(NavigationDirection.Forward, cuItem))
+                        SetPage(GetNextPageIndex(SelectedIndex));
                 }
 
             });
@@ -643,6 +647,24 @@ namespace Dsoft.WizardControl.WPF
             {
                 CancelFunction?.Invoke();
             });
+
+        }
+
+        private bool CanNavigate(NavigationDirection direction, IWizardPage curItem)
+        {
+            if (curItem.PageConfig.NavigationHandler != null)
+            {
+                var evt = new WizardNavigationEventArgs()
+                {
+                    Direction = direction,
+                };
+
+                curItem.PageConfig.NavigationHandler(evt);
+
+                return !evt.Handled;
+            }
+
+            return true;
 
         }
 

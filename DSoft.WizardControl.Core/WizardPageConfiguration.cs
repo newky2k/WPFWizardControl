@@ -14,6 +14,11 @@ namespace DSoft.WizardControl.Core
 
         public bool HideButtons { get; set; }
 
+        /// <summary>
+        /// Called when the page navigation is occuring
+        /// </summary>
+        public Action<WizardNavigationEventArgs> NavigationHandler { get; set; }
+
         public WizardPageConfiguration()
         {
             CanGoBack = true;
