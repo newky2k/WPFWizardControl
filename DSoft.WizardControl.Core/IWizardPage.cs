@@ -10,8 +10,6 @@ namespace DSoft.WizardControl.Core
     {
         WizardPageConfiguration PageConfig { get; }
 
-        List<KeyValuePair<String, Object>> Parameters { get; set; }
-
         bool Validate();
 
 

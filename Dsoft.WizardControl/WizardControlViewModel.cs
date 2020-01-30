@@ -24,9 +24,7 @@ namespace Dsoft.WizardControl.WPF
         #endregion
         #region Fields
 
-        private int mSelectedIndex;
-        private List<KeyValuePair<String, Object>> mParameters;
-        private String mHeading;
+        private int mSelectedIndex = 0;
         private ObservableCollection<IWizardPage> _pages;
         private IWizardPage _progressPage;
         private IWizardPage _completePage;
@@ -92,6 +90,7 @@ namespace Dsoft.WizardControl.WPF
         {
             get
             {
+                
                 return mSelectedIndex;
             }
             set
@@ -113,7 +112,7 @@ namespace Dsoft.WizardControl.WPF
         public IWizardPage SelectedPage
         {
             get { return _selectedPage; }
-            set { _selectedPage = value; NotifyPropertyChanged(nameof(SelectedPage)); OnSelectedPageChanged?.Invoke(this, _selectedPage); }
+            set { _selectedPage = value; NotifyPropertiesChanged(nameof(SelectedPage), nameof(SubTitle)); OnSelectedPageChanged?.Invoke(this, _selectedPage); }
         }
 
 
@@ -281,14 +280,7 @@ namespace Dsoft.WizardControl.WPF
                         Pages.Add(CompletePage);
 
                     if (!Pages.Contains(ErrorPage))
-                        Pages.Add(ErrorPage);
-
-                    foreach (IWizardPage NewPage in Pages)
-                    {
-                        NewPage.Parameters = mParameters;
-                    }
-
-                    
+                        Pages.Add(ErrorPage);                    
                 }
 
                 if (Pages?.Count > 0)
@@ -318,14 +310,6 @@ namespace Dsoft.WizardControl.WPF
                 return aDict;
             }
         }
-        /// <summary>
-        /// Parameter list for communicating parameters / variables between pages.
-        /// </summary>
-        public List<KeyValuePair<String, Object>> Parameters
-        {
-            get { return mParameters; }
-            set { mParameters = value; }
-        }
 
         /// <summary>
         /// Current heading of the wizard
@@ -334,30 +318,27 @@ namespace Dsoft.WizardControl.WPF
         {
             get
             {
-                if (mHeading == null)
+                if (Pages != null && Pages.Count != 0)
                 {
-                    if (Pages != null && Pages.Count != 0)
-                    {
-                        mHeading = Pages[0].PageConfig.Title;
-                    }
-                    else
-                    {
-                        mHeading = String.Empty;
-                    }
+                    if (SelectedIndex < 0)
+                        return Pages[0].PageConfig.Title;
 
+                    return Pages[SelectedIndex].PageConfig.Title;
                 }
-
-                return mHeading;
-            }
-            set
-            {
-                if (mHeading != value)
+                else
                 {
-                    mHeading = value;
-
-                    NotifyPropertyChanged("SubTitle");
+                    return string.Empty;
                 }
             }
+            //set
+            //{
+            //    if (mHeading != value)
+            //    {
+            //        mHeading = value;
+
+            //        NotifyPropertyChanged("SubTitle");
+            //    }
+            //}
         }
 
         public IWizardPage ProgressPage
@@ -546,7 +527,6 @@ namespace Dsoft.WizardControl.WPF
         {
 
             this.Pages = new ObservableCollection<IWizardPage>();
-            this.Parameters = new List<KeyValuePair<string, object>>();
 
             PreviousCommand = new DelegateCommand(() =>
             {
@@ -698,7 +678,7 @@ namespace Dsoft.WizardControl.WPF
             this.SelectedIndex = newIndex;
             this.SelectedPage = Pages[this.SelectedIndex];
 
-            this.SubTitle = Pages[this.SelectedIndex].PageConfig.Title;
+            //this.SubTitle = Pages[this.SelectedIndex].PageConfig.Title;
 
             RecalculateNavigation();
         }
@@ -757,7 +737,7 @@ namespace Dsoft.WizardControl.WPF
 
         public void RecalculateNavigation()
         {
-
+            NotifyPropertyChanged(nameof(SubTitle));
             NotifyPropertyChanged(nameof(ProcessEnabled));
             NotifyPropertyChanged(nameof(NextEnabled));
             NotifyPropertyChanged(nameof(PreviousEnabled));
@@ -780,13 +760,7 @@ namespace Dsoft.WizardControl.WPF
         /// <param name="e"></param>
         void mPages_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            foreach (IWizardPage NewPage in e.NewItems)
-            {
-                NewPage.Parameters = mParameters;
-            }
-
             RecalculateNavigation();
-
         }
 
         private void ReplacePage(IWizardPage oldPage, IWizardPage newPage)
