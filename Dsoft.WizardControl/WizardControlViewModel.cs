@@ -37,6 +37,7 @@ namespace Dsoft.WizardControl.WPF
         private WizardStage _currentStage = WizardStage.Setup;
         private IWizardPage _selectedPage;
         private ProcessMode processMode;
+        private Dictionary<WizardButtons, Visibility> _buttonVisibility = new Dictionary<WizardButtons, Visibility>();
         #endregion
 
         #region Properties
@@ -411,7 +412,13 @@ namespace Dsoft.WizardControl.WPF
         {
             get
             {
-                return (CompleteEnabled) ? Visibility.Visible : Visibility.Collapsed;
+                if (!CompleteEnabled)
+                    return Visibility.Collapsed;
+
+                if (_buttonVisibility.ContainsKey(WizardButtons.Complete))
+                    return _buttonVisibility[WizardButtons.Complete];
+
+                return Visibility.Visible;
             }
 
         }
@@ -420,7 +427,13 @@ namespace Dsoft.WizardControl.WPF
         {
             get
             {
-                return (CancelEnabled) ? Visibility.Visible : Visibility.Collapsed;
+                if (!CancelEnabled)
+                    return Visibility.Collapsed;
+
+                if (_buttonVisibility.ContainsKey(WizardButtons.Cancel))
+                    return _buttonVisibility[WizardButtons.Cancel];
+
+                return Visibility.Visible;
             }
 
         }
@@ -429,7 +442,13 @@ namespace Dsoft.WizardControl.WPF
         {
             get
             {
-                return (ProcessEnabled) ? Visibility.Visible : Visibility.Collapsed;
+                if (!ProcessEnabled)
+                    return Visibility.Collapsed;
+
+                if (_buttonVisibility.ContainsKey(WizardButtons.Process))
+                    return _buttonVisibility[WizardButtons.Process];
+
+                return Visibility.Visible;
             }
            
         }
@@ -438,6 +457,9 @@ namespace Dsoft.WizardControl.WPF
         {
             get
             {
+                if (_buttonVisibility.ContainsKey(WizardButtons.All))
+                    return _buttonVisibility[WizardButtons.All];
+
                 if (SelectedPage != null)
                 {
                     if (SelectedPage.PageConfig?.HideButtons == true)
@@ -449,13 +471,32 @@ namespace Dsoft.WizardControl.WPF
 
         public Visibility NextButtonVisibility
         {
-            get { return (NextEnabled) ? Visibility.Visible : Visibility.Collapsed; }
+            get 
+            {
+                if (!NextEnabled)
+                    return Visibility.Collapsed;
+
+                if (_buttonVisibility.ContainsKey(WizardButtons.Next))
+                    return _buttonVisibility[WizardButtons.Next];
+
+                return Visibility.Visible;
+            }
 
         }
 
         public Visibility PreviousButtonVisibility
         {
-            get { return (PreviousEnabled) ? Visibility.Visible : Visibility.Collapsed; }
+            get 
+            {
+                if (!PreviousEnabled)
+                    return Visibility.Collapsed;
+
+                if (_buttonVisibility.ContainsKey(WizardButtons.Previous))
+                    return _buttonVisibility[WizardButtons.Previous];
+
+                return Visibility.Visible;
+
+            }
 
         }
 
@@ -567,8 +608,8 @@ namespace Dsoft.WizardControl.WPF
 
                 if (cuItem.Validate())
                 {
-
-                    IsBusy = true;
+                    if (CanNavigate(NavigationDirection.Forward, cuItem))
+                        IsBusy = true;
 
                     Task.Run(async () =>
                     {
@@ -609,10 +650,6 @@ namespace Dsoft.WizardControl.WPF
 
                         
                     });
-
-                    
-
-                    
 
                     //
 
@@ -679,6 +716,8 @@ namespace Dsoft.WizardControl.WPF
             this.SelectedPage = Pages[this.SelectedIndex];
 
             //this.SubTitle = Pages[this.SelectedIndex].PageConfig.Title;
+            //reset the visiblity when navigating betweek pages
+            _buttonVisibility.Clear();
 
             RecalculateNavigation();
         }
@@ -816,6 +855,35 @@ namespace Dsoft.WizardControl.WPF
                     break;
             }
         }
+
+        internal void UpdateButtonVisibility(WizardButtonVisibility visibility, params WizardButtons[] buttons)
+        {
+            if (buttons == null || buttons.Length == 0)
+            {
+                _buttonVisibility.Clear();
+            }
+            else
+            {
+                var realVisibilty = (visibility == WizardButtonVisibility.Visible) ? Visibility.Visible : Visibility.Collapsed;
+                foreach (var button in buttons)
+                {
+                    //if all buttons use hide not collapsed when hiding all buttons
+                    realVisibilty = (button == WizardButtons.All && visibility == WizardButtonVisibility.Hidden) ? Visibility.Hidden : realVisibilty;
+
+                    if (_buttonVisibility.ContainsKey(button))
+                    {
+                        _buttonVisibility[button] = realVisibilty;
+                    }
+                    else
+                    {
+                        _buttonVisibility.Add(button, realVisibilty);
+                    }
+                }
+            }
+
+            RecalculateNavigation();
+        }
+
         #endregion
     }
 }
