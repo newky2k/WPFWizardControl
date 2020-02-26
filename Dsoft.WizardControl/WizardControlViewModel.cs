@@ -22,6 +22,7 @@ namespace Dsoft.WizardControl.WPF
         public event EventHandler<IWizardPage> OnSelectedPageChanged = delegate { };
         public event EventHandler<int> OnSelectedIndexChanged = delegate { };
         #endregion
+
         #region Fields
 
         private int mSelectedIndex = 0;
