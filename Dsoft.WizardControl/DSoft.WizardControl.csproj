@@ -22,7 +22,7 @@
     <Copyright>Copyright © 2019 DSoft</Copyright>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="DSoft.System.Mvvm" Version="1.2.1911.261" />
+    <PackageReference Include="DSoft.System.Mvvm" Version="1.2.2002.171" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="3.1.0" />

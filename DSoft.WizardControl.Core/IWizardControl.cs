@@ -7,5 +7,7 @@ namespace DSoft.WizardControl.Core
     public interface IWizardControl
     {
         void Navigate(NavigationDirection direction);
+
+        void SetButtonVisibility(WizardButtonVisibility visibility, params WizardButtons[] buttons);
     }
 }

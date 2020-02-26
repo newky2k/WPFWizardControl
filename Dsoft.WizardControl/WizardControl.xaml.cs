@@ -260,42 +260,6 @@ namespace Dsoft.WizardControl.WPF
 
         #endregion
 
-        //#region Selection
-
-
-        //public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register("SelectedItem", typeof(IWizardPage), typeof(WizardControl), new FrameworkPropertyMetadata(null,
-        //    FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-        //    OnSelectedItemChanged));
-
-        //public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register("SelectedIndex", typeof(int), typeof(WizardControl), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnSelectedIndexChanged));
-
-        //public IWizardPage SelectedItem
-        //{
-        //    get { return (IWizardPage)GetValue(SelectedItemProperty); }
-        //    set { SetValue(SelectedItemProperty, value); }
-        //}
-
-        //public int SelectedIndex
-        //{
-        //    get { return (int)GetValue(SelectedIndexProperty); }
-        //    set { SetValue(SelectedIndexProperty, value); }
-        //}
-
-        //private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        //{
-        //    WizardControl sh = (WizardControl)d;
-        //    //sh._viewModel.CancelFunction = (Action)e.NewValue;
-        //}
-
-        //private static void OnSelectedIndexChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        //{
-        //    WizardControl sh = (WizardControl)d;
-
-        //    if (sh._viewModel.SelectedIndex != (int)e.NewValue)
-        //        sh._viewModel.SetPage((int)e.NewValue);
-        //}
-
-        //#endregion
         public WizardControl()
         {
             InitializeComponent();
@@ -304,21 +268,12 @@ namespace Dsoft.WizardControl.WPF
             _viewModel = (WizardControlViewModel)rootGrid.DataContext;
 
             _viewModel.OnIsBusyChanged += OnIsBusyChanged;
-
-            //_viewModel.OnSelectedPageChanged += OnSelectedPageChanged;
-            //_viewModel.OnSelectedIndexChanged += OnSelectedIndexChanged;
         }
 
         ~WizardControl()
         {
             _viewModel.OnIsBusyChanged -= OnIsBusyChanged;
-            //_viewModel.OnSelectedPageChanged -= OnSelectedPageChanged;
-            //_viewModel.OnSelectedIndexChanged -= OnSelectedIndexChanged;
         }
-
-        //private void OnSelectedIndexChanged(object sender, int e) => this.Dispatcher.Invoke((Action)(() => this.SelectedIndex = e));
-
-        //private void OnSelectedPageChanged(object sender, IWizardPage e) => this.Dispatcher.Invoke((Action)(() => this.SelectedItem = e));
 
         private void OnIsBusyChanged(object sender, bool isbusy)
         {
@@ -369,6 +324,8 @@ namespace Dsoft.WizardControl.WPF
             }
         }
 
+        #region IWizardControl members
+
         /// <summary>
         /// 
         /// </summary>
@@ -377,5 +334,13 @@ namespace Dsoft.WizardControl.WPF
         {
             _viewModel.Navigate(direction);
         }
+
+        public void SetButtonVisibility(WizardButtonVisibility visibility, params WizardButtons[] buttons)
+        {
+            _viewModel.UpdateButtonVisibility(visibility, buttons);
+        }
+
+        #endregion
+
     }
 }
