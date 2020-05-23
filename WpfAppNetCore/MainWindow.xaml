@@ -11,7 +11,7 @@
         <local:MainWindowViewModel />
     </Window.DataContext>-->
     <Grid>
-        <wizard:WizardControl x:Name="wzrControl" Title="{Binding Title}"  Pages="{Binding Pages}"  ProcessMode="Default"
+        <wizard:WizardControl x:Name="wzrControl" Title="{Binding Title}"  Pages="{Binding Pages}"  ProcessMode="None"
                               ProcessButtonTitle="Create" CloseButtonTitle="Finish" CancelButtonTitle="Abort" NextButtonTitle="{Binding NextTitle}" PreviousButtonTitle="Back"
                               ProcessingPage="{Binding ProcessPage}" 
                               ErrorPage="{Binding ErrorPage}" 

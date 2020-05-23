@@ -29,6 +29,7 @@ namespace Dsoft.WizardControl.WPF
         private ObservableCollection<IWizardPage> _pages;
         private IWizardPage _progressPage;
         private IWizardPage _completePage;
+        private IWizardPage _errorPage;
         private string _title;
         private string _closeButtonTitle;
         private string _processButtonTitle;
@@ -42,6 +43,8 @@ namespace Dsoft.WizardControl.WPF
         #endregion
 
         #region Properties
+
+        internal IWizardControl WizardControl { get; set; }
 
         public string Title
         {
@@ -116,7 +119,6 @@ namespace Dsoft.WizardControl.WPF
             get { return _selectedPage; }
             set { _selectedPage = value; NotifyPropertiesChanged(nameof(SelectedPage), nameof(SubTitle)); OnSelectedPageChanged?.Invoke(this, _selectedPage); }
         }
-
 
         /// <summary>
         /// Is previous button enabled
@@ -394,8 +396,6 @@ namespace Dsoft.WizardControl.WPF
             }
         }
 
-        private IWizardPage _errorPage;
-
         public IWizardPage ErrorPage
         {
             get
@@ -417,16 +417,19 @@ namespace Dsoft.WizardControl.WPF
             }
         }
 
+        #region Visibility
 
+        
         public Visibility CompleteButtonVisibility
         {
             get
             {
-                if (!CompleteEnabled)
-                    return Visibility.Collapsed;
 
                 if (_buttonVisibility.ContainsKey(WizardButtons.Complete))
                     return _buttonVisibility[WizardButtons.Complete];
+
+                if (!CompleteEnabled)
+                    return Visibility.Collapsed;
 
                 return Visibility.Visible;
             }
@@ -437,11 +440,11 @@ namespace Dsoft.WizardControl.WPF
         {
             get
             {
-                if (!CancelEnabled)
-                    return Visibility.Collapsed;
-
                 if (_buttonVisibility.ContainsKey(WizardButtons.Cancel))
                     return _buttonVisibility[WizardButtons.Cancel];
+
+                if (!CancelEnabled)
+                    return Visibility.Collapsed;
 
                 return Visibility.Visible;
             }
@@ -509,6 +512,8 @@ namespace Dsoft.WizardControl.WPF
             }
 
         }
+
+        #endregion
 
         #region Commands
 
@@ -601,15 +606,6 @@ namespace Dsoft.WizardControl.WPF
             NextCommand = new DelegateCommand(() =>
             {
                 Navigate(NavigationDirection.Forward);
-
-                //var cuItem = this.Pages[SelectedIndex];
-
-                //if (cuItem.Validate())
-                //{
-                //    if (CanNavigate(NavigationDirection.Forward, cuItem))
-                //        SetPage(GetNextPageIndex(SelectedIndex));
-                //}
-
             });
 
             ProcessButtonCommand = new DelegateCommand(() => 
@@ -725,9 +721,9 @@ namespace Dsoft.WizardControl.WPF
             this.SelectedIndex = newIndex;
             this.SelectedPage = Pages[this.SelectedIndex];
 
-            //this.SubTitle = Pages[this.SelectedIndex].PageConfig.Title;
-            //reset the visiblity when navigating betweek pages
             _buttonVisibility.Clear();
+
+            this.SelectedPage.PageConfig.OnPageShownHandler?.Invoke(WizardControl);
 
             RecalculateNavigation();
         }

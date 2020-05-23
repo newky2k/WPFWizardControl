@@ -264,8 +264,8 @@ namespace Dsoft.WizardControl.WPF
         {
             InitializeComponent();
 
-
             _viewModel = (WizardControlViewModel)rootGrid.DataContext;
+            _viewModel.WizardControl = this;
 
             _viewModel.OnIsBusyChanged += OnIsBusyChanged;
         }
@@ -342,5 +342,9 @@ namespace Dsoft.WizardControl.WPF
 
         #endregion
 
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            _viewModel.SelectedPage?.PageConfig?.OnPageShownHandler?.Invoke(this);
+        }
     }
 }
