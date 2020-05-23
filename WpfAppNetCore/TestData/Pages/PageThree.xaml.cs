@@ -35,7 +35,7 @@ namespace WpfAppNetCore.TestData.Pages
             InitializeComponent();
         }
 
-        public WizardPageConfiguration PageConfig => new WizardPageConfiguration("Select the databases") { CanGoBack = true, NavigationHandler = NavigationHandler};
+        public WizardPageConfiguration PageConfig => new WizardPageConfiguration("Select the databases") { CanGoBack = true, NavigationHandler = NavigationHandler, OnPageShownHandler = OnShown};
 
         public List<KeyValuePair<string, object>> Parameters { get => new List<KeyValuePair<string, object>>(); set => Console.WriteLine(""); }
 
@@ -59,6 +59,12 @@ namespace WpfAppNetCore.TestData.Pages
                     }
                     break;
             }
+        }
+
+        public void OnShown(IWizardControl wizard)
+        {
+            wizard.SetButtonVisibility(WizardButtonVisibility.Hidden, WizardButtons.Process, WizardButtons.Cancel, WizardButtons.Previous);
+            wizard.SetButtonVisibility(WizardButtonVisibility.Visible, WizardButtons.Complete);
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)

@@ -19,6 +19,8 @@ namespace DSoft.WizardControl.Core
         /// </summary>
         public Action<WizardNavigationEventArgs> NavigationHandler { get; set; }
 
+        public Action<IWizardControl> OnPageShownHandler { get; set; }
+
         public WizardPageConfiguration()
         {
             CanGoBack = true;

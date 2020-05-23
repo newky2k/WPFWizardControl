@@ -24,7 +24,7 @@ namespace WpfAppNetCore.TestData.Pages
     {
 
         private SharedViewModel _viewModel;
-
+        private IWizardControl _wizardControl;
 
         public SharedViewModel ViewModel
         {
@@ -32,16 +32,24 @@ namespace WpfAppNetCore.TestData.Pages
             set { _viewModel = value; DataContext = _viewModel; }
         }
 
-        public PageOne(SharedViewModel viewModel)
+        public PageOne(SharedViewModel viewModel, IWizardControl wizardControl)
         {
             InitializeComponent();
 
             ViewModel = viewModel;
+
+            _wizardControl = wizardControl;
         }
 
-        public WizardPageConfiguration PageConfig => new WizardPageConfiguration("Enter the accounts information");
+        public WizardPageConfiguration PageConfig => new WizardPageConfiguration("Enter the accounts information"){OnPageShownHandler = OnShown};
 
         public List<KeyValuePair<string, object>> Parameters { get => new List<KeyValuePair<string, object>>(); set => Console.WriteLine(""); }
+
+        public void OnShown(IWizardControl wizard)
+        {
+            //wizard.SetButtonVisibility(WizardButtonVisibility.Hidden, WizardButtons.All);
+
+        }
 
         public bool Validate()
         {

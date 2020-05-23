@@ -141,11 +141,11 @@ namespace WpfAppNetCore
 
             Pages = new ObservableCollection<IWizardPage>()
             {
-                new PageOne(SharedViewModel),
-                new PageTwo()
-                {
-                    ViewModel = SharedViewModel,
-                },
+                new PageOne(SharedViewModel, wizard),
+                //new PageTwo()
+                //{
+                //    ViewModel = SharedViewModel,
+                //},
                 new PageThree()
                 {
                     ViewModel = SharedViewModel,
