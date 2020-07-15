@@ -4,9 +4,10 @@ using System.Text;
 
 namespace DSoft.WizardControl.Core
 {
-    public enum WizardButtonVisibility
+    public enum WizardButtonVisibility : byte
     {
-        Visible,
-        Hidden,
+        Visible = 0,
+        Hidden = 1,
+        Collapsed = 2,
     }
 }

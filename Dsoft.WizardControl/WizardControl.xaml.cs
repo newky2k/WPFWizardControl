@@ -335,9 +335,15 @@ namespace Dsoft.WizardControl.WPF
             _viewModel.Navigate(direction);
         }
 
-        public void SetButtonVisibility(WizardButtonVisibility visibility, params WizardButtons[] buttons)
+        public void UpdateButtonVisibility(WizardButtonVisibility visibility, params WizardButtons[] buttons)
         {
             _viewModel.UpdateButtonVisibility(visibility, buttons);
+        }
+
+        [Obsolete("Use UpdateButtonVisibility instead")]
+        public void SetButtonVisibility(WizardButtonVisibility visibility, params WizardButtons[] buttons)
+        {
+            _viewModel.UpdateButtonVisibilityOld(visibility, buttons);
         }
 
         #endregion
