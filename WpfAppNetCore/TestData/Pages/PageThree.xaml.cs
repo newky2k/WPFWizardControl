@@ -63,8 +63,8 @@ namespace WpfAppNetCore.TestData.Pages
 
         public void OnShown(IWizardControl wizard)
         {
-            wizard.SetButtonVisibility(WizardButtonVisibility.Hidden, WizardButtons.Process, WizardButtons.Cancel, WizardButtons.Previous);
-            wizard.SetButtonVisibility(WizardButtonVisibility.Visible, WizardButtons.Complete);
+            wizard.UpdateButtonVisibility(WizardButtonVisibility.Hidden, WizardButtons.Process, WizardButtons.Cancel, WizardButtons.Previous);
+            wizard.UpdateButtonVisibility(WizardButtonVisibility.Visible, WizardButtons.Complete);
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
