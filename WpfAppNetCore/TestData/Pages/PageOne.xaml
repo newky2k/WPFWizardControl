@@ -10,6 +10,7 @@
             <TextBlock>Code</TextBlock>
             <TextBox Text="{Binding Code, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
             <CheckBox IsChecked="{Binding HidePage2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">Hide Page 2</CheckBox>
+            <Button Content="Finish" Command="{Binding SetFinishCommand}" />
         </StackPanel>
     </Grid>
 </UserControl>

@@ -285,6 +285,8 @@ namespace Dsoft.WizardControl.WPF
 
         }
 
+        public List<IWizardPage> AvailablePages => Pages?.ToList();
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -340,17 +342,21 @@ namespace Dsoft.WizardControl.WPF
             _viewModel.UpdateButtonVisibility(visibility, buttons);
         }
 
-        [Obsolete("Use UpdateButtonVisibility instead")]
-        public void SetButtonVisibility(WizardButtonVisibility visibility, params WizardButtons[] buttons)
-        {
-            _viewModel.UpdateButtonVisibilityOld(visibility, buttons);
-        }
-
         #endregion
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             _viewModel.SelectedPage?.PageConfig?.OnPageShownHandler?.Invoke(this);
+        }
+
+        public void UpdateStage(WizardStage stage)
+        {
+            _viewModel.UpdateStage(stage);
+        }
+
+        public void RecalculateNavigation()
+        {
+            _viewModel.RecalculateNavigation();
         }
     }
 }
