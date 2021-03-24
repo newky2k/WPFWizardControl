@@ -38,7 +38,7 @@ namespace WpfAppNetCore.TestData
         public bool HidePage2
         {
             get { return _hidePage2; }
-            set { _hidePage2 = value; NotifyPropertyChanged(nameof(HidePage2)); }
+            set { _hidePage2 = value; NotifyPropertyChanged(nameof(HidePage2)); _wizardControl.RecalculateNavigation(); }
         }
 
         public Action MoveNextAction { get; set; }

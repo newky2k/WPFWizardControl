@@ -862,49 +862,6 @@ namespace Dsoft.WizardControl.WPF
             }
         }
 
-        internal void UpdateButtonVisibilityOld(WizardButtonVisibility visibility, params WizardButtons[] buttons)
-        {
-            if (buttons == null || buttons.Length == 0)
-            {
-                _buttonVisibility.Clear();
-            }
-            else
-            {
-                //set the default hidden mode to collapsed(so that the buttons bunch up)
-                var hiddenMode = Visibility.Collapsed;
-
-                //create a local copy of the buttons array
-                var localButtons = new List<WizardButtons>(buttons);
-
-                //if the buttons array conatains WizardButtons.All, rebuild the localbuttons variable all the buttons.  TODO:// This could be update to loop through the Enum instead of being hardcoded
-                if (buttons.Contains(WizardButtons.All))
-                {
-                    localButtons = new List<WizardButtons>() { WizardButtons.Cancel, WizardButtons.Complete, WizardButtons.Next, WizardButtons.Previous, WizardButtons.Process };
-
-                    //if we are explicitly hiding all the buttons then set then use hidden instead of collapsed
-                    hiddenMode = Visibility.Hidden;
-                }
-
-                var realVisibilty = (visibility == WizardButtonVisibility.Visible) ? Visibility.Visible : hiddenMode;
-
-                //loop through all the buttons
-                foreach (var button in localButtons)
-                {
-                    //if all buttons use hide not collapsed when hiding all buttons
-                    if (_buttonVisibility.ContainsKey(button))
-                    {
-                        _buttonVisibility[button] = realVisibilty;
-                    }
-                    else
-                    {
-                        _buttonVisibility.Add(button, realVisibilty);
-                    }
-                }
-            }
-
-            RecalculateNavigation();
-        }
-
         internal void UpdateButtonVisibility(WizardButtonVisibility visibility, params WizardButtons[] buttons)
         {
             if (buttons == null || buttons.Length == 0)
@@ -939,6 +896,13 @@ namespace Dsoft.WizardControl.WPF
                     }
                 }
             }
+
+            RecalculateNavigation();
+        }
+
+        internal void UpdateStage(WizardStage stage)
+        {
+            _currentStage = stage;
 
             RecalculateNavigation();
         }
