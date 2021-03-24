@@ -5,6 +5,7 @@ using System.Linq;
 using System.Mvvm;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace WpfAppNetCore.TestData
 {
@@ -43,7 +44,7 @@ namespace WpfAppNetCore.TestData
 
         public Action MoveNextAction { get; set; }
 
-        public System.Windows.Input.ICommand MoveNextPageCommand
+        public ICommand MoveNextPageCommand
         {
             get
             {
@@ -58,6 +59,17 @@ namespace WpfAppNetCore.TestData
 
                         NotifyErrorOccured(ex);
                     }
+                });
+            }
+        }
+
+       public ICommand SetFinishCommand
+        {
+            get
+            {
+                return new DelegateCommand(() =>
+                {
+                    _wizardControl.UpdateStage(WizardStage.Complete);
                 });
             }
         }
