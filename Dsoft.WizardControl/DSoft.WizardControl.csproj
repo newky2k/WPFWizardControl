@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <TargetFrameworks>net461;netcoreapp3.0</TargetFrameworks>
+    <TargetFrameworks>net461;netcoreapp3.0;net5.0-windows7</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -16,16 +16,12 @@
     <RepositoryUrl>https://github.com/newky2k/WPFWizardControl</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <PackageTags>WPF Wizard</PackageTags>
-    <PackageReleaseNotes>Updated to Microsoft.Windows.Compatibility to 3.1.0 and latest DSoft.System.Mvvm
-    Fixed build issues
+    <PackageReleaseNotes>Removed Microsoft.Windows.Compatibility and added .NET 5.x support
     </PackageReleaseNotes>
     <Copyright>Copyright © 2019 DSoft</Copyright>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="DSoft.System.Mvvm" Version="1.2.2002.171" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
-    <PackageReference Include="Microsoft.Windows.Compatibility" Version="3.1.0" />
+    <PackageReference Include="DSoft.System.Mvvm" Version="2.3.2105.221" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DSoft.WizardControl.Core\DSoft.WizardControl.Core.csproj" />
