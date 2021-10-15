@@ -1,0 +1,69 @@
+﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
+
+  <PropertyGroup>
+    <TargetFrameworks>uap10.0.17763;net5.0-windows10.0.18362</TargetFrameworks>
+    <RootNamespace>DSoft.WizardControl</RootNamespace>
+    <AssemblyName>DSoft.WizardControl</AssemblyName>
+    <Product>$(AssemblyName) ($(TargetFramework))</Product>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <Configurations>Debug;Release</Configurations>
+    <EnableDefaultPageItems>false</EnableDefaultPageItems>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" $(TargetFramework.StartsWith('net5.0-windows10')) ">
+    <UseWinUI>true</UseWinUI>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64;win10-arm</RuntimeIdentifiers>
+    <DefineConstants>$(DefineConstants);WINUI</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) ">
+    <DefineConstants>$(DefineConstants);UAP</DefineConstants>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <Compile Include="**\*.shared.cs" />
+    <Compile Include="**\*.shared.*.cs" />
+  </ItemGroup>
+  
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('net5.0-windows10')) ">
+      <PackageReference Include="Microsoft.ProjectReunion" Version="0.8.4" />
+      <PackageReference Include="Microsoft.ProjectReunion.Foundation" Version="0.8.4" />
+      <PackageReference Include="Microsoft.ProjectReunion.WinUI" Version="0.8.4" />
+
+    <Compile Include="**\*.winui.cs" />
+    <Compile Include="**\*.winui.*.cs" />
+
+    <Page Include="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    
+  </ItemGroup>
+
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) ">
+
+    <Compile Include="**\*.uwp.cs" />
+    <Compile Include="**\*.uwp.*.cs" />
+
+    <Page Include="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Themes\Generic.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="WizardControl.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DSoft.WizardControl.Core\DSoft.WizardControl.Core.csproj" />
+  </ItemGroup>
+
+</Project>
