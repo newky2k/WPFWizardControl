@@ -140,14 +140,14 @@ namespace UWPSample
             Pages = new ObservableCollection<IWizardPage>()
             {
                 new PageOne(SharedViewModel, wizard),
-                //new PageTwo()
-                //{
-                //    ViewModel = SharedViewModel,
-                //},
-                //new PageThree()
-                //{
-                //    ViewModel = SharedViewModel,
-                //},
+                new PageTwo()
+                {
+                    ViewModel = SharedViewModel,
+                },
+                new PageThree()
+                {
+                    ViewModel = SharedViewModel,
+                },
             };
         }
 

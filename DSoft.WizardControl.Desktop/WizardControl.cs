@@ -71,8 +71,6 @@ namespace DSoft.WizardControl
             }
         }
 
-
-
         public DataTemplate HeaderTemplate
         {
             get
