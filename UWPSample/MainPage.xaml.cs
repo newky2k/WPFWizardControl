@@ -22,9 +22,19 @@ namespace UWPSample
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private MainWindowViewModel _viewModel;
+
+        public MainWindowViewModel ViewModel
+        {
+            get { return _viewModel; }
+            set { _viewModel = value; DataContext = _viewModel; }
+        }
+
         public MainPage()
         {
             this.InitializeComponent();
+
+            ViewModel = new MainWindowViewModel(wzrControl);
         }
     }
 }

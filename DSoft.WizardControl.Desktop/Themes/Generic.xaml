@@ -29,12 +29,19 @@
                                                ContentTemplate="{TemplateBinding HeaderTemplate}"/>
                         </Grid>
 
-                        <Pivot Grid.Row="1" Background="Transparent" ItemsSource="{TemplateBinding Pages}" SelectedIndex="{TemplateBinding SelectedIndex}">
+                        <Pivot Grid.Row="1" Background="Red" ItemsSource="{TemplateBinding Pages}" SelectedIndex="{TemplateBinding SelectedIndex}" Width="500" Height="500" >
                             <Pivot.ItemContainerStyle>
                                 <Style TargetType="PivotItem">
                                     <Setter Property="Visibility" Value="Collapsed" />
                                 </Style>
                             </Pivot.ItemContainerStyle>
+                            <Pivot.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <ContentPresenter />
+                                    </Grid>
+                                </DataTemplate>
+                            </Pivot.ItemTemplate>
                         </Pivot>
 
                         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5" >

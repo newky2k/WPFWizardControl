@@ -16,13 +16,42 @@ using Microsoft.UI.Xaml;
 
 namespace DSoft.WizardControl
 {
-    public class WizardControl : Control
+    public class WizardControl : Control, IWizardControl
     {
-        #region Dependecy Properties
+        public readonly static DependencyProperty TitleProperty = DependencyProperty.Register("Title", typeof(string), typeof(WizardControl), new PropertyMetadata(null, OnTitleChanged));
+        public readonly static DependencyProperty ProcessModeProperty = DependencyProperty.Register("ProcessMode", typeof(ProcessMode), typeof(WizardControl), new PropertyMetadata(ProcessMode.Default, OnProcessModeChanged));
+
+        public string Title
+        {
+            get { return (string)GetValue(TitleProperty); }
+            set { SetValue(TitleProperty, value); }
+        }
+
+        private static void OnTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            WizardControl sh = (WizardControl)d;
+            //sh._viewModel.Title = (string)e.NewValue;
+        }
+
+
+        public ProcessMode ProcessMode
+        {
+            get { return (ProcessMode)GetValue(ProcessModeProperty); }
+            set { SetValue(TitleProperty, value); }
+        }
+
+        private static void OnProcessModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            WizardControl sh = (WizardControl)d;
+
+         //   sh._viewModel.ProcessMode = (ProcessMode)e.NewValue;
+        }
+
+        #region Header
 
         public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header), typeof(object), typeof(WizardControl), new PropertyMetadata(null, OnHeaderChanged));
         public static readonly DependencyProperty HeaderTemplateProperty = DependencyProperty.Register(nameof(HeaderTemplate), typeof(DataTemplate), typeof(WizardControl), new PropertyMetadata(null));
-        public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(nameof(SelectedIndex), typeof(int), typeof(WizardControl), new PropertyMetadata(null));
+
 
         /// <summary>
         ///     Gets or sets the spacing.
@@ -42,17 +71,7 @@ namespace DSoft.WizardControl
             }
         }
 
-        public int SelectedIndex
-        {
-            get
-            {
-                return (int)this.GetValue(SelectedIndexProperty);
-            }
-            set
-            {
-                this.SetValue(SelectedIndexProperty, value);
-            }
-        }
+
 
         public DataTemplate HeaderTemplate
         {
@@ -69,10 +88,23 @@ namespace DSoft.WizardControl
         #endregion
 
         #region Pages
+        public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(nameof(SelectedIndex), typeof(int), typeof(WizardControl), new PropertyMetadata(null));
         public static readonly DependencyProperty PagesProperty = DependencyProperty.Register("Pages", typeof(ObservableCollection<IWizardPage>), typeof(WizardControl), new PropertyMetadata(new ObservableCollection<IWizardPage>(), OnPagesChanged));
         public static readonly DependencyProperty ProcessingPageProperty = DependencyProperty.Register("ProcessingPage", typeof(IWizardPage), typeof(WizardControl), new PropertyMetadata(null, OnProcessingPageChanged));
         public static readonly DependencyProperty CompletePageProperty = DependencyProperty.Register("CompletePage", typeof(IWizardPage), typeof(WizardControl), new PropertyMetadata(null, OnCompletePageChanged));
         public static readonly DependencyProperty ErrorPageProperty = DependencyProperty.Register("ErrorPage", typeof(IWizardPage), typeof(WizardControl), new PropertyMetadata(null, OnErrorPageChanged));
+
+        public int SelectedIndex
+        {
+            get
+            {
+                return (int)this.GetValue(SelectedIndexProperty);
+            }
+            set
+            {
+                this.SetValue(SelectedIndexProperty, value);
+            }
+        }
 
         public ObservableCollection<IWizardPage> Pages
         {
@@ -194,17 +226,17 @@ namespace DSoft.WizardControl
         }
         #endregion
 
-        #region MyRegion
+        #region Buttons
 
-        public static readonly DependencyProperty PreviousEnabledProperty = DependencyProperty.Register(nameof(PreviousEnabled), typeof(bool), typeof(WizardControl), new PropertyMetadata(null));
-        public static readonly DependencyProperty NextEnabledProperty = DependencyProperty.Register(nameof(NextEnabled), typeof(bool), typeof(WizardControl), new PropertyMetadata(null));
-        public static readonly DependencyProperty ProcessEnabledProperty = DependencyProperty.Register(nameof(ProcessEnabled), typeof(bool), typeof(WizardControl), new PropertyMetadata(null));
-        public static readonly DependencyProperty CancelEnabledProperty = DependencyProperty.Register(nameof(CancelEnabled), typeof(bool), typeof(WizardControl), new PropertyMetadata(null));
-        public static readonly DependencyProperty CompleteEnabledProperty = DependencyProperty.Register(nameof(CompleteEnabled), typeof(bool), typeof(WizardControl), new PropertyMetadata(null));
+        private static readonly DependencyProperty PreviousEnabledProperty = DependencyProperty.Register(nameof(PreviousEnabled), typeof(bool), typeof(WizardControl), new PropertyMetadata(null));
+        private static readonly DependencyProperty NextEnabledProperty = DependencyProperty.Register(nameof(NextEnabled), typeof(bool), typeof(WizardControl), new PropertyMetadata(null));
+        private static readonly DependencyProperty ProcessEnabledProperty = DependencyProperty.Register(nameof(ProcessEnabled), typeof(bool), typeof(WizardControl), new PropertyMetadata(null));
+        private static readonly DependencyProperty CancelEnabledProperty = DependencyProperty.Register(nameof(CancelEnabled), typeof(bool), typeof(WizardControl), new PropertyMetadata(null));
+        private static readonly DependencyProperty CompleteEnabledProperty = DependencyProperty.Register(nameof(CompleteEnabled), typeof(bool), typeof(WizardControl), new PropertyMetadata(null));
         /// <summary>
         /// Is previous button enabled
         /// </summary>
-        public bool PreviousEnabled
+        private bool PreviousEnabled
         {
             get { return (bool)GetValue(PreviousEnabledProperty); }
             set { SetValue(PreviousEnabledProperty, value); }
@@ -213,7 +245,7 @@ namespace DSoft.WizardControl
         /// <summary>
         /// Is next button enabled
         /// </summary>
-        public bool NextEnabled
+        private bool NextEnabled
         {
             get { return (bool)GetValue(NextEnabledProperty); }
             set { SetValue(NextEnabledProperty, value); }
@@ -222,7 +254,7 @@ namespace DSoft.WizardControl
         /// <summary>
         /// Is finish button enabled
         /// </summary>
-        public bool ProcessEnabled
+        private bool ProcessEnabled
         {
             get { return (bool)GetValue(ProcessEnabledProperty); }
             set { SetValue(ProcessEnabledProperty, value); }
@@ -231,13 +263,13 @@ namespace DSoft.WizardControl
         /// <summary>
         /// Is previous button enabled
         /// </summary>
-        public bool CancelEnabled
+        private bool CancelEnabled
         {
             get { return (bool)GetValue(CancelEnabledProperty); }
             set { SetValue(CancelEnabledProperty, value); }
         }
 
-        public bool CompleteEnabled
+        private bool CompleteEnabled
         {
             get { return (bool)GetValue(CompleteEnabledProperty); }
             set { SetValue(CompleteEnabledProperty, value); }
@@ -247,14 +279,14 @@ namespace DSoft.WizardControl
 
         #region Visibility
 
-        public static readonly DependencyProperty CompleteButtonVisibilityProperty = DependencyProperty.Register(nameof(CompleteButtonVisibility), typeof(Visibility), typeof(WizardControl), new PropertyMetadata(null));
-        public static readonly DependencyProperty CancelButtonVisibilityProperty = DependencyProperty.Register(nameof(CancelButtonVisibility), typeof(Visibility), typeof(WizardControl), new PropertyMetadata(null));
-        public static readonly DependencyProperty ProcessButtonVisibilityProperty = DependencyProperty.Register(nameof(ProcessButtonVisibility), typeof(Visibility), typeof(WizardControl), new PropertyMetadata(null));
-        public static readonly DependencyProperty ButtonStackVisibilityProperty = DependencyProperty.Register(nameof(ButtonStackVisibility), typeof(Visibility), typeof(WizardControl), new PropertyMetadata(null));
-        public static readonly DependencyProperty NextButtonVisibilityProperty = DependencyProperty.Register(nameof(NextButtonVisibility), typeof(Visibility), typeof(WizardControl), new PropertyMetadata(null));
-        public static readonly DependencyProperty PreviousButtonVisibilityProperty = DependencyProperty.Register(nameof(PreviousButtonVisibility), typeof(Visibility), typeof(WizardControl), new PropertyMetadata(null));
+        private static readonly DependencyProperty CompleteButtonVisibilityProperty = DependencyProperty.Register(nameof(CompleteButtonVisibility), typeof(Visibility), typeof(WizardControl), new PropertyMetadata(null));
+        private static readonly DependencyProperty CancelButtonVisibilityProperty = DependencyProperty.Register(nameof(CancelButtonVisibility), typeof(Visibility), typeof(WizardControl), new PropertyMetadata(null));
+        private static readonly DependencyProperty ProcessButtonVisibilityProperty = DependencyProperty.Register(nameof(ProcessButtonVisibility), typeof(Visibility), typeof(WizardControl), new PropertyMetadata(null));
+        private static readonly DependencyProperty ButtonStackVisibilityProperty = DependencyProperty.Register(nameof(ButtonStackVisibility), typeof(Visibility), typeof(WizardControl), new PropertyMetadata(null));
+        private static readonly DependencyProperty NextButtonVisibilityProperty = DependencyProperty.Register(nameof(NextButtonVisibility), typeof(Visibility), typeof(WizardControl), new PropertyMetadata(null));
+        private static readonly DependencyProperty PreviousButtonVisibilityProperty = DependencyProperty.Register(nameof(PreviousButtonVisibility), typeof(Visibility), typeof(WizardControl), new PropertyMetadata(null));
 
-        public Visibility CompleteButtonVisibility
+        private Visibility CompleteButtonVisibility
         {
             get
             {
@@ -267,7 +299,7 @@ namespace DSoft.WizardControl
 
         }
 
-        public Visibility CancelButtonVisibility
+        private Visibility CancelButtonVisibility
         {
             get
             {
@@ -280,7 +312,7 @@ namespace DSoft.WizardControl
 
         }
 
-        public Visibility ProcessButtonVisibility
+        private Visibility ProcessButtonVisibility
         {
             get
             {
@@ -293,7 +325,7 @@ namespace DSoft.WizardControl
 
         }
 
-        public Visibility ButtonStackVisibility
+        private Visibility ButtonStackVisibility
         {
             get
             {
@@ -305,7 +337,7 @@ namespace DSoft.WizardControl
             }
         }
 
-        public Visibility NextButtonVisibility
+        private Visibility NextButtonVisibility
         {
             get
             {
@@ -318,7 +350,7 @@ namespace DSoft.WizardControl
 
         }
 
-        public Visibility PreviousButtonVisibility
+        private Visibility PreviousButtonVisibility
         {
             get
             {
@@ -420,6 +452,8 @@ namespace DSoft.WizardControl
             }
         }
 
+        public List<IWizardPage> AvailablePages { get; }
+
         #endregion
 
         public WizardControl()
@@ -432,6 +466,7 @@ namespace DSoft.WizardControl
         protected override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+
         }
 
         private static void OnHeaderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -440,6 +475,31 @@ namespace DSoft.WizardControl
             //control.SetHeaderVisibility();
             //control.OnHeaderChanged(e.OldValue, e.NewValue);
         }
+
+        #region IWizard Elements
+
+
+        public void Navigate(NavigationDirection direction)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateButtonVisibility(WizardButtonVisibility visibility, params WizardButtons[] buttons)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateStage(WizardStage stage)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RecalculateNavigation()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
 
     }
 }

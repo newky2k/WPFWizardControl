@@ -10,6 +10,20 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <dsd:WizardControl />
+        <dsd:WizardControl x:Name="wzrControl"
+                              Title="{Binding Title, FallbackValue=Wizard Title}"  
+                              ProcessMode="None"
+                              Pages="{Binding Pages}" 
+                              ProcessButtonTitle="Create" 
+                              CloseButtonTitle="Finish" 
+                              CancelButtonTitle="Abort" 
+                              NextButtonTitle="{Binding NextTitle}" 
+                              PreviousButtonTitle="Back"
+                              ProcessingPage="{Binding ProcessPage}" 
+                              ErrorPage="{Binding ErrorPage}" 
+                              CompletePage="{Binding CompletePage}" />
+        <!--ProcessFunction="{Binding ProcessFunction}" 
+                              CloseFunction="{Binding CloseFunction}" 
+                              CancelFunction="{Binding CancelFunction}"/>-->
     </Grid>
 </Page>
