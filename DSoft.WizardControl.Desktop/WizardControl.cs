@@ -20,7 +20,6 @@ namespace DSoft.WizardControl
     {
         #region Dependecy Properties
 
-        #endregion
         public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header), typeof(object), typeof(WizardControl), new PropertyMetadata(null, OnHeaderChanged));
         public static readonly DependencyProperty HeaderTemplateProperty = DependencyProperty.Register(nameof(HeaderTemplate), typeof(DataTemplate), typeof(WizardControl), new PropertyMetadata(null));
         public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(nameof(SelectedIndex), typeof(int), typeof(WizardControl), new PropertyMetadata(null));
@@ -55,7 +54,6 @@ namespace DSoft.WizardControl
             }
         }
 
-
         public DataTemplate HeaderTemplate
         {
             get
@@ -67,6 +65,8 @@ namespace DSoft.WizardControl
                 this.SetValue(HeaderTemplateProperty, value);
             }
         }
+
+        #endregion
 
         #region Pages
         public static readonly DependencyProperty PagesProperty = DependencyProperty.Register("Pages", typeof(ObservableCollection<IWizardPage>), typeof(WizardControl), new PropertyMetadata(new ObservableCollection<IWizardPage>(), OnPagesChanged));
