@@ -67,37 +67,30 @@ namespace DSoft.WizardControl
 
         #region Header
 
-        public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header), typeof(object), typeof(WizardControl), new PropertyMetadata(null, OnHeaderChanged));
-        public static readonly DependencyProperty HeaderTemplateProperty = DependencyProperty.Register(nameof(HeaderTemplate), typeof(DataTemplate), typeof(WizardControl), new PropertyMetadata(null));
+        public static readonly DependencyProperty TitleTextStyleProperty = DependencyProperty.Register(nameof(TitleTextStyle), typeof(Style), typeof(WizardControl), new PropertyMetadata(null));
+        public static readonly DependencyProperty SubTitleTextStyleProperty = DependencyProperty.Register(nameof(SubTitleTextStyle), typeof(Style), typeof(WizardControl), new PropertyMetadata(null));
 
-
-        /// <summary>
-        ///     Gets or sets the spacing.
-        /// </summary>
-        /// <value>
-        ///     The spacing.
-        /// </value>
-        public object Header
+        public Style TitleTextStyle
         {
             get
             {
-                return this.GetValue(HeaderProperty);
+                return (Style)this.GetValue(TitleTextStyleProperty);
             }
             set
             {
-                this.SetValue(HeaderProperty, value);
+                this.SetValue(TitleTextStyleProperty, value);
             }
         }
 
-        public DataTemplate HeaderTemplate
+        public Style SubTitleTextStyle
         {
             get
             {
-                return (DataTemplate)this.GetValue(HeaderTemplateProperty);
+                return (Style)this.GetValue(SubTitleTextStyleProperty);
             }
             set
             {
-                this.SetValue(HeaderTemplateProperty, value);
+                this.SetValue(SubTitleTextStyleProperty, value);
             }
         }
 
@@ -551,15 +544,9 @@ namespace DSoft.WizardControl
                 _contentGrid.Content = Pages[0];
             });
 
-            
+            SubTitle = "Daves Subs";
         }
 
-        private static void OnHeaderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var control = (WizardControl)d;
-            //control.SetHeaderVisibility();
-            //control.OnHeaderChanged(e.OldValue, e.NewValue);
-        }
 
         #region IWizard Elements
 

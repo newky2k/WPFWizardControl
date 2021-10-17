@@ -4,14 +4,20 @@
     xmlns:local="using:DSoft.WizardControl">
 
     <Style TargetType="local:WizardControl" >
-        <Setter Property="HeaderTemplate">
+        <Setter Property="TitleTextStyle">
             <Setter.Value>
-                <DataTemplate>
-                    <StackPanel Grid.Row="0" VerticalAlignment="Center" Orientation="Vertical">
-                        <TextBlock Text="{Binding Title}" FontSize="14" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding SubTitle}" FontSize="12" Foreground="Gray"/>
-                    </StackPanel>
-                </DataTemplate>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontSize" Value="24"/>
+                    <Setter Property="FontWeight" Value="Bold" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="SubTitleTextStyle">
+            <Setter.Value>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontSize" Value="18"/>
+                    <Setter Property="Foreground" Value="Gray" />
+                </Style>
             </Setter.Value>
         </Setter>
         <Setter Property="Template">
@@ -24,9 +30,14 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Grid>
-                            <ContentPresenter x:Name="HeaderPresenter"
-                                              Content="{TemplateBinding Header}"
-                                               ContentTemplate="{TemplateBinding HeaderTemplate}"/>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Orientation="Vertical">
+                                <TextBlock Text="{TemplateBinding Title}" Style="{TemplateBinding TitleTextStyle}"/>
+                                <TextBlock Text="{TemplateBinding SubTitle}" Style="{TemplateBinding SubTitleTextStyle}" />
+                            </StackPanel>
                         </Grid>
 
                         <ContentControl x:Name="PART_CONTENT" Grid.Row="1">
