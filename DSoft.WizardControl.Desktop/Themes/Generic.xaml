@@ -40,12 +40,12 @@
                             </StackPanel>
                         </Grid>
 
-                        <ContentControl x:Name="PART_CONTENT" Grid.Row="1">
+                        <ContentControl x:Name="PART_CONTENT" Grid.Row="1" Background="CadetBlue">
 
                         </ContentControl>
-                        
 
-                        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5" >
+
+                        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5" Visibility="{TemplateBinding ButtonStackVisibility}">
                             <Button Name="btnPrevious" Content="{TemplateBinding PreviousButtonTitle}"  Width="75" Margin="0,0,5,0" IsEnabled="{TemplateBinding PreviousEnabled}" Command="{TemplateBinding PreviousCommand}" Visibility="{TemplateBinding PreviousButtonVisibility}"/>
                             <Button Name="PART_BTN_NEXT" Content="{TemplateBinding NextButtonTitle}" Width="75" Margin="0,0,5,0" IsEnabled="{TemplateBinding NextEnabled}" Command="{TemplateBinding NextCommand}" Visibility="{TemplateBinding NextButtonVisibility}"/>
                             <Button Name="btnFinish" Content="{TemplateBinding ProcessButtonTitle}" Width="75" Margin="0,0,5,0" IsEnabled="{TemplateBinding ProcessEnabled}" Command="{TemplateBinding ProcessButtonCommand}" Visibility="{TemplateBinding ProcessButtonVisibility}" />

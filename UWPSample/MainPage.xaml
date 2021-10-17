@@ -17,13 +17,14 @@
                               ProcessButtonTitle="Create" 
                               CloseButtonTitle="Finish" 
                               CancelButtonTitle="Abort" 
-                              NextButtonTitle="{Binding NextTitle}" 
+                              SelectedPage="{Binding SelectedPage,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              NextButtonTitle="{Binding NextTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                               PreviousButtonTitle="Back"
                               ProcessingPage="{Binding ProcessPage}" 
                               ErrorPage="{Binding ErrorPage}" 
-                              CompletePage="{Binding CompletePage}" />
-        <!--ProcessFunction="{Binding ProcessFunction}" 
+                              CompletePage="{Binding CompletePage}"
+                              ProcessFunction="{Binding ProcessFunction}" 
                               CloseFunction="{Binding CloseFunction}" 
-                              CancelFunction="{Binding CancelFunction}"/>-->
+                              CancelFunction="{Binding CancelFunction}"/>
     </Grid>
 </Page>

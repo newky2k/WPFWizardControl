@@ -21,10 +21,21 @@ namespace DSoft.WizardControl
     public class WizardControl : Control, IWizardControl
     {
         private ContentControl _contentGrid;
+        private WizardStage _currentStage = WizardStage.Setup;
+        private Dictionary<WizardButtons, Visibility> _buttonVisibility = new Dictionary<WizardButtons, Visibility>();
 
+        #region Events
+
+        public event EventHandler<IWizardPage> OnSelectedPageChanged = delegate { };
+        public event EventHandler<int> OnSelectedIndexChanged = delegate { };
+        #endregion
+
+        #region Titles and Sub-Title
+
+ 
         public readonly static DependencyProperty TitleProperty = DependencyProperty.Register("Title", typeof(string), typeof(WizardControl), new PropertyMetadata("Wizard Title", OnTitleChanged));
         public readonly static DependencyProperty ProcessModeProperty = DependencyProperty.Register("ProcessMode", typeof(ProcessMode), typeof(WizardControl), new PropertyMetadata(ProcessMode.Default, OnProcessModeChanged));
-        public readonly static DependencyProperty SubTitleProperty = DependencyProperty.Register(nameof(SubTitle), typeof(string), typeof(WizardControl), new PropertyMetadata("Wizard Sub-Title", OnSubTitleChanged));
+        private readonly static DependencyProperty SubTitleProperty = DependencyProperty.Register(nameof(SubTitle), typeof(string), typeof(WizardControl), new PropertyMetadata("Wizard Sub-Title", OnSubTitleChanged));
 
 
         public string Title
@@ -33,7 +44,7 @@ namespace DSoft.WizardControl
             set { SetValue(TitleProperty, value); }
         }
 
-        public string SubTitle
+        private string SubTitle
         {
             get { return (string)GetValue(SubTitleProperty); }
             set { SetValue(SubTitleProperty, value); }
@@ -51,7 +62,6 @@ namespace DSoft.WizardControl
             //sh._viewModel.Title = (string)e.NewValue;
         }
 
-
         public ProcessMode ProcessMode
         {
             get { return (ProcessMode)GetValue(ProcessModeProperty); }
@@ -64,6 +74,8 @@ namespace DSoft.WizardControl
 
          //   sh._viewModel.ProcessMode = (ProcessMode)e.NewValue;
         }
+
+        #endregion
 
         #region Header
 
@@ -97,21 +109,58 @@ namespace DSoft.WizardControl
         #endregion
 
         #region Pages
-        public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(nameof(SelectedIndex), typeof(int), typeof(WizardControl), new PropertyMetadata(null));
+        public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(nameof(SelectedIndex), typeof(int), typeof(WizardControl), new PropertyMetadata(0, OnInternalSelectedIndexChanged));
+        public static readonly DependencyProperty SelectedPageProperty = DependencyProperty.Register(nameof(SelectedPage), typeof(IWizardPage), typeof(WizardControl), new PropertyMetadata(null, OnInternalSelectedPageChanged));
         public static readonly DependencyProperty PagesProperty = DependencyProperty.Register("Pages", typeof(ObservableCollection<IWizardPage>), typeof(WizardControl), new PropertyMetadata(new ObservableCollection<IWizardPage>(), OnPagesChanged));
-        public static readonly DependencyProperty ProcessingPageProperty = DependencyProperty.Register("ProcessingPage", typeof(IWizardPage), typeof(WizardControl), new PropertyMetadata(null, OnProcessingPageChanged));
-        public static readonly DependencyProperty CompletePageProperty = DependencyProperty.Register("CompletePage", typeof(IWizardPage), typeof(WizardControl), new PropertyMetadata(null, OnCompletePageChanged));
-        public static readonly DependencyProperty ErrorPageProperty = DependencyProperty.Register("ErrorPage", typeof(IWizardPage), typeof(WizardControl), new PropertyMetadata(null, OnErrorPageChanged));
+        public static readonly DependencyProperty ProcessingPageProperty = DependencyProperty.Register("ProcessingPage", typeof(IWizardPage), typeof(WizardControl), new PropertyMetadata(new DefaultProgressView(), OnProcessingPageChanged));
+        public static readonly DependencyProperty CompletePageProperty = DependencyProperty.Register("CompletePage", typeof(IWizardPage), typeof(WizardControl), new PropertyMetadata(new DefaultCompleteView(), OnCompletePageChanged));
+        public static readonly DependencyProperty ErrorPageProperty = DependencyProperty.Register("ErrorPage", typeof(IWizardPage), typeof(WizardControl), new PropertyMetadata(new DefaultErrorView(), OnErrorPageChanged));
 
         public int SelectedIndex
         {
             get
             {
-                return (int)this.GetValue(SelectedIndexProperty);
+                return (int)GetValue(SelectedIndexProperty);
             }
             set
             {
-                this.SetValue(SelectedIndexProperty, value);
+                SetValue(SelectedIndexProperty, value);
+            }
+        }
+
+        private static void OnInternalSelectedIndexChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var sh = (WizardControl)d;
+
+
+        }
+
+        private int LastActivePageIndex
+        {
+            get
+            {
+                return ActivePages.Max(x => x.Key);
+            }
+        }
+
+        public Dictionary<int, IWizardPage> ActivePages
+        {
+            get
+            {
+                var aDict = new Dictionary<int, IWizardPage>();
+
+                var aPages = Pages.Where(x => x.PageConfig.IsHidden.Equals(false) && (!x.Equals(ProcessingPage) && !x.Equals(CompletePage) && !x.Equals(ErrorPage)));
+
+                if (aPages.Any())
+                {
+                    foreach (var aPage in aPages)
+                    {
+                        aDict.Add(Pages.IndexOf(aPage), aPage);
+                    }
+                }
+
+
+                return aDict;
             }
         }
 
@@ -125,9 +174,22 @@ namespace DSoft.WizardControl
         {
             var sh = (WizardControl)d;
 
-           // sh._contentGrid.Content = sh.Pages[0];
+            if (sh.Pages != null)
+            {
+                if (!sh.Pages.Contains(sh.ProcessingPage))
+                    sh.Pages.Add(sh.ProcessingPage);
 
-            //sh._viewModel.Pages = (ObservableCollection<IWizardPage>)e.NewValue;
+                if (!sh.Pages.Contains(sh.CompletePage))
+                    sh.Pages.Add(sh.CompletePage);
+
+                if (!sh.Pages.Contains(sh.ErrorPage))
+                    sh.Pages.Add(sh.ErrorPage);
+            }
+
+            if (sh.Pages?.Count > 0)
+                sh.SelectedPage = sh.Pages[0];
+
+            sh.RecalculateNavigation();
         }
 
         public IWizardPage ProcessingPage
@@ -139,7 +201,11 @@ namespace DSoft.WizardControl
         private static void OnProcessingPageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var sh = (WizardControl)d;
-            //sh._viewModel.ProgressPage = (IWizardPage)e.NewValue;
+
+            if (e.NewValue != null && sh.ProcessingPage != e.NewValue)
+            {
+                sh.ReplacePage(sh.ProcessingPage, (IWizardPage)e.NewValue);
+            }
         }
 
         public IWizardPage CompletePage
@@ -151,7 +217,12 @@ namespace DSoft.WizardControl
         private static void OnCompletePageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var sh = (WizardControl)d;
-            //sh._viewModel.CompletePage = (IWizardPage)e.NewValue;
+
+            if (e.NewValue != null && sh.CompletePage  != e.NewValue)
+            {
+                sh.ReplacePage(sh.CompletePage, (IWizardPage)e.NewValue);
+            }
+
         }
 
         public IWizardPage ErrorPage
@@ -163,9 +234,26 @@ namespace DSoft.WizardControl
         private static void OnErrorPageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var sh = (WizardControl)d;
-            //sh._viewModel.ErrorPage = (IWizardPage)e.NewValue;
+
+            if (e.NewValue != null && sh.ErrorPage != e.NewValue)
+            {
+                sh.ReplacePage(sh.ErrorPage, (IWizardPage)e.NewValue);
+            }
+
         }
 
+        public IWizardPage SelectedPage
+        {
+            get { return (IWizardPage)GetValue(SelectedPageProperty); }
+            set { SetValue(SelectedPageProperty, value); }
+        }
+
+        private static void OnInternalSelectedPageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var sh = (WizardControl)d;
+
+
+        }
         #endregion
 
         #region Button Titles
@@ -512,6 +600,253 @@ namespace DSoft.WizardControl
 
         #endregion
 
+        #region Internal Enabled
+
+        /// <summary>
+        /// Is previous button enabled
+        /// </summary>
+        private bool IsPreviousEnabled
+        {
+            get
+            {
+                if (Pages.Count == 0 || ActivePages.Count == 0)
+                    return false;
+
+                switch (_currentStage)
+                {
+                    case WizardStage.Working:
+                        return false;
+
+                    case WizardStage.Complete:
+                        return false;
+
+                    default:
+                        {
+                            if (SelectedPage?.PageConfig?.CanGoBack == false)
+                                return false;
+
+                            return SelectedIndex > 0;
+                        }
+
+                }
+
+
+            }
+        }
+
+        /// <summary>
+        /// Is next button enabled
+        /// </summary>
+        private bool IsNextEnabled
+        {
+            get
+            {
+                if (Pages.Count == 0 || ActivePages.Count == 0)
+                    return false;
+
+                switch (_currentStage)
+                {
+                    case WizardStage.Working:
+                        return false;
+
+                    case WizardStage.Complete:
+                        return false;
+                    case WizardStage.Error:
+                        return false;
+
+                    default:
+                        return SelectedIndex != ActivePages.Max(x => x.Key);
+                }
+
+
+            }
+        }
+
+        /// <summary>
+        /// Is finish button enabled
+        /// </summary>
+        private bool IsProcessEnabled
+        {
+            get
+            {
+                if (Pages.Count == 0 || ActivePages.Count == 0)
+                    return false;
+
+                if (ProcessMode == ProcessMode.None)
+                    return false;
+
+                switch (_currentStage)
+                {
+                    case WizardStage.Working:
+                        return false;
+
+                    case WizardStage.Complete:
+                        return false;
+
+                    default:
+                        return SelectedIndex == ActivePages.Max(x => x.Key);
+                }
+
+
+            }
+        }
+
+        /// <summary>
+        /// Is previous button enabled
+        /// </summary>
+        private bool IsCancelEnabled
+        {
+            get
+            {
+                if (Pages.Count == 0 || ActivePages.Count == 0)
+                    return false;
+
+                if (ProcessMode == ProcessMode.None)
+                {
+                    if (SelectedIndex == ActivePages.Max(x => x.Key))
+                        return false;
+                }
+                switch (_currentStage)
+                {
+                    case WizardStage.Setup:
+                        return true;
+                    case WizardStage.Error:
+                        return true;
+                    default:
+                        return false;
+                }
+
+            }
+        }
+
+        private bool IsCompleteEnabled
+        {
+            get
+            {
+                if (Pages.Count == 0 || ActivePages.Count == 0)
+                    return false;
+
+                if (ProcessMode == ProcessMode.None)
+                {
+                    if (SelectedIndex == ActivePages.Max(x => x.Key))
+                        return true;
+                }
+
+                switch (_currentStage)
+                {
+                    case WizardStage.Complete:
+                        return true;
+
+                    default:
+                        return false;
+                }
+
+
+            }
+        }
+
+
+        #endregion
+
+
+        #region Visibility
+
+
+        private Visibility IsCompleteButtonVisibility
+        {
+            get
+            {
+
+                if (_buttonVisibility.ContainsKey(WizardButtons.Complete))
+                    return _buttonVisibility[WizardButtons.Complete];
+
+                if (!CompleteEnabled)
+                    return Visibility.Collapsed;
+
+                return Visibility.Visible;
+            }
+
+        }
+
+        private Visibility IsCancelButtonVisibility
+        {
+            get
+            {
+                if (_buttonVisibility.ContainsKey(WizardButtons.Cancel))
+                    return _buttonVisibility[WizardButtons.Cancel];
+
+                if (!CancelEnabled)
+                    return Visibility.Collapsed;
+
+                return Visibility.Visible;
+            }
+
+        }
+
+        private Visibility IsProcessButtonVisibility
+        {
+            get
+            {
+                if (!ProcessEnabled)
+                    return Visibility.Collapsed;
+
+                if (_buttonVisibility.ContainsKey(WizardButtons.Process))
+                    return _buttonVisibility[WizardButtons.Process];
+
+                return Visibility.Visible;
+            }
+
+        }
+
+        private Visibility IsButtonStackVisibility
+        {
+            get
+            {
+                if (_buttonVisibility.ContainsKey(WizardButtons.All))
+                    return _buttonVisibility[WizardButtons.All];
+
+                if (SelectedPage != null)
+                {
+                    if (SelectedPage.PageConfig?.HideButtons == true)
+                        return Visibility.Collapsed;
+                }
+                return Visibility.Visible;
+            }
+        }
+
+        private Visibility IsNextButtonVisibility
+        {
+            get
+            {
+                if (!NextEnabled)
+                    return Visibility.Collapsed;
+
+                if (_buttonVisibility.ContainsKey(WizardButtons.Next))
+                    return _buttonVisibility[WizardButtons.Next];
+
+                return Visibility.Visible;
+            }
+
+        }
+
+        private Visibility IsPreviousButtonVisibility
+        {
+            get
+            {
+                if (!PreviousEnabled)
+                    return Visibility.Collapsed;
+
+                if (_buttonVisibility.ContainsKey(WizardButtons.Previous))
+                    return _buttonVisibility[WizardButtons.Previous];
+
+                return Visibility.Visible;
+
+            }
+
+        }
+
+        #endregion
+
         public WizardControl()
         {
             this.DefaultStyleKey = typeof(WizardControl);
@@ -526,49 +861,332 @@ namespace DSoft.WizardControl
 
             _contentGrid = controlGrid as ContentControl;
 
-            if (Pages.Count > 0)
+            PreviousCommand = new DelegateCommand(() =>
             {
-                _contentGrid.Content = Pages[0];
-
-                NextEnabled = true;
-                PreviousEnabled = true;
-            }
+                Navigate(NavigationDirection.Backwards);
+            });
 
             NextCommand = new DelegateCommand(() =>
             {
-                _contentGrid.Content = Pages[1];
+                Navigate(NavigationDirection.Forward);
             });
 
-            PreviousCommand = new DelegateCommand(() =>
+            ProcessButtonCommand = new DelegateCommand(() =>
             {
-                _contentGrid.Content = Pages[0];
+                var cuItem = this.Pages[SelectedIndex];
+
+                if (cuItem.Validate())
+                {
+                    //if (CanNavigate(NavigationDirection.Forward, cuItem))
+                    //    IsBusy = true;
+
+                    Task.Run(async () =>
+                    {
+                        SetPage(Pages.IndexOf(ProcessingPage));
+
+                        try
+                        {
+
+                            if (ProcessFunction != null)
+                            {
+                                var result = await ProcessFunction();
+
+                                switch (result)
+                                {
+                                    case WizardProcessResult.Complete:
+                                        {
+                                            SetPage(Pages.IndexOf(CompletePage));
+                                        }
+                                        break;
+                                    default:
+                                        {
+                                            SetPage(Pages.IndexOf(ErrorPage));
+                                        }
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                SetPage(Pages.IndexOf(CompletePage));
+                            }
+
+                        }
+                        catch (Exception)
+                        {
+
+                        }
+
+
+
+                    });
+
+                }
+
+
             });
 
-            SubTitle = "Daves Subs";
+            CompleteCommand = new DelegateCommand(() =>
+            {
+                CloseFunction?.Invoke();
+            });
+
+            CancelCommand = new DelegateCommand(() =>
+            {
+                CancelFunction?.Invoke();
+            });
+
+            SetPage(0);
         }
 
 
         #region IWizard Elements
 
+        public void StartProcessingStage()
+        {
+            _currentStage = WizardStage.Working;
+        }
+
+        public void StartCompletionStage()
+        {
+            _currentStage = WizardStage.Complete;
+        }
+
+        public void StartSetupStage()
+        {
+            _currentStage = WizardStage.Setup;
+        }
+
+        public void StartErrorStage()
+        {
+            _currentStage = WizardStage.Error;
+        }
 
         public void Navigate(NavigationDirection direction)
         {
-            throw new NotImplementedException();
+            switch (direction)
+            {
+                case NavigationDirection.Backwards:
+                    {
+                        if (SelectedIndex == Pages.IndexOf(ErrorPage))
+                        {
+                            SetPage(LastActivePageIndex);
+                        }
+                        else
+                        {
+                            var cuItem = this.Pages[SelectedIndex];
+
+                            if (CanNavigate(NavigationDirection.Backwards, cuItem))
+                                SetPage(GetPreviousPageIndex(SelectedIndex));
+                        }
+                    }
+                    break;
+                case NavigationDirection.Forward:
+                    {
+                        var cuItem = this.Pages[SelectedIndex];
+
+                        if (cuItem.Validate())
+                        {
+                            if (CanNavigate(NavigationDirection.Forward, cuItem))
+                                SetPage(GetNextPageIndex(SelectedIndex));
+                        }
+                    }
+                    break;
+            }
+        }
+
+        internal void SetPage(int newIndex)
+        {
+            if (Pages == null || Pages.Count == 0)
+            {
+                _contentGrid.Content = ProcessingPage;
+
+                return;
+            }
+            if (newIndex == Pages.IndexOf(ProcessingPage))
+            {
+                StartProcessingStage();
+            }
+            else if (newIndex == Pages.IndexOf(CompletePage))
+            {
+                StartCompletionStage();
+            }
+            else if (newIndex == Pages.IndexOf(ErrorPage))
+            {
+                StartErrorStage();
+            }
+            else
+            {
+                StartSetupStage();
+            }
+
+            this.SelectedIndex = newIndex;
+            SelectedPage = Pages[SelectedIndex];
+
+            _buttonVisibility.Clear();
+
+            SelectedPage.PageConfig.OnPageShownHandler?.Invoke(this);
+
+            _contentGrid.Content = SelectedPage;
+
+            RecalculateNavigation();
+        }
+
+        private bool CanNavigate(NavigationDirection direction, IWizardPage curItem)
+        {
+            if (curItem.PageConfig.NavigationHandler != null)
+            {
+                var evt = new WizardNavigationEventArgs()
+                {
+                    Direction = direction,
+                };
+
+                curItem.PageConfig.NavigationHandler(evt);
+
+                return !evt.Handled;
+            }
+
+            return true;
+
         }
 
         public void UpdateButtonVisibility(WizardButtonVisibility visibility, params WizardButtons[] buttons)
         {
-            throw new NotImplementedException();
+            if (buttons == null || buttons.Length == 0)
+            {
+                _buttonVisibility.Clear();
+            }
+            else
+            {
+                //set the default hidden mode to collapsed(so that the buttons bunch up)
+                var realVisibilty = (Visibility)visibility;
+
+                //create a local copy of the buttons array
+                var localButtons = new List<WizardButtons>(buttons);
+
+                //if the buttons array conatains WizardButtons.All, rebuild the localbuttons variable all the buttons.  TODO:// This could be update to loop through the Enum instead of being hardcoded
+                if (buttons.Contains(WizardButtons.All))
+                {
+                    localButtons = new List<WizardButtons>() { WizardButtons.Cancel, WizardButtons.Complete, WizardButtons.Next, WizardButtons.Previous, WizardButtons.Process };
+                }
+
+                //loop through all the buttons
+                foreach (var button in localButtons)
+                {
+                    //if all buttons use hide not collapsed when hiding all buttons
+                    if (_buttonVisibility.ContainsKey(button))
+                    {
+                        _buttonVisibility[button] = realVisibilty;
+                    }
+                    else
+                    {
+                        _buttonVisibility.Add(button, realVisibilty);
+                    }
+                }
+            }
+
+            RecalculateNavigation();
         }
 
         public void UpdateStage(WizardStage stage)
         {
-            throw new NotImplementedException();
+            _currentStage = stage;
+
+            RecalculateNavigation();
         }
 
         public void RecalculateNavigation()
         {
-            throw new NotImplementedException();
+            var subTitle = string.Empty;
+
+            if (Pages != null && Pages.Count != 0)
+            {
+                if (SelectedIndex < 0)
+                    subTitle = Pages[0].PageConfig.Title;
+                else
+                    subTitle = Pages[SelectedIndex].PageConfig.Title;
+            }
+
+            SubTitle = subTitle;
+
+
+            //calculate enabled status first
+            PreviousEnabled = IsPreviousEnabled;
+            NextEnabled = IsNextEnabled;
+            ProcessEnabled = IsProcessEnabled;
+            CancelEnabled = IsCancelEnabled;
+            CompleteEnabled = IsCompleteEnabled;
+
+
+            //calculate visibility after enabled status
+            var buttonStackVisibility = Visibility.Visible;
+
+            if (_buttonVisibility.ContainsKey(WizardButtons.All))
+            {
+                buttonStackVisibility = _buttonVisibility[WizardButtons.All];
+            }
+            else if (SelectedPage != null)
+            {
+                if (SelectedPage.PageConfig?.HideButtons == true)
+                    buttonStackVisibility = Visibility.Collapsed;
+            }
+
+            ButtonStackVisibility = buttonStackVisibility;
+
+            CompleteButtonVisibility = IsCompleteButtonVisibility;
+            CancelButtonVisibility = IsCancelButtonVisibility;
+            ProcessButtonVisibility = IsProcessButtonVisibility;
+            NextButtonVisibility = IsNextButtonVisibility;
+            PreviousButtonVisibility = IsPreviousButtonVisibility;
+
+            SubTitle = SubTitle;
+        }
+
+        private int GetPreviousPageIndex(int currentIndex)
+        {
+            if (currentIndex == 0)
+                return currentIndex;
+
+            var newIndex = currentIndex - 1;
+
+
+            if (Pages[newIndex].PageConfig.IsHidden)
+                return GetPreviousPageIndex(newIndex);
+
+            return newIndex;
+        }
+
+        private int GetNextPageIndex(int currentIndex)
+        {
+            if (currentIndex == ActivePages.Max(x => x.Key))
+                return currentIndex;
+
+            var newIndex = currentIndex + 1;
+
+            if (Pages[newIndex].PageConfig.IsHidden)
+                return GetNextPageIndex(newIndex);
+
+            return newIndex;
+        }
+
+        private void ReplacePage(IWizardPage oldPage, IWizardPage newPage)
+        {
+
+            if (Pages.Contains(oldPage))
+            {
+                if (newPage != null)
+                {
+                    Pages.Insert(Pages.IndexOf(oldPage), newPage);
+                }
+
+                Pages.Remove(oldPage);
+            }
+            else
+            {
+                if (newPage != null)
+                    Pages.Add(newPage);
+            }
+
+
         }
 
         #endregion

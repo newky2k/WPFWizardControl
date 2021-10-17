@@ -72,12 +72,12 @@ namespace WpfAppNetCore
                 }
                 else
                 {
-                    NextTitle = "Fowards";
+                    NextTitle = "Next";
                 }
             }
         }
 
-        private string _nextTitle = "Forwards";
+        private string _nextTitle = "Next";
 
         public string NextTitle
         {
