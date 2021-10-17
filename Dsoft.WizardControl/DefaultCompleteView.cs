@@ -24,11 +24,11 @@ namespace Dsoft.WizardControl.WPF
         public DefaultCompleteView()
         {
             var grd = new Grid();
-            grd.Children.Add(new Label()
+            grd.Children.Add(new TextBlock()
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
-                Content = "The Wizard has finished...",
+                Text = "The Wizard has finished...",
             });
 
             this.Content = grd;

@@ -8,8 +8,8 @@
             <Setter.Value>
                 <DataTemplate>
                     <StackPanel Grid.Row="0" VerticalAlignment="Center" Orientation="Vertical">
-                        <TextBlock Text="{Binding Title,FallbackValue=Heading}" FontSize="14" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding SubTitle,FallbackValue=SubHeading}" FontSize="12" Foreground="Gray"/>
+                        <TextBlock Text="{Binding Title}" FontSize="14" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding SubTitle}" FontSize="12" Foreground="Gray"/>
                     </StackPanel>
                 </DataTemplate>
             </Setter.Value>
@@ -29,11 +29,14 @@
                                                ContentTemplate="{TemplateBinding HeaderTemplate}"/>
                         </Grid>
 
-                        <ContentControl x:Name="Content" Grid.Row="1" />
+                        <ContentControl x:Name="PART_CONTENT" Grid.Row="1">
+
+                        </ContentControl>
+                        
 
                         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5" >
                             <Button Name="btnPrevious" Content="{TemplateBinding PreviousButtonTitle}"  Width="75" Margin="0,0,5,0" IsEnabled="{TemplateBinding PreviousEnabled}" Command="{TemplateBinding PreviousCommand}" Visibility="{TemplateBinding PreviousButtonVisibility}"/>
-                            <Button Name="btnNext" Content="{TemplateBinding NextButtonTitle}" Width="75" Margin="0,0,5,0" IsEnabled="{TemplateBinding NextEnabled}" Command="{TemplateBinding NextCommand}" Visibility="{TemplateBinding NextButtonVisibility}"/>
+                            <Button Name="PART_BTN_NEXT" Content="{TemplateBinding NextButtonTitle}" Width="75" Margin="0,0,5,0" IsEnabled="{TemplateBinding NextEnabled}" Command="{TemplateBinding NextCommand}" Visibility="{TemplateBinding NextButtonVisibility}"/>
                             <Button Name="btnFinish" Content="{TemplateBinding ProcessButtonTitle}" Width="75" Margin="0,0,5,0" IsEnabled="{TemplateBinding ProcessEnabled}" Command="{TemplateBinding ProcessButtonCommand}" Visibility="{TemplateBinding ProcessButtonVisibility}" />
                             <Button Name="btnCancel"  Content="{TemplateBinding CancelButtonTitle}" Width="75" Margin="0,0,5,0" IsEnabled="{TemplateBinding CancelEnabled}" Command="{TemplateBinding CancelCommand}"  Visibility="{TemplateBinding CancelButtonVisibility}" />
                             <Button Name="btnComplete" Content="{TemplateBinding CloseButtonTitle}" Width="75" Margin="0,0,5,0" IsEnabled="{TemplateBinding CompleteEnabled}" Command="{TemplateBinding CompleteCommand}"  Visibility="{TemplateBinding CompleteButtonVisibility}"/>

@@ -5,6 +5,8 @@ using Windows.Foundation;
 using DSoft.WizardControl.Core;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using System.Threading.Tasks;
+using System.Linq;
 
 #if UAP
 using Windows.UI.Xaml;
@@ -18,8 +20,12 @@ namespace DSoft.WizardControl
 {
     public class WizardControl : Control, IWizardControl
     {
-        public readonly static DependencyProperty TitleProperty = DependencyProperty.Register("Title", typeof(string), typeof(WizardControl), new PropertyMetadata(null, OnTitleChanged));
+        private ContentControl _contentGrid;
+
+        public readonly static DependencyProperty TitleProperty = DependencyProperty.Register("Title", typeof(string), typeof(WizardControl), new PropertyMetadata("Wizard Title", OnTitleChanged));
         public readonly static DependencyProperty ProcessModeProperty = DependencyProperty.Register("ProcessMode", typeof(ProcessMode), typeof(WizardControl), new PropertyMetadata(ProcessMode.Default, OnProcessModeChanged));
+        public readonly static DependencyProperty SubTitleProperty = DependencyProperty.Register(nameof(SubTitle), typeof(string), typeof(WizardControl), new PropertyMetadata("Wizard Sub-Title", OnSubTitleChanged));
+
 
         public string Title
         {
@@ -27,7 +33,19 @@ namespace DSoft.WizardControl
             set { SetValue(TitleProperty, value); }
         }
 
+        public string SubTitle
+        {
+            get { return (string)GetValue(SubTitleProperty); }
+            set { SetValue(SubTitleProperty, value); }
+        }
+
         private static void OnTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            WizardControl sh = (WizardControl)d;
+            //sh._viewModel.Title = (string)e.NewValue;
+        }
+
+        private static void OnSubTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             WizardControl sh = (WizardControl)d;
             //sh._viewModel.Title = (string)e.NewValue;
@@ -37,7 +55,7 @@ namespace DSoft.WizardControl
         public ProcessMode ProcessMode
         {
             get { return (ProcessMode)GetValue(ProcessModeProperty); }
-            set { SetValue(TitleProperty, value); }
+            set { SetValue(ProcessModeProperty, value); }
         }
 
         private static void OnProcessModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -113,6 +131,9 @@ namespace DSoft.WizardControl
         private static void OnPagesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var sh = (WizardControl)d;
+
+           // sh._contentGrid.Content = sh.Pages[0];
+
             //sh._viewModel.Pages = (ObservableCollection<IWizardPage>)e.NewValue;
         }
 
@@ -364,13 +385,57 @@ namespace DSoft.WizardControl
         #endregion
 
 
+        #region Functions
+
+        public static readonly DependencyProperty ProcessFunctionProperty = DependencyProperty.Register("ProcessFunction", typeof(Func<Task<WizardProcessResult>>), typeof(WizardControl), new PropertyMetadata(null, OnProcessFunctionChanged));
+        public static readonly DependencyProperty CloseFunctionProperty = DependencyProperty.Register("CloseFunction", typeof(Action), typeof(WizardControl), new PropertyMetadata(null, OnCloseFunctionChanged));
+        public static readonly DependencyProperty CancelFunctionProperty = DependencyProperty.Register("CancelFunction", typeof(Action), typeof(WizardControl), new PropertyMetadata(null, OnCancelFunctionChanged));
+
+        public Func<Task<WizardProcessResult>> ProcessFunction
+        {
+            get { return (Func<Task<WizardProcessResult>>)GetValue(ProcessFunctionProperty); }
+            set { SetValue(ProcessFunctionProperty, value); }
+        }
+
+        private static void OnProcessFunctionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            WizardControl sh = (WizardControl)d;
+            //sh._viewModel.ProcessFunction = (Func<Task<WizardProcessResult>>)e.NewValue;
+        }
+
+        public Action CloseFunction
+        {
+            get { return (Action)GetValue(CloseFunctionProperty); }
+            set { SetValue(CloseFunctionProperty, value); }
+        }
+
+        private static void OnCloseFunctionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            WizardControl sh = (WizardControl)d;
+            //sh._viewModel.CloseFunction = (Action)e.NewValue;
+        }
+
+        public Action CancelFunction
+        {
+            get { return (Action)GetValue(CancelFunctionProperty); }
+            set { SetValue(CancelFunctionProperty, value); }
+        }
+
+        private static void OnCancelFunctionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            WizardControl sh = (WizardControl)d;
+            //sh._viewModel.CancelFunction = (Action)e.NewValue;
+        }
+
+        #endregion
+
         #region Commands
 
-        public static readonly DependencyProperty PreviousCommandProperty = DependencyProperty.Register(nameof(PreviousCommand), typeof(ICommand), typeof(WizardControl), new PropertyMetadata(null));
-        public static readonly DependencyProperty NextCommandProperty = DependencyProperty.Register(nameof(NextCommand), typeof(ICommand), typeof(WizardControl), new PropertyMetadata(null));
-        public static readonly DependencyProperty ProcessButtonCommandProperty = DependencyProperty.Register(nameof(ProcessButtonCommand), typeof(ICommand), typeof(WizardControl), new PropertyMetadata(null));
-        public static readonly DependencyProperty CompleteCommandProperty = DependencyProperty.Register(nameof(CompleteCommand), typeof(ICommand), typeof(WizardControl), new PropertyMetadata(null));
-        public static readonly DependencyProperty CancelCommandProperty = DependencyProperty.Register(nameof(CancelCommand), typeof(ICommand), typeof(WizardControl), new PropertyMetadata(null));
+        private static readonly DependencyProperty PreviousCommandProperty = DependencyProperty.Register(nameof(PreviousCommand), typeof(ICommand), typeof(WizardControl), new PropertyMetadata(null));
+        private static readonly DependencyProperty NextCommandProperty = DependencyProperty.Register(nameof(NextCommand), typeof(ICommand), typeof(WizardControl), new PropertyMetadata(null));
+        private static readonly DependencyProperty ProcessButtonCommandProperty = DependencyProperty.Register(nameof(ProcessButtonCommand), typeof(ICommand), typeof(WizardControl), new PropertyMetadata(null));
+        private static readonly DependencyProperty CompleteCommandProperty = DependencyProperty.Register(nameof(CompleteCommand), typeof(ICommand), typeof(WizardControl), new PropertyMetadata(null));
+        private static readonly DependencyProperty CancelCommandProperty = DependencyProperty.Register(nameof(CancelCommand), typeof(ICommand), typeof(WizardControl), new PropertyMetadata(null));
 
 
 
@@ -381,7 +446,7 @@ namespace DSoft.WizardControl
         /// <value>
         /// The previous command.
         /// </value>
-        public ICommand PreviousCommand
+        private ICommand PreviousCommand
         {
             get
             {
@@ -399,7 +464,7 @@ namespace DSoft.WizardControl
         /// <value>
         /// The next command.
         /// </value>
-        public ICommand NextCommand
+        private ICommand NextCommand
         {
             get
             {
@@ -411,7 +476,7 @@ namespace DSoft.WizardControl
             }
         }
 
-        public ICommand ProcessButtonCommand
+        private ICommand ProcessButtonCommand
         {
             get
             {
@@ -426,7 +491,7 @@ namespace DSoft.WizardControl
         /// <summary>
         /// Command to be called when the wizard completes.  Should be set in the View to be called by the view model
         /// </summary>
-        public ICommand CompleteCommand
+        private ICommand CompleteCommand
         {
             get
             {
@@ -438,7 +503,7 @@ namespace DSoft.WizardControl
             }
         }
 
-        public ICommand CancelCommand
+        private ICommand CancelCommand
         {
             get
             {
@@ -450,7 +515,7 @@ namespace DSoft.WizardControl
             }
         }
 
-        public List<IWizardPage> AvailablePages { get; }
+        public List<IWizardPage> AvailablePages => Pages?.ToList();
 
         #endregion
 
@@ -458,13 +523,35 @@ namespace DSoft.WizardControl
         {
             this.DefaultStyleKey = typeof(WizardControl);
 
-
         }
 
         protected override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
 
+            var controlGrid = GetTemplateChild("PART_CONTENT");
+
+            _contentGrid = controlGrid as ContentControl;
+
+            if (Pages.Count > 0)
+            {
+                _contentGrid.Content = Pages[0];
+
+                NextEnabled = true;
+                PreviousEnabled = true;
+            }
+
+            NextCommand = new DelegateCommand(() =>
+            {
+                _contentGrid.Content = Pages[1];
+            });
+
+            PreviousCommand = new DelegateCommand(() =>
+            {
+                _contentGrid.Content = Pages[0];
+            });
+
+            
         }
 
         private static void OnHeaderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -498,6 +585,7 @@ namespace DSoft.WizardControl
         }
 
         #endregion
+
 
     }
 }

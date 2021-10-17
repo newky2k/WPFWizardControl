@@ -24,11 +24,11 @@ namespace Dsoft.WizardControl.WPF
         public DefaultProgressView()
         {
             var grd = new Grid();
-            grd.Children.Add(new Label()
+            grd.Children.Add(new TextBlock()
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
-                Content = "Wizard is Working...",
+                Text = "Wizard is Working...",
             });
 
             this.Content = grd;

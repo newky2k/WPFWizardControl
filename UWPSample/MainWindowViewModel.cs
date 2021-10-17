@@ -69,12 +69,12 @@ namespace UWPSample
                 }
                 else
                 {
-                    NextTitle = "Fowards";
+                    NextTitle = "Foward";
                 }
             }
         }
 
-        private string _nextTitle = "Forwards";
+        private string _nextTitle = "Forward";
 
         public string NextTitle
         {

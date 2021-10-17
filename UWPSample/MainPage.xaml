@@ -11,7 +11,7 @@
 
     <Grid>
         <dsd:WizardControl x:Name="wzrControl"
-                              Title="{Binding Title, FallbackValue=Wizard Title}"  
+                              Title="{Binding Title}"  
                               ProcessMode="None"
                               Pages="{Binding Pages}" 
                               ProcessButtonTitle="Create" 
