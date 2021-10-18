@@ -61,7 +61,7 @@ namespace UWPSample.TestData.Pages
 
         public void OnShown(IWizardControl wizard)
         {
-            wizard.UpdateButtonVisibility(WizardButtonVisibility.Hidden, WizardButtons.Process, WizardButtons.Cancel, WizardButtons.Previous);
+            wizard.UpdateButtonVisibility(WizardButtonVisibility.Hidden, WizardButtons.Cancel, WizardButtons.Previous);
             wizard.UpdateButtonVisibility(WizardButtonVisibility.Visible, WizardButtons.Complete);
         }
 

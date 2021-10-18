@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Threading.Tasks;
 using System.Linq;
+using Windows.UI.Core;
 
 #if UAP
 using Windows.UI.Xaml;
@@ -173,23 +174,6 @@ namespace DSoft.WizardControl
         private static void OnPagesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var sh = (WizardControl)d;
-
-            if (sh.Pages != null)
-            {
-                if (!sh.Pages.Contains(sh.ProcessingPage))
-                    sh.Pages.Add(sh.ProcessingPage);
-
-                if (!sh.Pages.Contains(sh.CompletePage))
-                    sh.Pages.Add(sh.CompletePage);
-
-                if (!sh.Pages.Contains(sh.ErrorPage))
-                    sh.Pages.Add(sh.ErrorPage);
-            }
-
-            if (sh.Pages?.Count > 0)
-                sh.SelectedPage = sh.Pages[0];
-
-            sh.RecalculateNavigation();
         }
 
         public IWizardPage ProcessingPage
@@ -871,7 +855,7 @@ namespace DSoft.WizardControl
                 Navigate(NavigationDirection.Forward);
             });
 
-            ProcessButtonCommand = new DelegateCommand(() =>
+            ProcessButtonCommand = new DelegateCommand(async () =>
             {
                 var cuItem = this.Pages[SelectedIndex];
 
@@ -879,13 +863,11 @@ namespace DSoft.WizardControl
                 {
                     //if (CanNavigate(NavigationDirection.Forward, cuItem))
                     //    IsBusy = true;
-
-                    Task.Run(async () =>
+                    await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                     {
-                        SetPage(Pages.IndexOf(ProcessingPage));
-
                         try
                         {
+                            SetPage(Pages.IndexOf(ProcessingPage));
 
                             if (ProcessFunction != null)
                             {
@@ -911,15 +893,11 @@ namespace DSoft.WizardControl
                             }
 
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
-
+                            Console.WriteLine(ex.Message);
                         }
-
-
-
                     });
-
                 }
 
 
@@ -934,6 +912,23 @@ namespace DSoft.WizardControl
             {
                 CancelFunction?.Invoke();
             });
+
+            if (Pages != null)
+            {
+                if (!Pages.Contains(ProcessingPage))
+                    Pages.Add(ProcessingPage);
+
+                if (!Pages.Contains(CompletePage))
+                    Pages.Add(CompletePage);
+
+                if (!Pages.Contains(ErrorPage))
+                    Pages.Add(ErrorPage);
+            }
+
+            if (Pages?.Count > 0)
+                SelectedPage = Pages[0];
+
+            //sh.RecalculateNavigation();
 
             SetPage(0);
         }

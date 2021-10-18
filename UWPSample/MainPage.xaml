@@ -5,14 +5,13 @@
     xmlns:local="using:UWPSample"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:dsd="using:DSoft.WizardControl"
+    xmlns:dsd="using:DSoft.WizardControl" d:DataContext="{d:DesignInstance Type=local:MainWindowViewModel}"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
         <dsd:WizardControl x:Name="wzrControl"
                               Title="{Binding Title}"  
-                              ProcessMode="None"
                               Pages="{Binding Pages}" 
                               ProcessButtonTitle="Create" 
                               CloseButtonTitle="Finish" 
@@ -20,9 +19,9 @@
                               SelectedPage="{Binding SelectedPage,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               NextButtonTitle="{Binding NextTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                               PreviousButtonTitle="Back"
-                              ProcessingPage="{Binding ProcessPage}" 
-                              ErrorPage="{Binding ErrorPage}" 
-                              CompletePage="{Binding CompletePage}"
+                              ProcessingPage="{Binding ProcessPage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                              ErrorPage="{Binding ErrorPage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                              CompletePage="{Binding CompletePage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               ProcessFunction="{Binding ProcessFunction}" 
                               CloseFunction="{Binding CloseFunction}" 
                               CancelFunction="{Binding CancelFunction}"/>
