@@ -9,6 +9,7 @@
                 <Style TargetType="TextBlock">
                     <Setter Property="FontSize" Value="24"/>
                     <Setter Property="FontWeight" Value="Bold" />
+                    <Setter Property="Margin" Value="5,0,0,0" />
                 </Style>
             </Setter.Value>
         </Setter>
@@ -17,6 +18,7 @@
                 <Style TargetType="TextBlock">
                     <Setter Property="FontSize" Value="18"/>
                     <Setter Property="Foreground" Value="Gray" />
+                    <Setter Property="Margin" Value="5,0,0,5" />
                 </Style>
             </Setter.Value>
         </Setter>
@@ -40,7 +42,7 @@
                             </StackPanel>
                         </Grid>
 
-                        <ContentControl x:Name="PART_CONTENT" Grid.Row="1" Background="CadetBlue">
+                        <ContentControl x:Name="PART_CONTENT" Grid.Row="1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
 
                         </ContentControl>
 

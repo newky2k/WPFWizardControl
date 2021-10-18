@@ -35,6 +35,13 @@ namespace UWPSample
             this.InitializeComponent();
 
             ViewModel = new MainWindowViewModel(wzrControl);
+
+            ViewModel.OnRequestCloseWindow += OnCloseWindowRequest;
+        }
+
+        private void OnCloseWindowRequest(object sender, bool e)
+        {
+            Application.Current.Exit();
         }
     }
 }

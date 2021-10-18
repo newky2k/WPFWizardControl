@@ -24,6 +24,13 @@
                               CompletePage="{Binding CompletePage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               ProcessFunction="{Binding ProcessFunction}" 
                               CloseFunction="{Binding CloseFunction}" 
-                              CancelFunction="{Binding CancelFunction}"/>
+                              CancelFunction="{Binding CancelFunction}">
+            <dsd:WizardControl.SubTitleTextStyle>
+                <Style TargetType="TextBlock">
+                    
+                    
+                </Style>
+            </dsd:WizardControl.SubTitleTextStyle>
+        </dsd:WizardControl>
     </Grid>
 </Page>
