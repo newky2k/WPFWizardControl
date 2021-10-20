@@ -57,7 +57,7 @@ namespace WpfAppNetCore.TestData
                     catch (Exception ex)
                     {
 
-                        NotifyErrorOccured(ex);
+                        NotifyErrorOccurred(ex);
                     }
                 });
             }
