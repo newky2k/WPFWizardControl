@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DSoft.System.Mvvm" Version="2.3.2105.221" />
-    <PackageReference Include="MahApps.Metro" Version="2.4.5" />
+    <PackageReference Include="DSoft.System.Mvvm" Version="2.4.2109.301" />
+    <PackageReference Include="MahApps.Metro" Version="2.4.9" />
   </ItemGroup>
 
   <ItemGroup>
