@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0-Windows7.0</TargetFramework>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DSoft.WizardControl.Core\DSoft.WizardControl.Core.csproj" />
+    <ProjectReference Include="..\DSoft.WizardControl.Desktop\DSoft.WizardControl.Desktop.csproj" />
     <ProjectReference Include="..\Dsoft.WizardControl\DSoft.WizardControl.csproj" />
   </ItemGroup>
 
