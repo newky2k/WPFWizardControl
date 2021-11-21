@@ -8,9 +8,12 @@ using System.Threading.Tasks;
 #if UAP
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+#elif WPF
+using System.Windows.Controls;
+using System.Windows;
 #else
 using Microsoft.UI.Xaml;
-    using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
 #endif
 
 namespace DSoft.WizardControl

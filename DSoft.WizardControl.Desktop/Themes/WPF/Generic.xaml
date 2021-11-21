@@ -1,0 +1,63 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:local="clr-namespace:DSoft.WizardControl">
+
+    <Style TargetType="local:WizardControl" >
+        <Setter Property="TitleTextStyle">
+            <Setter.Value>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontSize" Value="24"/>
+                    <Setter Property="FontWeight" Value="Bold" />
+                    <Setter Property="Margin" Value="5,0,0,0" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="SubTitleTextStyle">
+            <Setter.Value>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontSize" Value="18"/>
+                    <Setter Property="Foreground" Value="Gray" />
+                    <Setter Property="Margin" Value="5,0,0,5" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:WizardControl">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Orientation="Vertical">
+                                <TextBlock Text="{TemplateBinding Title}" Style="{TemplateBinding TitleTextStyle}"/>
+                                <TextBlock Text="{TemplateBinding SubTitle}" Style="{TemplateBinding SubTitleTextStyle}" />
+                            </StackPanel>
+                        </Grid>
+
+                        <ContentControl x:Name="PART_CONTENT" Grid.Row="1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+
+                        </ContentControl>
+
+
+                        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5" Visibility="{TemplateBinding ButtonStackVisibility}">
+                            <Button Name="btnPrevious" Content="{TemplateBinding PreviousButtonTitle}"  Width="75" Margin="0,0,5,0" IsEnabled="{TemplateBinding PreviousEnabled}" Command="{TemplateBinding PreviousCommand}" Visibility="{TemplateBinding PreviousButtonVisibility}"/>
+                            <Button Name="PART_BTN_NEXT" Content="{TemplateBinding NextButtonTitle}" Width="75" Margin="0,0,5,0" IsEnabled="{TemplateBinding NextEnabled}" Command="{TemplateBinding NextCommand}" Visibility="{TemplateBinding NextButtonVisibility}"/>
+                            <Button Name="btnFinish" Content="{TemplateBinding ProcessButtonTitle}" Width="75" Margin="0,0,5,0" IsEnabled="{TemplateBinding ProcessEnabled}" Command="{TemplateBinding ProcessButtonCommand}" Visibility="{TemplateBinding ProcessButtonVisibility}" />
+                            <Button Name="btnCancel"  Content="{TemplateBinding CancelButtonTitle}" Width="75" Margin="0,0,5,0" IsEnabled="{TemplateBinding CancelEnabled}" Command="{TemplateBinding CancelCommand}"  Visibility="{TemplateBinding CancelButtonVisibility}" />
+                            <Button Name="btnComplete" Content="{TemplateBinding CloseButtonTitle}" Width="75" Margin="0,0,5,0" IsEnabled="{TemplateBinding CompleteEnabled}" Command="{TemplateBinding CompleteCommand}"  Visibility="{TemplateBinding CompleteButtonVisibility}"/>
+                        </StackPanel>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>
