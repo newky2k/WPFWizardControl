@@ -24,7 +24,15 @@ namespace DSoft.WizardControl
 {
     public class WizardControl : Control, IWizardControl
     {
-        private ContentControl _contentGrid;
+		#region Controls
+		private ContentControl _contentGrid;
+        private Button _btnNext;
+        private Button _btnPrevious;
+        private Button _btnCancel;
+        private Button _btnFinish;
+        private Button _btnComplete;
+
+        #endregion
         private WizardStage _currentStage = WizardStage.Setup;
         private Dictionary<WizardButtons, Visibility> _buttonVisibility = new Dictionary<WizardButtons, Visibility>();
 
@@ -40,7 +48,7 @@ namespace DSoft.WizardControl
         public readonly static DependencyProperty TitleProperty = DependencyProperty.Register("Title", typeof(string), typeof(WizardControl), new PropertyMetadata("Wizard Title", OnTitleChanged));
         public readonly static DependencyProperty ProcessModeProperty = DependencyProperty.Register("ProcessMode", typeof(ProcessMode), typeof(WizardControl), new PropertyMetadata(ProcessMode.Default, OnProcessModeChanged));
         internal readonly static DependencyProperty SubTitleProperty = DependencyProperty.Register(nameof(SubTitle), typeof(string), typeof(WizardControl), new PropertyMetadata("Wizard Sub-Title", OnSubTitleChanged));
-
+        public readonly static DependencyProperty ButtonStyleProperty = DependencyProperty.Register("ButtonStyle", typeof(Style), typeof(WizardControl), new PropertyMetadata(null, OnButtonStyleChanged));
 
         public string Title
         {
@@ -48,7 +56,7 @@ namespace DSoft.WizardControl
             set { SetValue(TitleProperty, value); }
         }
 
-        private string SubTitle
+        internal string SubTitle
         {
             get { return (string)GetValue(SubTitleProperty); }
             set { SetValue(SubTitleProperty, value); }
@@ -77,6 +85,27 @@ namespace DSoft.WizardControl
             WizardControl sh = (WizardControl)d;
 
          //   sh._viewModel.ProcessMode = (ProcessMode)e.NewValue;
+        }
+
+        public Style ButtonStyle
+        {
+            get { return (Style)GetValue(ButtonStyleProperty); }
+            set { SetValue(ButtonStyleProperty, value); }
+        }
+
+        private static void OnButtonStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            WizardControl sh = (WizardControl)d;
+            //sh.HeaderTemplate = (Style)e.NewValue;
+
+            if (sh.ButtonStyle != null)
+            {
+				sh._btnNext.Style = sh.ButtonStyle;
+				sh._btnCancel.Style = sh.ButtonStyle;
+				sh._btnFinish.Style = sh.ButtonStyle;
+				sh._btnPrevious.Style = sh.ButtonStyle;
+				sh._btnComplete.Style = sh.ButtonStyle;
+			}
         }
 
         #endregion
@@ -323,7 +352,7 @@ namespace DSoft.WizardControl
         /// <summary>
         /// Is previous button enabled
         /// </summary>
-        private bool PreviousEnabled
+        internal bool PreviousEnabled
         {
             get { return (bool)GetValue(PreviousEnabledProperty); }
             set { SetValue(PreviousEnabledProperty, value); }
@@ -332,7 +361,7 @@ namespace DSoft.WizardControl
         /// <summary>
         /// Is next button enabled
         /// </summary>
-        private bool NextEnabled
+        internal bool NextEnabled
         {
             get { return (bool)GetValue(NextEnabledProperty); }
             set { SetValue(NextEnabledProperty, value); }
@@ -341,7 +370,7 @@ namespace DSoft.WizardControl
         /// <summary>
         /// Is finish button enabled
         /// </summary>
-        private bool ProcessEnabled
+        internal bool ProcessEnabled
         {
             get { return (bool)GetValue(ProcessEnabledProperty); }
             set { SetValue(ProcessEnabledProperty, value); }
@@ -350,13 +379,13 @@ namespace DSoft.WizardControl
         /// <summary>
         /// Is previous button enabled
         /// </summary>
-        private bool CancelEnabled
+        internal bool CancelEnabled
         {
             get { return (bool)GetValue(CancelEnabledProperty); }
             set { SetValue(CancelEnabledProperty, value); }
         }
 
-        private bool CompleteEnabled
+        internal bool CompleteEnabled
         {
             get { return (bool)GetValue(CompleteEnabledProperty); }
             set { SetValue(CompleteEnabledProperty, value); }
@@ -373,7 +402,7 @@ namespace DSoft.WizardControl
         internal static readonly DependencyProperty NextButtonVisibilityProperty = DependencyProperty.Register(nameof(NextButtonVisibility), typeof(Visibility), typeof(WizardControl), new PropertyMetadata(null));
         internal static readonly DependencyProperty PreviousButtonVisibilityProperty = DependencyProperty.Register(nameof(PreviousButtonVisibility), typeof(Visibility), typeof(WizardControl), new PropertyMetadata(null));
 
-        private Visibility CompleteButtonVisibility
+        internal Visibility CompleteButtonVisibility
         {
             get
             {
@@ -386,7 +415,7 @@ namespace DSoft.WizardControl
 
         }
 
-        private Visibility CancelButtonVisibility
+        internal Visibility CancelButtonVisibility
         {
             get
             {
@@ -399,7 +428,7 @@ namespace DSoft.WizardControl
 
         }
 
-        private Visibility ProcessButtonVisibility
+        internal Visibility ProcessButtonVisibility
         {
             get
             {
@@ -412,7 +441,7 @@ namespace DSoft.WizardControl
 
         }
 
-        private Visibility ButtonStackVisibility
+        internal Visibility ButtonStackVisibility
         {
             get
             {
@@ -424,7 +453,7 @@ namespace DSoft.WizardControl
             }
         }
 
-        private Visibility NextButtonVisibility
+        internal Visibility NextButtonVisibility
         {
             get
             {
@@ -437,7 +466,7 @@ namespace DSoft.WizardControl
 
         }
 
-        private Visibility PreviousButtonVisibility
+        internal Visibility PreviousButtonVisibility
         {
             get
             {
@@ -514,7 +543,7 @@ namespace DSoft.WizardControl
         /// <value>
         /// The previous command.
         /// </value>
-        private ICommand PreviousCommand
+        internal ICommand PreviousCommand
         {
             get
             {
@@ -532,7 +561,7 @@ namespace DSoft.WizardControl
         /// <value>
         /// The next command.
         /// </value>
-        private ICommand NextCommand
+        internal ICommand NextCommand
         {
             get
             {
@@ -544,7 +573,7 @@ namespace DSoft.WizardControl
             }
         }
 
-        private ICommand ProcessButtonCommand
+        internal ICommand ProcessButtonCommand
         {
             get
             {
@@ -559,7 +588,7 @@ namespace DSoft.WizardControl
         /// <summary>
         /// Command to be called when the wizard completes.  Should be set in the View to be called by the view model
         /// </summary>
-        private ICommand CompleteCommand
+        internal ICommand CompleteCommand
         {
             get
             {
@@ -571,7 +600,7 @@ namespace DSoft.WizardControl
             }
         }
 
-        private ICommand CancelCommand
+        internal ICommand CancelCommand
         {
             get
             {
@@ -739,7 +768,7 @@ namespace DSoft.WizardControl
         #region Visibility
 
 
-        private Visibility IsCompleteButtonVisibility
+        internal Visibility IsCompleteButtonVisibility
         {
             get
             {
@@ -755,7 +784,7 @@ namespace DSoft.WizardControl
 
         }
 
-        private Visibility IsCancelButtonVisibility
+        internal Visibility IsCancelButtonVisibility
         {
             get
             {
@@ -770,7 +799,7 @@ namespace DSoft.WizardControl
 
         }
 
-        private Visibility IsProcessButtonVisibility
+        internal Visibility IsProcessButtonVisibility
         {
             get
             {
@@ -785,7 +814,7 @@ namespace DSoft.WizardControl
 
         }
 
-        private Visibility IsButtonStackVisibility
+        internal Visibility IsButtonStackVisibility
         {
             get
             {
@@ -801,7 +830,7 @@ namespace DSoft.WizardControl
             }
         }
 
-        private Visibility IsNextButtonVisibility
+        internal Visibility IsNextButtonVisibility
         {
             get
             {
@@ -816,7 +845,7 @@ namespace DSoft.WizardControl
 
         }
 
-        private Visibility IsPreviousButtonVisibility
+        internal Visibility IsPreviousButtonVisibility
         {
             get
             {
@@ -850,6 +879,14 @@ namespace DSoft.WizardControl
             var controlGrid = GetTemplateChild("PART_CONTENT");
 
             _contentGrid = controlGrid as ContentControl;
+
+            //setup buttons
+            _btnNext = GetTemplateChild("PART_BTN_NEXT") as Button;
+            _btnPrevious = GetTemplateChild("PART_BTN_PREVIOUS") as Button;
+            _btnCancel = GetTemplateChild("PART_BTN_CANCEL") as Button;
+            _btnComplete = GetTemplateChild("PART_BTN_COMPLETE") as Button;
+            _btnFinish = GetTemplateChild("PART_BTN_FINISH") as Button;
+
 
             PreviousCommand = new DelegateCommand(() =>
             {
