@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -40,9 +41,10 @@ namespace UWPSample.TestData.Pages
 
         public List<KeyValuePair<string, object>> Parameters { get => new List<KeyValuePair<string, object>>(); set => Console.WriteLine(""); }
 
-        public bool Validate()
-        {
-            return true;
-        }
-    }
+		public Task<bool> ValidateAsync()
+		{
+			return Task.FromResult(true);
+		}
+
+	}
 }

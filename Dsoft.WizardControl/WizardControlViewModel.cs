@@ -608,58 +608,52 @@ namespace Dsoft.WizardControl.WPF
                 Navigate(NavigationDirection.Forward);
             });
 
-            ProcessButtonCommand = new DelegateCommand(() => 
+            ProcessButtonCommand = new DelegateCommand(async () => 
             {
                 var cuItem = this.Pages[SelectedIndex];
 
-                if (cuItem.Validate())
+                if (await cuItem.ValidateAsync())
                 {
                     if (CanNavigate(NavigationDirection.Forward, cuItem))
                         IsBusy = true;
 
-                    Task.Run(async () =>
-                    {
-                        SetPage(Pages.IndexOf(ProgressPage));
+					SetPage(Pages.IndexOf(ProgressPage));
 
-                        try
-                        {
-                            
-                            if (ProcessFunction != null)
-                            {
-                                var result = await ProcessFunction();
+					try
+					{
 
-                                switch (result)
-                                {
-                                    case WizardProcessResult.Complete:
-                                        {
-                                            SetPage(Pages.IndexOf(CompletePage));
-                                        }
-                                        break;
-                                    default:
-                                        {
-                                            SetPage(Pages.IndexOf(ErrorPage));
-                                        }
-                                        break;
-                                }
-                            }
-                           else
-                            {
-                                SetPage(Pages.IndexOf(CompletePage));
-                            }
-                            
-                        }
-                        catch (Exception)
-                        {
-                            
-                        }
-                        
+						if (ProcessFunction != null)
+						{
+							var result = await ProcessFunction();
 
-                        
-                    });
+							switch (result)
+							{
+								case WizardProcessResult.Complete:
+									{
+										SetPage(Pages.IndexOf(CompletePage));
+									}
+									break;
+								default:
+									{
+										SetPage(Pages.IndexOf(ErrorPage));
+									}
+									break;
+							}
+						}
+						else
+						{
+							SetPage(Pages.IndexOf(CompletePage));
+						}
 
-                    //
+					}
+					catch (Exception)
+					{
 
-                    IsBusy = false;
+					}
+
+					//
+
+					IsBusy = false;
                 }
 
 
@@ -829,7 +823,7 @@ namespace Dsoft.WizardControl.WPF
             
         }
 
-        internal void Navigate(NavigationDirection direction)
+        internal async void Navigate(NavigationDirection direction)
         {
             switch (direction)
             {
@@ -852,7 +846,7 @@ namespace Dsoft.WizardControl.WPF
                     {
                         var cuItem = this.Pages[SelectedIndex];
 
-                        if (cuItem.Validate())
+                        if (await cuItem.ValidateAsync())
                         {
                             if (CanNavigate(NavigationDirection.Forward, cuItem))
                                 SetPage(GetNextPageIndex(SelectedIndex));

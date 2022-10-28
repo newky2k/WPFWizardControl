@@ -37,9 +37,9 @@ namespace DSoft.WizardControl
 
         public WizardPageConfiguration PageConfig => new WizardPageConfiguration("Wizard Complete");
 
-        public bool Validate()
-        {
-            return true;
-        }
-    }
+		public Task<bool> ValidateAsync()
+		{
+			return Task.FromResult(true);
+		}
+	}
 }

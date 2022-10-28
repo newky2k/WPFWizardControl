@@ -43,9 +43,9 @@ namespace WpfAppNetCore.TestData.Pages
 
         public List<KeyValuePair<string, object>> Parameters { get => new List<KeyValuePair<string, object>>(); set => Console.WriteLine(""); }
 
-        public bool Validate()
-        {
-            return true;
-        }
-    }
+		public Task<bool> ValidateAsync()
+		{
+			return Task.FromResult(true);
+		}
+	}
 }

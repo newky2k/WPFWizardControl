@@ -902,7 +902,7 @@ namespace DSoft.WizardControl
             {
                 var cuItem = this.Pages[SelectedIndex];
 
-                if (cuItem.Validate())
+                if (await cuItem.ValidateAsync())
                 {
 #if WPF
                     await this.Dispatcher.BeginInvoke((Action)(async () =>
@@ -1006,7 +1006,7 @@ namespace DSoft.WizardControl
             _currentStage = WizardStage.Error;
         }
 
-        public void Navigate(NavigationDirection direction)
+        public async void Navigate(NavigationDirection direction)
         {
             switch (direction)
             {
@@ -1029,7 +1029,7 @@ namespace DSoft.WizardControl
                     {
                         var cuItem = this.Pages[SelectedIndex];
 
-                        if (cuItem.Validate())
+                        if (await cuItem.ValidateAsync())
                         {
                             if (CanNavigate(NavigationDirection.Forward, cuItem))
                                 SetPage(GetNextPageIndex(SelectedIndex));

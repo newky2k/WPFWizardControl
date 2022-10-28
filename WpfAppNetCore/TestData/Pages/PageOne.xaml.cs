@@ -51,11 +51,11 @@ namespace WpfAppNetCore.TestData.Pages
 
         }
 
-        public bool Validate()
-        {
-            ViewModel.ValidateAllProperties();
+		public Task<bool> ValidateAsync()
+		{
+			ViewModel.ValidateAllProperties();
 
-            return !ViewModel.HasErrors;
-        }
-    }
+			return Task.FromResult(!ViewModel.HasErrors);
+		}
+	}
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -49,11 +50,12 @@ namespace UWPSample.TestData.Pages
 
         }
 
-        public bool Validate()
-        {
-            ViewModel.ValidateAllProperties();
+		public Task<bool> ValidateAsync()
+		{
+			ViewModel.ValidateAllProperties();
 
-            return !ViewModel.HasErrors;
-        }
+            return Task.FromResult(!ViewModel.HasErrors);
+		}
+
     }
 }
