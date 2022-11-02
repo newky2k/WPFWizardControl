@@ -24,11 +24,11 @@ namespace Dsoft.WizardControl.WPF
         public DefaultErrorView()
         {
             var grd = new Grid();
-            grd.Children.Add(new Label()
+            grd.Children.Add(new TextBlock()
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
-                Content = "Ooops there was an error....",
+                Text = "Ooops there was an error....",
             });
 
             this.Content = grd;
@@ -38,9 +38,9 @@ namespace Dsoft.WizardControl.WPF
 
         public List<KeyValuePair<string, object>> Parameters { get => new List<KeyValuePair<string, object>>(); set => Console.WriteLine(""); }
 
-        public bool Validate()
-        {
-            return true;
-        }
-    }
+		public Task<bool> ValidateAsync()
+		{
+			return Task.FromResult(true);
+		}
+	}
 }

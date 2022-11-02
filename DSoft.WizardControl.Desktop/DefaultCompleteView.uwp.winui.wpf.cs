@@ -4,21 +4,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace Dsoft.WizardControl.WPF
+#if UAP
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+#elif WPF
+using System.Windows.Controls;
+using System.Windows;
+#else
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+#endif
+
+namespace DSoft.WizardControl
 {
-    /// <summary>
-    /// Interaction logic for DefaultCompleteView.xaml
-    /// </summary>
     public class DefaultCompleteView : UserControl, IWizardPage
     {
         public DefaultCompleteView()

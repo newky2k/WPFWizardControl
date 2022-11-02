@@ -1,26 +1,25 @@
-﻿using Dsoft.WizardControl.WPF;
-using DSoft.WizardControl.Core;
+﻿using DSoft.WizardControl.Core;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
 
-namespace WpfAppNetCore.TestData.Pages
+// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
+
+namespace UWPSample.TestData.Pages
 {
-    /// <summary>
-    /// Interaction logic for ProcessingPage.xaml
-    /// </summary>
-    public partial class ProcessingPage : UserControl, IWizardPage
+    public sealed partial class ProcessingPage : UserControl, IWizardPage
     {
 
         private SharedViewModel _viewModel;
@@ -42,7 +41,7 @@ namespace WpfAppNetCore.TestData.Pages
         public string Title => "Wizard is Doing something";
 
 
-        public WizardPageConfiguration PageConfig => new WizardPageConfiguration("Wizard is Doing something"){};
+        public WizardPageConfiguration PageConfig => new WizardPageConfiguration("Wizard is Doing something") { };
 
 
         public List<KeyValuePair<string, object>> Parameters { get => new List<KeyValuePair<string, object>>(); set => Console.WriteLine(""); }

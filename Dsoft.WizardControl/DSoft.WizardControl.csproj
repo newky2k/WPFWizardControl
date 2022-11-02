@@ -1,6 +1,6 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net461;netcoreapp3.0;net5.0-windows7.0;</TargetFrameworks>
+    <TargetFrameworks>net461;netcoreapp3.1;net5.0-windows7.0;</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -21,7 +21,7 @@
     <Copyright>Copyright © 2019 DSoft</Copyright>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="DSoft.System.Mvvm" Version="2.3.2105.221" />
+    <PackageReference Include="DSoft.System.Mvvm" Version="2.4.2109.301" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DSoft.WizardControl.Core\DSoft.WizardControl.Core.csproj" />

@@ -1,5 +1,4 @@
-﻿using Dsoft.WizardControl.WPF;
-using DSoft.WizardControl.Core;
+﻿using DSoft.WizardControl.Core;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,12 +6,10 @@ using System.Linq;
 using System.Mvvm;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
-using WpfAppNetCore.TestData;
-using WpfAppNetCore.TestData.Pages;
+using UWPSample.TestData;
+using UWPSample.TestData.Pages;
 
-namespace WpfAppNetCore
+namespace UWPSample
 {
     public class MainWindowViewModel : ViewModel
     {
@@ -62,9 +59,9 @@ namespace WpfAppNetCore
         public IWizardPage SelectedPage
         {
             get { return _selectedPage; }
-            set 
-            { 
-                _selectedPage = value; NotifyPropertyChanged(nameof(SelectedPage)); 
+            set
+            {
+                _selectedPage = value; NotifyPropertyChanged(nameof(SelectedPage));
 
                 if (_selectedPage is PageTwo)
                 {
@@ -72,12 +69,12 @@ namespace WpfAppNetCore
                 }
                 else
                 {
-                    NextTitle = "Next";
+                    NextTitle = "Foward";
                 }
             }
         }
 
-        private string _nextTitle = "Next";
+        private string _nextTitle = "Forward";
 
         public string NextTitle
         {
@@ -120,7 +117,6 @@ namespace WpfAppNetCore
                 };
             }
         }
-        #endregion
 
         public SharedViewModel SharedViewModel
         {
@@ -128,11 +124,13 @@ namespace WpfAppNetCore
             set { _sharedViewModel = value; }
         }
 
+        #endregion
+
         public MainWindowViewModel(IWizardControl wizard)
         {
             Title = "Create Supplier";
 
-            
+
             SharedViewModel = new SharedViewModel(wizard);
 
             CompletePage = new CompletePageView(SharedViewModel);

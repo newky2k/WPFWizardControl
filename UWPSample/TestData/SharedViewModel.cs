@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace WpfAppNetCore.TestData
+namespace UWPSample.TestData
 {
     public class SharedViewModel : ViewModel
     {
@@ -63,7 +63,7 @@ namespace WpfAppNetCore.TestData
             }
         }
 
-       public ICommand SetFinishCommand
+        public ICommand SetFinishCommand
         {
             get
             {
