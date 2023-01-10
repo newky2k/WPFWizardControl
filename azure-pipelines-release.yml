@@ -20,7 +20,7 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
   netVersion: '6.0.x'
-  releaseSuffix: ''
+  releaseSuffix: '-prerelease'
 
 name: 2.1.$(date:yyMM).$(date:dd)$(rev:r)
 steps:
@@ -43,7 +43,7 @@ steps:
   displayName: dotnet build
   inputs:
     projects: '$(solution)'
-    arguments: '--configuration=$(buildConfiguration) /p:Platform="$(buildPlatform)" /p:Version=$(Build.BuildNumber) /p:AssemblyVersion=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber) '
+    arguments: '--configuration=$(buildConfiguration) /p:Platform="$(buildPlatform)" /p:Version=$(Build.BuildNumber)$(releaseSuffix) /p:AssemblyVersion=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber) '
     
 - task: CopyFiles@2
   displayName: Copy Files to $(build.artifactstagingdirectory)
