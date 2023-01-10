@@ -20,7 +20,7 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
   netVersion: '6.0.x'
-  releaseSuffix: ''
+  releaseSuffix: '-prerelease'
 
 name: 2.1.$(date:yyMM).$(date:dd)$(rev:r)
 steps:
