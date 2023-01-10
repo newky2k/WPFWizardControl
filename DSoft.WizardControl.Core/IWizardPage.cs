@@ -6,10 +6,21 @@ using System.Threading.Tasks;
 
 namespace DSoft.WizardControl.Core
 {
-    public interface IWizardPage
+	/// <summary>
+	/// Interface IWizardPage
+	/// </summary>
+	public interface IWizardPage
     {
-        WizardPageConfiguration PageConfig { get; }
+		/// <summary>
+		/// Gets the page configuration.
+		/// </summary>
+		/// <value>The page configuration.</value>
+		WizardPageConfiguration PageConfig { get; }
 
-        Task<bool> ValidateAsync();
+		/// <summary>
+		/// Validates the asynchronously.
+		/// </summary>
+		/// <returns>Task&lt;System.Boolean&gt;.</returns>
+		Task<bool> ValidateAsync();
     }
 }

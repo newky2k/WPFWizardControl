@@ -4,16 +4,39 @@ using System.Text;
 
 namespace DSoft.WizardControl.Core
 {
-    public interface IWizardControl
+	/// <summary>
+	/// Interface IWizardControl
+	/// </summary>
+	public interface IWizardControl
     {
-        List<IWizardPage> AvailablePages { get; }
+		/// <summary>
+		/// Gets the available pages.
+		/// </summary>
+		/// <value>The available pages.</value>
+		List<IWizardPage> AvailablePages { get; }
 
-        void Navigate(NavigationDirection direction);
+		/// <summary>
+		/// Navigates in the specified direction.
+		/// </summary>
+		/// <param name="direction">The direction.</param>
+		void Navigate(NavigationDirection direction);
 
-        void UpdateButtonVisibility(WizardButtonVisibility visibility, params WizardButtons[] buttons);
+		/// <summary>
+		/// Updates the button visibility.
+		/// </summary>
+		/// <param name="visibility">The visibility.</param>
+		/// <param name="buttons">The buttons.</param>
+		void UpdateButtonVisibility(WizardButtonVisibility visibility, params WizardButtons[] buttons);
 
-        void UpdateStage(WizardStage stage);
+		/// <summary>
+		/// Updates the stage.
+		/// </summary>
+		/// <param name="stage">The stage.</param>
+		void UpdateStage(WizardStage stage);
 
-        void RecalculateNavigation();
+		/// <summary>
+		/// Recalculates the navigation.
+		/// </summary>
+		void RecalculateNavigation();
     }
 }

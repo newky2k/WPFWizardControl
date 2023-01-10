@@ -4,13 +4,34 @@ using System.Text;
 
 namespace DSoft.WizardControl.Core
 {
-    public enum WizardButtons
+	/// <summary>
+	/// Enum WizardButtons
+	/// </summary>
+	public enum WizardButtons
     {
-        All,
-        Next,
-        Previous,
-        Cancel,
-        Process,
-        Complete
-    }
+		/// <summary>
+		/// All
+		/// </summary>
+		All,
+		/// <summary>
+		/// The next
+		/// </summary>
+		Next,
+		/// <summary>
+		/// The previous
+		/// </summary>
+		Previous,
+		/// <summary>
+		/// The cancel
+		/// </summary>
+		Cancel,
+		/// <summary>
+		/// The process
+		/// </summary>
+		Process,
+		/// <summary>
+		/// The complete
+		/// </summary>
+		Complete
+	}
 }

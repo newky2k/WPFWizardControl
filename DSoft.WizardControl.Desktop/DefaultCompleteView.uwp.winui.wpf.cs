@@ -18,9 +18,19 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace DSoft.WizardControl
 {
-    public class DefaultCompleteView : UserControl, IWizardPage
+	/// <summary>
+	/// Class DefaultCompleteView.
+	/// Implements the <see cref="UserControl" />
+	/// Implements the <see cref="IWizardPage" />
+	/// </summary>
+	/// <seealso cref="UserControl" />
+	/// <seealso cref="IWizardPage" />
+	public class DefaultCompleteView : UserControl, IWizardPage
     {
-        public DefaultCompleteView()
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DefaultCompleteView"/> class.
+		/// </summary>
+		public DefaultCompleteView()
         {
             var grd = new Grid();
             grd.Children.Add(new TextBlock()
@@ -33,10 +43,22 @@ namespace DSoft.WizardControl
             this.Content = grd;
         }
 
-        public List<KeyValuePair<string, object>> Parameters { get => new List<KeyValuePair<string, object>>(); set => Console.WriteLine(""); }
+		/// <summary>
+		/// Gets or sets the parameters.
+		/// </summary>
+		/// <value>The parameters.</value>
+		public List<KeyValuePair<string, object>> Parameters { get => new List<KeyValuePair<string, object>>(); set => Console.WriteLine(""); }
 
-        public WizardPageConfiguration PageConfig => new WizardPageConfiguration("Wizard Complete");
+		/// <summary>
+		/// Gets the page configuration.
+		/// </summary>
+		/// <value>The page configuration.</value>
+		public WizardPageConfiguration PageConfig => new WizardPageConfiguration("Wizard Complete");
 
+		/// <summary>
+		/// Validates the asynchronously.
+		/// </summary>
+		/// <returns>Task&lt;System.Boolean&gt;.</returns>
 		public Task<bool> ValidateAsync()
 		{
 			return Task.FromResult(true);

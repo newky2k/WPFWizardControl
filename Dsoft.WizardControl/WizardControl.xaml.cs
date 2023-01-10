@@ -17,51 +17,90 @@ using System.Windows.Shapes;
 
 namespace Dsoft.WizardControl.WPF
 {
-    /// <summary>
-    /// Interaction logic for WizardControl.xaml
-    /// </summary>
-    public partial class WizardControl : UserControl, IWizardControl
+	/// <summary>
+	/// Interaction logic for WizardControl.xaml
+	/// </summary>
+	public partial class WizardControl : UserControl, IWizardControl
     {
         private WizardControlViewModel _viewModel;
 
-        #region Properties
+		#region Properties
 
-        public readonly static DependencyProperty TitleProperty = DependencyProperty.Register("Title", typeof(string), typeof(WizardControl), new PropertyMetadata(null, OnTitleChanged));
-        public readonly static DependencyProperty HeaderTemplateProperty = DependencyProperty.Register("HeaderTemplate", typeof(DataTemplate), typeof(WizardControl), new PropertyMetadata(null, OnHeaderTemplateChanged));
-        public readonly static DependencyProperty ButtonStyleProperty = DependencyProperty.Register("ButtonStyle", typeof(Style), typeof(WizardControl), new PropertyMetadata(null, OnButtonStyleChanged));
-        public readonly static DependencyProperty ProcessModeProperty = DependencyProperty.Register("ProcessMode", typeof(ProcessMode), typeof(WizardControl), new PropertyMetadata(ProcessMode.Default, OnProcessModeChanged));
+		/// <summary>
+		/// The title property
+		/// </summary>
+		public readonly static DependencyProperty TitleProperty = DependencyProperty.Register("Title", typeof(string), typeof(WizardControl), new PropertyMetadata(null, OnTitleChanged));
+		/// <summary>
+		/// The header template property
+		/// </summary>
+		public readonly static DependencyProperty HeaderTemplateProperty = DependencyProperty.Register("HeaderTemplate", typeof(DataTemplate), typeof(WizardControl), new PropertyMetadata(null, OnHeaderTemplateChanged));
+		/// <summary>
+		/// The button style property
+		/// </summary>
+		public readonly static DependencyProperty ButtonStyleProperty = DependencyProperty.Register("ButtonStyle", typeof(Style), typeof(WizardControl), new PropertyMetadata(null, OnButtonStyleChanged));
+		/// <summary>
+		/// The process mode property
+		/// </summary>
+		public readonly static DependencyProperty ProcessModeProperty = DependencyProperty.Register("ProcessMode", typeof(ProcessMode), typeof(WizardControl), new PropertyMetadata(ProcessMode.Default, OnProcessModeChanged));
 
-        public string Title
+		/// <summary>
+		/// Gets or sets the title.
+		/// </summary>
+		/// <value>The title.</value>
+		public string Title
         {
             get { return (string)GetValue(TitleProperty); }
             set { SetValue(TitleProperty, value); }
         }
 
-        private static void OnTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		/// <summary>
+		/// Handles the <see cref="E:TitleChanged" /> event.
+		/// </summary>
+		/// <param name="d">The d.</param>
+		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+		private static void OnTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             WizardControl sh = (WizardControl)d;
             sh._viewModel.Title = (string)e.NewValue;
         }
 
-        public DataTemplate HeaderTemplate
+		/// <summary>
+		/// Gets or sets the header template.
+		/// </summary>
+		/// <value>The header template.</value>
+		public DataTemplate HeaderTemplate
         {
             get { return (DataTemplate)GetValue(HeaderTemplateProperty); }
             set { SetValue(HeaderTemplateProperty, value); }
         }
 
-        private static void OnHeaderTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		/// <summary>
+		/// Handles the <see cref="E:HeaderTemplateChanged" /> event.
+		/// </summary>
+		/// <param name="d">The d.</param>
+		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+		private static void OnHeaderTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             WizardControl sh = (WizardControl)d;
             //sh.HeaderTemplate = (DataTemplate)e.NewValue;
         }
 
-        public Style ButtonStyle
+		/// <summary>
+		/// Gets or sets the button style.
+		/// </summary>
+		/// <value>The button style.</value>
+		public Style ButtonStyle
         {
             get { return (Style)GetValue(ButtonStyleProperty); }
             set { SetValue(ButtonStyleProperty, value); }
         }
 
-        private static void OnButtonStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		/// <summary>
+		/// Handles the <see cref="E:ButtonStyleChanged" /> event.
+		/// </summary>
+		/// <param name="d">The d.</param>
+		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+		private static void OnButtonStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             WizardControl sh = (WizardControl)d;
             //sh.HeaderTemplate = (Style)e.NewValue;
@@ -76,191 +115,347 @@ namespace Dsoft.WizardControl.WPF
             }
         }
 
-        public ProcessMode ProcessMode
+		/// <summary>
+		/// Gets or sets the process mode.
+		/// </summary>
+		/// <value>The process mode.</value>
+		public ProcessMode ProcessMode
         {
             get { return (ProcessMode)GetValue(ProcessModeProperty); }
             set { SetValue(TitleProperty, value); }
         }
 
-        private static void OnProcessModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		/// <summary>
+		/// Handles the <see cref="E:ProcessModeChanged" /> event.
+		/// </summary>
+		/// <param name="d">The d.</param>
+		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+		private static void OnProcessModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             WizardControl sh = (WizardControl)d;
 
             sh._viewModel.ProcessMode = (ProcessMode)e.NewValue;
         }
-        #endregion
+		#endregion
 
-        #region Pages
-        public static readonly DependencyProperty ItemsProperty = DependencyProperty.Register("Pages", typeof(ObservableCollection<IWizardPage>), typeof(WizardControl), new PropertyMetadata(new ObservableCollection<IWizardPage>(), OnPagesChanged));
-        public static readonly DependencyProperty ProcessingPageProperty = DependencyProperty.Register("ProcessingPage", typeof(IWizardPage), typeof(WizardControl), new PropertyMetadata(null, OnProcessingPageChanged));
-        public static readonly DependencyProperty CompletePageProperty = DependencyProperty.Register("CompletePage", typeof(IWizardPage), typeof(WizardControl), new PropertyMetadata(null, OnCompletePageChanged));
-        public static readonly DependencyProperty ErrorPageProperty = DependencyProperty.Register("ErrorPage", typeof(IWizardPage), typeof(WizardControl), new PropertyMetadata(null, OnErrorPageChanged));
+		#region Pages
+		/// <summary>
+		/// The items property
+		/// </summary>
+		public static readonly DependencyProperty ItemsProperty = DependencyProperty.Register("Pages", typeof(ObservableCollection<IWizardPage>), typeof(WizardControl), new PropertyMetadata(new ObservableCollection<IWizardPage>(), OnPagesChanged));
+		/// <summary>
+		/// The processing page property
+		/// </summary>
+		public static readonly DependencyProperty ProcessingPageProperty = DependencyProperty.Register("ProcessingPage", typeof(IWizardPage), typeof(WizardControl), new PropertyMetadata(null, OnProcessingPageChanged));
+		/// <summary>
+		/// The complete page property
+		/// </summary>
+		public static readonly DependencyProperty CompletePageProperty = DependencyProperty.Register("CompletePage", typeof(IWizardPage), typeof(WizardControl), new PropertyMetadata(null, OnCompletePageChanged));
+		/// <summary>
+		/// The error page property
+		/// </summary>
+		public static readonly DependencyProperty ErrorPageProperty = DependencyProperty.Register("ErrorPage", typeof(IWizardPage), typeof(WizardControl), new PropertyMetadata(null, OnErrorPageChanged));
 
-        public ObservableCollection<IWizardPage> Pages
+		/// <summary>
+		/// Gets or sets the pages.
+		/// </summary>
+		/// <value>The pages.</value>
+		public ObservableCollection<IWizardPage> Pages
         {
             get { return (ObservableCollection<IWizardPage>)GetValue(ItemsProperty); }
             set { SetValue(ItemsProperty, value); }
         }
 
-        private static void OnPagesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		/// <summary>
+		/// Handles the <see cref="E:PagesChanged" /> event.
+		/// </summary>
+		/// <param name="d">The d.</param>
+		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+		private static void OnPagesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             WizardControl sh = (WizardControl)d;
             sh._viewModel.Pages = (ObservableCollection<IWizardPage>)e.NewValue;
         }
 
-        public IWizardPage ProcessingPage
+		/// <summary>
+		/// Gets or sets the processing page.
+		/// </summary>
+		/// <value>The processing page.</value>
+		public IWizardPage ProcessingPage
         {
             get { return (IWizardPage)GetValue(ProcessingPageProperty); }
             set { SetValue(ProcessingPageProperty, value); }
         }
 
-        private static void OnProcessingPageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		/// <summary>
+		/// Handles the <see cref="E:ProcessingPageChanged" /> event.
+		/// </summary>
+		/// <param name="d">The d.</param>
+		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+		private static void OnProcessingPageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             WizardControl sh = (WizardControl)d;
             sh._viewModel.ProgressPage = (IWizardPage)e.NewValue;
         }
 
-        public IWizardPage CompletePage
+		/// <summary>
+		/// Gets or sets the complete page.
+		/// </summary>
+		/// <value>The complete page.</value>
+		public IWizardPage CompletePage
         {
             get { return (IWizardPage)GetValue(CompletePageProperty); }
             set { SetValue(CompletePageProperty, value); }
         }
 
-        private static void OnCompletePageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		/// <summary>
+		/// Handles the <see cref="E:CompletePageChanged" /> event.
+		/// </summary>
+		/// <param name="d">The d.</param>
+		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+		private static void OnCompletePageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             WizardControl sh = (WizardControl)d;
             sh._viewModel.CompletePage = (IWizardPage)e.NewValue;
         }
 
-        public IWizardPage ErrorPage
+		/// <summary>
+		/// Gets or sets the error page.
+		/// </summary>
+		/// <value>The error page.</value>
+		public IWizardPage ErrorPage
         {
             get { return (IWizardPage)GetValue(ErrorPageProperty); }
             set { SetValue(ErrorPageProperty, value); }
         }
 
-        private static void OnErrorPageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		/// <summary>
+		/// Handles the <see cref="E:ErrorPageChanged" /> event.
+		/// </summary>
+		/// <param name="d">The d.</param>
+		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+		private static void OnErrorPageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             WizardControl sh = (WizardControl)d;
             sh._viewModel.ErrorPage = (IWizardPage)e.NewValue;
         }
 
-        #endregion
+		#endregion
 
-        #region Button Titles
+		#region Button Titles
 
-        public readonly static DependencyProperty ProcessButtonTitleProperty = DependencyProperty.Register("ProcessButtonTitle", typeof(string), typeof(WizardControl), new PropertyMetadata("Process", OnProcessButtonTitleChanged));
-        public readonly static DependencyProperty CloseButtonTitleProperty = DependencyProperty.Register("CloseButtonTitle", typeof(string), typeof(WizardControl), new PropertyMetadata("Close", OnCloseButtonTitleChanged));
-        public readonly static DependencyProperty CancelButtonTitleProperty = DependencyProperty.Register("CancelButtonTitle", typeof(string), typeof(WizardControl), new PropertyMetadata("Cancel", OnCancelButtonTitleChanged));
-        public readonly static DependencyProperty NextButtonTitleProperty = DependencyProperty.Register("NextButtonTitle", typeof(string), typeof(WizardControl), new PropertyMetadata("Next", OnNextButtonTitleChanged));
-        public readonly static DependencyProperty PreviousButtonTitleProperty = DependencyProperty.Register("PreviousButtonTitle", typeof(string), typeof(WizardControl), new PropertyMetadata("Previous", OnPreviousButtonTitleChanged));
+		/// <summary>
+		/// The process button title property
+		/// </summary>
+		public readonly static DependencyProperty ProcessButtonTitleProperty = DependencyProperty.Register("ProcessButtonTitle", typeof(string), typeof(WizardControl), new PropertyMetadata("Process", OnProcessButtonTitleChanged));
+		/// <summary>
+		/// The close button title property
+		/// </summary>
+		public readonly static DependencyProperty CloseButtonTitleProperty = DependencyProperty.Register("CloseButtonTitle", typeof(string), typeof(WizardControl), new PropertyMetadata("Close", OnCloseButtonTitleChanged));
+		/// <summary>
+		/// The cancel button title property
+		/// </summary>
+		public readonly static DependencyProperty CancelButtonTitleProperty = DependencyProperty.Register("CancelButtonTitle", typeof(string), typeof(WizardControl), new PropertyMetadata("Cancel", OnCancelButtonTitleChanged));
+		/// <summary>
+		/// The next button title property
+		/// </summary>
+		public readonly static DependencyProperty NextButtonTitleProperty = DependencyProperty.Register("NextButtonTitle", typeof(string), typeof(WizardControl), new PropertyMetadata("Next", OnNextButtonTitleChanged));
+		/// <summary>
+		/// The previous button title property
+		/// </summary>
+		public readonly static DependencyProperty PreviousButtonTitleProperty = DependencyProperty.Register("PreviousButtonTitle", typeof(string), typeof(WizardControl), new PropertyMetadata("Previous", OnPreviousButtonTitleChanged));
 
 
-        public string ProcessButtonTitle
+		/// <summary>
+		/// Gets or sets the process button title.
+		/// </summary>
+		/// <value>The process button title.</value>
+		public string ProcessButtonTitle
         {
             get { return (string)GetValue(ProcessButtonTitleProperty); }
             set { SetValue(ProcessButtonTitleProperty, value); }
         }
 
-        private static void OnProcessButtonTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		/// <summary>
+		/// Handles the <see cref="E:ProcessButtonTitleChanged" /> event.
+		/// </summary>
+		/// <param name="d">The d.</param>
+		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+		private static void OnProcessButtonTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             WizardControl sh = (WizardControl)d;
             sh._viewModel.ProcessButtonTitle = (string)e.NewValue;
         }
 
-        public string CloseButtonTitle
+		/// <summary>
+		/// Gets or sets the close button title.
+		/// </summary>
+		/// <value>The close button title.</value>
+		public string CloseButtonTitle
         {
             get => (string)GetValue(CloseButtonTitleProperty);
             set => SetValue(CloseButtonTitleProperty, value);
         }
 
-        private static void OnCloseButtonTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		/// <summary>
+		/// Handles the <see cref="E:CloseButtonTitleChanged" /> event.
+		/// </summary>
+		/// <param name="d">The d.</param>
+		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+		private static void OnCloseButtonTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             WizardControl sh = (WizardControl)d;
             sh._viewModel.CloseButtonTitle = (string)e.NewValue;
         }
 
-        public string CancelButtonTitle
+		/// <summary>
+		/// Gets or sets the cancel button title.
+		/// </summary>
+		/// <value>The cancel button title.</value>
+		public string CancelButtonTitle
         {
             get => (string)GetValue(CancelButtonTitleProperty);
             set => SetValue(CancelButtonTitleProperty, value);
         }
 
-        private static void OnCancelButtonTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		/// <summary>
+		/// Handles the <see cref="E:CancelButtonTitleChanged" /> event.
+		/// </summary>
+		/// <param name="d">The d.</param>
+		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+		private static void OnCancelButtonTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             WizardControl sh = (WizardControl)d;
             sh._viewModel.CancelButtonTitle = (string)e.NewValue;
         }
 
-        public string NextButtonTitle
+		/// <summary>
+		/// Gets or sets the next button title.
+		/// </summary>
+		/// <value>The next button title.</value>
+		public string NextButtonTitle
         {
             get { return (string)GetValue(NextButtonTitleProperty); }
             set { SetValue(NextButtonTitleProperty, value); }
         }
 
-        private static void OnNextButtonTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		/// <summary>
+		/// Handles the <see cref="E:NextButtonTitleChanged" /> event.
+		/// </summary>
+		/// <param name="d">The d.</param>
+		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+		private static void OnNextButtonTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             WizardControl sh = (WizardControl)d;
             sh._viewModel.NextButtonTitle = (string)e.NewValue;
         }
 
-        public string PreviousButtonTitle
+		/// <summary>
+		/// Gets or sets the previous button title.
+		/// </summary>
+		/// <value>The previous button title.</value>
+		public string PreviousButtonTitle
         {
             get { return (string)GetValue(PreviousButtonTitleProperty); }
             set { SetValue(PreviousButtonTitleProperty, value); }
         }
 
-        private static void OnPreviousButtonTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		/// <summary>
+		/// Handles the <see cref="E:PreviousButtonTitleChanged" /> event.
+		/// </summary>
+		/// <param name="d">The d.</param>
+		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+		private static void OnPreviousButtonTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             WizardControl sh = (WizardControl)d;
             sh._viewModel.PreviousButtonTitle = (string)e.NewValue;
         }
-        #endregion
+		#endregion
 
-        #region Functions
+		#region Functions
 
-        public static readonly DependencyProperty ProcessFunctionProperty = DependencyProperty.Register("ProcessFunction", typeof(Func<Task<WizardProcessResult>>), typeof(WizardControl), new PropertyMetadata(null, OnProcessFunctionChanged));
-        public static readonly DependencyProperty CloseFunctionProperty = DependencyProperty.Register("CloseFunction", typeof(Action), typeof(WizardControl), new PropertyMetadata(null, OnCloseFunctionChanged));
-        public static readonly DependencyProperty CancelFunctionProperty = DependencyProperty.Register("CancelFunction", typeof(Action), typeof(WizardControl), new PropertyMetadata(null, OnCancelFunctionChanged));
+		/// <summary>
+		/// The process function property
+		/// </summary>
+		public static readonly DependencyProperty ProcessFunctionProperty = DependencyProperty.Register("ProcessFunction", typeof(Func<Task<WizardProcessResult>>), typeof(WizardControl), new PropertyMetadata(null, OnProcessFunctionChanged));
+		/// <summary>
+		/// The close function property
+		/// </summary>
+		public static readonly DependencyProperty CloseFunctionProperty = DependencyProperty.Register("CloseFunction", typeof(Action), typeof(WizardControl), new PropertyMetadata(null, OnCloseFunctionChanged));
+		/// <summary>
+		/// The cancel function property
+		/// </summary>
+		public static readonly DependencyProperty CancelFunctionProperty = DependencyProperty.Register("CancelFunction", typeof(Action), typeof(WizardControl), new PropertyMetadata(null, OnCancelFunctionChanged));
 
-        public Func<Task<WizardProcessResult>> ProcessFunction
+		/// <summary>
+		/// Gets or sets the process function.
+		/// </summary>
+		/// <value>The process function.</value>
+		public Func<Task<WizardProcessResult>> ProcessFunction
         {
             get { return (Func<Task<WizardProcessResult>>)GetValue(ProcessFunctionProperty); }
             set { SetValue(ProcessFunctionProperty, value); }
         }
 
-        private static void OnProcessFunctionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		/// <summary>
+		/// Handles the <see cref="E:ProcessFunctionChanged" /> event.
+		/// </summary>
+		/// <param name="d">The d.</param>
+		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+		private static void OnProcessFunctionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             WizardControl sh = (WizardControl)d;
             sh._viewModel.ProcessFunction = (Func<Task<WizardProcessResult>>)e.NewValue;
         }
 
-        public Action CloseFunction
+		/// <summary>
+		/// Gets or sets the close function.
+		/// </summary>
+		/// <value>The close function.</value>
+		public Action CloseFunction
         {
             get { return (Action)GetValue(CloseFunctionProperty); }
             set { SetValue(CloseFunctionProperty, value); }
         }
 
-        private static void OnCloseFunctionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		/// <summary>
+		/// Handles the <see cref="E:CloseFunctionChanged" /> event.
+		/// </summary>
+		/// <param name="d">The d.</param>
+		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+		private static void OnCloseFunctionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             WizardControl sh = (WizardControl)d;
             sh._viewModel.CloseFunction = (Action)e.NewValue;
         }
 
-        public Action CancelFunction
+		/// <summary>
+		/// Gets or sets the cancel function.
+		/// </summary>
+		/// <value>The cancel function.</value>
+		public Action CancelFunction
         {
             get { return (Action)GetValue(CancelFunctionProperty); }
             set { SetValue(CancelFunctionProperty, value); }
         }
 
-        private static void OnCancelFunctionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		/// <summary>
+		/// Handles the <see cref="E:CancelFunctionChanged" /> event.
+		/// </summary>
+		/// <param name="d">The d.</param>
+		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+		private static void OnCancelFunctionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             WizardControl sh = (WizardControl)d;
             sh._viewModel.CancelFunction = (Action)e.NewValue;
         }
 
-        #endregion
+		#endregion
 
-        public WizardControl()
+		/// <summary>
+		/// Initializes a new instance of the <see cref="WizardControl"/> class.
+		/// </summary>
+		public WizardControl()
         {
             InitializeComponent();
 
@@ -270,12 +465,20 @@ namespace Dsoft.WizardControl.WPF
             _viewModel.OnIsBusyChanged += OnIsBusyChanged;
         }
 
-        ~WizardControl()
+		/// <summary>
+		/// Finalizes an instance of the <see cref="WizardControl"/> class.
+		/// </summary>
+		~WizardControl()
         {
             _viewModel.OnIsBusyChanged -= OnIsBusyChanged;
         }
 
-        private void OnIsBusyChanged(object sender, bool isbusy)
+		/// <summary>
+		/// Called when [is busy changed].
+		/// </summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="isbusy">if set to <c>true</c> [isbusy].</param>
+		private void OnIsBusyChanged(object sender, bool isbusy)
         {
             this.Dispatcher.BeginInvoke((Action)(() =>
             {
@@ -285,9 +488,16 @@ namespace Dsoft.WizardControl.WPF
 
         }
 
-        public List<IWizardPage> AvailablePages => Pages?.ToList();
+		/// <summary>
+		/// Gets the available pages.
+		/// </summary>
+		/// <value>The available pages.</value>
+		public List<IWizardPage> AvailablePages => Pages?.ToList();
 
-        public override void OnApplyTemplate()
+		/// <summary>
+		/// When overridden in a derived class, is invoked whenever application code or internal processes call <see cref="M:System.Windows.FrameworkElement.ApplyTemplate" />.
+		/// </summary>
+		public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
 
@@ -326,35 +536,52 @@ namespace Dsoft.WizardControl.WPF
             }
         }
 
-        #region IWizardControl members
+		#region IWizardControl members
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="direction"></param>
-        public void Navigate(NavigationDirection direction)
+		/// <summary>
+		/// Navigates the specified direction.
+		/// </summary>
+		/// <param name="direction">The direction.</param>
+		public void Navigate(NavigationDirection direction)
         {
             _viewModel.Navigate(direction);
         }
 
-        public void UpdateButtonVisibility(WizardButtonVisibility visibility, params WizardButtons[] buttons)
+		/// <summary>
+		/// Updates the button visibility.
+		/// </summary>
+		/// <param name="visibility">The visibility.</param>
+		/// <param name="buttons">The buttons.</param>
+		public void UpdateButtonVisibility(WizardButtonVisibility visibility, params WizardButtons[] buttons)
         {
             _viewModel.UpdateButtonVisibility(visibility, buttons);
         }
 
-        #endregion
+		#endregion
 
-        private void OnLoaded(object sender, RoutedEventArgs e)
+		/// <summary>
+		/// Handles the <see cref="E:Loaded" /> event.
+		/// </summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
+		private void OnLoaded(object sender, RoutedEventArgs e)
         {
             _viewModel.SelectedPage?.PageConfig?.OnPageShownHandler?.Invoke(this);
         }
 
-        public void UpdateStage(WizardStage stage)
+		/// <summary>
+		/// Updates the stage.
+		/// </summary>
+		/// <param name="stage">The stage.</param>
+		public void UpdateStage(WizardStage stage)
         {
             _viewModel.UpdateStage(stage);
         }
 
-        public void RecalculateNavigation()
+		/// <summary>
+		/// Recalculates the navigation.
+		/// </summary>
+		public void RecalculateNavigation()
         {
             _viewModel.RecalculateNavigation();
         }

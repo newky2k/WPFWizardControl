@@ -4,30 +4,61 @@ using System.Text;
 
 namespace DSoft.WizardControl.Core
 {
-    public class WizardPageConfiguration
+	/// <summary>
+	/// Class WizardPageConfiguration.
+	/// </summary>
+	public class WizardPageConfiguration
     {
-        public string Title { get; set; }
+		/// <summary>
+		/// Gets or sets the title.
+		/// </summary>
+		/// <value>The title.</value>
+		public string Title { get; set; }
 
-        public bool IsHidden { get; set; }
+		/// <summary>
+		/// Gets or sets a value indicating whether this instance is hidden.
+		/// </summary>
+		/// <value><c>true</c> if this instance is hidden; otherwise, <c>false</c>.</value>
+		public bool IsHidden { get; set; }
 
-        public bool CanGoBack { get; set; }
+		/// <summary>
+		/// Gets or sets a value indicating whether this instance can go back.
+		/// </summary>
+		/// <value><c>true</c> if this instance can go back; otherwise, <c>false</c>.</value>
+		public bool CanGoBack { get; set; }
 
-        public bool HideButtons { get; set; }
+		/// <summary>
+		/// Gets or sets a value indicating whether [hide buttons].
+		/// </summary>
+		/// <value><c>true</c> if [hide buttons]; otherwise, <c>false</c>.</value>
+		public bool HideButtons { get; set; }
 
-        /// <summary>
-        /// Called when the page navigation is occuring
-        /// </summary>
-        public Action<WizardNavigationEventArgs> NavigationHandler { get; set; }
+		/// <summary>
+		/// Called when the page navigation is occuring
+		/// </summary>
+		/// <value>The navigation handler.</value>
+		public Action<WizardNavigationEventArgs> NavigationHandler { get; set; }
 
-        public Action<IWizardControl> OnPageShownHandler { get; set; }
+		/// <summary>
+		/// Gets or sets the on page shown handler.
+		/// </summary>
+		/// <value>The on page shown handler.</value>
+		public Action<IWizardControl> OnPageShownHandler { get; set; }
 
-        public WizardPageConfiguration()
+		/// <summary>
+		/// Initializes a new instance of the <see cref="WizardPageConfiguration"/> class.
+		/// </summary>
+		public WizardPageConfiguration()
         {
             CanGoBack = true;
             IsHidden = false;
         }
 
-        public WizardPageConfiguration(string title) : this()
+		/// <summary>
+		/// Initializes a new instance of the <see cref="WizardPageConfiguration"/> class.
+		/// </summary>
+		/// <param name="title">The title.</param>
+		public WizardPageConfiguration(string title) : this()
         {
             Title = title;
         }
