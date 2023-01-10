@@ -4,9 +4,18 @@ using System.Text;
 
 namespace DSoft.WizardControl.Core
 {
-    public enum ProcessMode
+	/// <summary>
+	/// Enum ProcessMode
+	/// </summary>
+	public enum ProcessMode
     {
-        Default,
-        None,
+		/// <summary>
+		/// The default
+		/// </summary>
+		Default,
+		/// <summary>
+		/// The none
+		/// </summary>
+		None,
     }
 }

@@ -1,24 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net461;netcoreapp3.1;net5.0-windows7.0;</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net6.0-windows7.0;</TargetFrameworks>
+    <Product>$(AssemblyName) ($(TargetFramework))</Product>
     <UseWPF>true</UseWPF>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageId>DSoft.WizardControl.WPF</PackageId>
-    <Authors>newky2k</Authors>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>DSoft.snk</AssemblyOriginatorKeyFile>
     <Version>1.3.0-preview1</Version>
     <Description>DSoft.WizardControl.WPF is a simple wizard user control for WPF</Description>
-    <PackageProjectUrl>https://github.com/newky2k/WPFWizardControl</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/newky2k/WPFWizardControl</RepositoryUrl>
-    <RepositoryType>Git</RepositoryType>
     <PackageTags>WPF Wizard</PackageTags>
-    <PackageReleaseNotes>Removed Microsoft.Windows.Compatibility and added .NET 5.x support
-    </PackageReleaseNotes>
-    <Copyright>Copyright © 2019 DSoft</Copyright>
+    <PackageReleaseNotes>Removed .NET Framework support and added .NET 6.x support</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="DSoft.System.Mvvm" Version="2.4.2109.301" />

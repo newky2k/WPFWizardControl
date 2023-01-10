@@ -1,33 +1,22 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.44">
 
   <PropertyGroup>
-    <TargetFrameworks>uap10.0.19041;net5.0-windows10.0.19041;</TargetFrameworks>
+    <TargetFrameworks>uap10.0.19041;net6.0-windows10.0.19041;</TargetFrameworks>
     <RootNamespace>DSoft.WizardControl</RootNamespace>
-    <AssemblyName>DSoft.WizardControl</AssemblyName>
+    <AssemblyName>DSoft.WizardControl.Desktop</AssemblyName>
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-    <Configurations>Debug;Release</Configurations>
     <EnableDefaultPageItems>false</EnableDefaultPageItems>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-	<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-	<PackageId>DSoft.WizardControl.Desktop</PackageId>
-	<Authors>newky2k</Authors>
-	<PackageLicenseExpression>MIT</PackageLicenseExpression>
-	<SignAssembly>true</SignAssembly>
-	<AssemblyOriginatorKeyFile>DSoft.snk</AssemblyOriginatorKeyFile>
-	<Version>2.0.0-preview1</Version>
-	<Description>DSoft.WizardControl.Desktop is a simple wizard user control for UWP, WinUI</Description>
-	<PackageProjectUrl>https://github.com/newky2k/WPFWizardControl</PackageProjectUrl>
-	<RepositoryUrl>https://github.com/newky2k/WPFWizardControl</RepositoryUrl>
-	<RepositoryType>Git</RepositoryType>
-	<PackageTags>UWP WinUI Wizard</PackageTags>
-	<PackageReleaseNotes>
+	  <PackageId>DSoft.WizardControl.Desktop</PackageId>
+	  <Version>2.0.0-preview1</Version>
+	  <Description>DSoft.WizardControl.Desktop is a simple wizard user control for UWP, WinUI</Description>
+	  <PackageTags>UWP WinUI Wizard</PackageTags>
+	  <PackageReleaseNotes>
 		Removed Microsoft.Windows.Compatibility and added .NET 5.x support
 	</PackageReleaseNotes>
-	<Copyright>Copyright © 2021 DSoft</Copyright>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" $(TargetFramework.StartsWith('net5.0-windows10')) ">
+  <PropertyGroup Condition=" $(TargetFramework.StartsWith('net6.0-windows10')) ">
     <UseWinUI>true</UseWinUI>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64;win10-arm</RuntimeIdentifiers>
@@ -43,7 +32,7 @@
     <Compile Include="**\*.shared.*.cs" />
   </ItemGroup>
   
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('net5.0-windows10')) ">
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('net6.0-windows10')) ">
 	 <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
 	 <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22000.194" />
 

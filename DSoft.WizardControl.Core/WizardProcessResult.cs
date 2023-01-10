@@ -6,9 +6,18 @@ using System.Threading.Tasks;
 
 namespace DSoft.WizardControl.Core
 {
-    public enum WizardProcessResult
+	/// <summary>
+	/// Enum WizardProcessResult
+	/// </summary>
+	public enum WizardProcessResult
     {
-        Complete,
-        Failed,
+		/// <summary>
+		/// The complete
+		/// </summary>
+		Complete,
+		/// <summary>
+		/// The failed
+		/// </summary>
+		Failed,
     }
 }

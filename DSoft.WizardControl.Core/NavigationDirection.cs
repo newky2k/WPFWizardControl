@@ -4,9 +4,18 @@ using System.Text;
 
 namespace DSoft.WizardControl.Core
 {
-    public enum NavigationDirection
+	/// <summary>
+	/// Enum NavigationDirection
+	/// </summary>
+	public enum NavigationDirection
     {
-        Forward,
-        Backwards,
+		/// <summary>
+		/// The forward
+		/// </summary>
+		Forward,
+		/// <summary>
+		/// The backwards
+		/// </summary>
+		Backwards,
     }
 }

@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace DSoft.WizardControl.Core
 {
-    public enum WizardStage
+	/// <summary>
+	/// Enum WizardStage
+	/// </summary>
+	public enum WizardStage
     {
         /// <summary>
         /// Setting up the data

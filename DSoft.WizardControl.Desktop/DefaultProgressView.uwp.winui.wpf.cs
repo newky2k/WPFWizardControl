@@ -18,9 +18,19 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace DSoft.WizardControl
 {
-    public class DefaultProgressView : UserControl, IWizardPage
+	/// <summary>
+	/// Class DefaultProgressView.
+	/// Implements the <see cref="UserControl" />
+	/// Implements the <see cref="IWizardPage" />
+	/// </summary>
+	/// <seealso cref="UserControl" />
+	/// <seealso cref="IWizardPage" />
+	public class DefaultProgressView : UserControl, IWizardPage
     {
-        public DefaultProgressView()
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DefaultProgressView"/> class.
+		/// </summary>
+		public DefaultProgressView()
         {
             var grd = new Grid();
             grd.Children.Add(new TextBlock()
@@ -33,10 +43,22 @@ namespace DSoft.WizardControl
             this.Content = grd;
         }
 
-        public WizardPageConfiguration PageConfig => new WizardPageConfiguration("Wizard is doing stuff");
+		/// <summary>
+		/// Gets the page configuration.
+		/// </summary>
+		/// <value>The page configuration.</value>
+		public WizardPageConfiguration PageConfig => new WizardPageConfiguration("Wizard is doing stuff");
 
-        public List<KeyValuePair<string, object>> Parameters { get => new List<KeyValuePair<string, object>>(); set => Console.WriteLine(""); }
+		/// <summary>
+		/// Gets or sets the parameters.
+		/// </summary>
+		/// <value>The parameters.</value>
+		public List<KeyValuePair<string, object>> Parameters { get => new List<KeyValuePair<string, object>>(); set => Console.WriteLine(""); }
 
+		/// <summary>
+		/// Validates the asynchronously.
+		/// </summary>
+		/// <returns>Task&lt;System.Boolean&gt;.</returns>
 		public Task<bool> ValidateAsync()
 		{
 			return Task.FromResult(true);
