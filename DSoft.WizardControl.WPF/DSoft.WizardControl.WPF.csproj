@@ -11,8 +11,7 @@
 	<Version>2.0.0-preview1</Version>
 	<Description>DSoft.WizardControl.WPF is a simple wizard user control for WPF</Description>
 	<PackageTags>WPF Wizard</PackageTags>
-	<PackageReleaseNotes>
-		Removed Microsoft.Windows.Compatibility and added .NET 5.x support
+	<PackageReleaseNotes>Updated .NET 6.x support
 	</PackageReleaseNotes>
 	<DefineConstants>$(DefineConstants);WPF</DefineConstants>
   <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
