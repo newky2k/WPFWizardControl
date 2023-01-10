@@ -1,4 +1,4 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.44">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 <PropertyGroup>
 	<TargetFrameworks>netcoreapp3.1;net6.0-windows7.0;net6.0-windows10.0.18362;</TargetFrameworks>
