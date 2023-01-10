@@ -43,7 +43,7 @@ steps:
   displayName: dotnet build
   inputs:
     projects: '$(solution)'
-    arguments: '--configuration=$(buildConfiguration) /p:Platform="$(buildPlatform)" /p:Version=$(Build.BuildNumber) /p:AssemblyVersion=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber) '
+    arguments: '--configuration=$(buildConfiguration) /p:Platform="$(buildPlatform)" /p:Version=$(Build.BuildNumber)$(releaseSuffix) /p:AssemblyVersion=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber) '
     
 - task: CopyFiles@2
   displayName: Copy Files to $(build.artifactstagingdirectory)
