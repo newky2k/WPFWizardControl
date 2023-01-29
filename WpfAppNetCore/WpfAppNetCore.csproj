@@ -15,9 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DSoft.WizardControl.Core\DSoft.WizardControl.Core.csproj" />
-    <ProjectReference Include="..\Dsoft.WizardControl\DSoft.WizardControl.csproj" />
+    <ProjectReference Include="..\DSoft.WizardControl.WPF\DSoft.WizardControl.WPF.csproj" />
   </ItemGroup>
+
 
   <ItemGroup>
     <Compile Update="TestData\Pages\CompletePageView.xaml.cs">

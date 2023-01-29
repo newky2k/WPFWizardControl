@@ -34,7 +34,7 @@ namespace WpfAppNetCore
 
             ViewModel = new MainWindowViewModel(wzrControl);
 
-            //((MainWindowViewModel)this.DataContext).OnRequestCloseWindow += OnCloseWindowRequest;
+			ViewModel.OnRequestCloseWindow += OnCloseWindowRequest;
         }
 
         private void OnCloseWindowRequest(object sender, bool e)

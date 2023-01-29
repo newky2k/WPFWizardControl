@@ -7,11 +7,7 @@ using System.Windows.Input;
 using System.Threading.Tasks;
 using System.Linq;
 
-#if UAP
-using Windows.UI.Core;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-#elif WPF
+#if WPF
 using System.Windows.Controls;
 using System.Windows;
 #else
@@ -70,10 +66,6 @@ namespace DSoft.WizardControl
 		/// The sub title property
 		/// </summary>
 		internal readonly static DependencyProperty SubTitleProperty = DependencyProperty.Register(nameof(SubTitle), typeof(string), typeof(WizardControl), new PropertyMetadata("Wizard Sub-Title", OnSubTitleChanged));
-		/// <summary>
-		/// The button style property
-		/// </summary>
-		public readonly static DependencyProperty ButtonStyleProperty = DependencyProperty.Register("ButtonStyle", typeof(Style), typeof(WizardControl), new PropertyMetadata(null, OnButtonStyleChanged));
 
 		/// <summary>
 		/// Gets or sets the title.
@@ -139,35 +131,7 @@ namespace DSoft.WizardControl
          //   sh._viewModel.ProcessMode = (ProcessMode)e.NewValue;
         }
 
-		/// <summary>
-		/// Gets or sets the button style.
-		/// </summary>
-		/// <value>The button style.</value>
-		public Style ButtonStyle
-        {
-            get { return (Style)GetValue(ButtonStyleProperty); }
-            set { SetValue(ButtonStyleProperty, value); }
-        }
 
-		/// <summary>
-		/// Handles the <see cref="E:ButtonStyleChanged" /> event.
-		/// </summary>
-		/// <param name="d">The d.</param>
-		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
-		private static void OnButtonStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            WizardControl sh = (WizardControl)d;
-            //sh.HeaderTemplate = (Style)e.NewValue;
-
-            if (sh.ButtonStyle != null)
-            {
-				sh._btnNext.Style = sh.ButtonStyle;
-				sh._btnCancel.Style = sh.ButtonStyle;
-				sh._btnFinish.Style = sh.ButtonStyle;
-				sh._btnPrevious.Style = sh.ButtonStyle;
-				sh._btnComplete.Style = sh.ButtonStyle;
-			}
-        }
 
 		#endregion
 
@@ -181,6 +145,11 @@ namespace DSoft.WizardControl
 		/// The sub title text style property
 		/// </summary>
 		public static readonly DependencyProperty SubTitleTextStyleProperty = DependencyProperty.Register(nameof(SubTitleTextStyle), typeof(Style), typeof(WizardControl), new PropertyMetadata(null));
+
+		/// <summary>
+		/// The button style property
+		/// </summary>
+		public readonly static DependencyProperty ButtonStyleProperty = DependencyProperty.Register(nameof(ButtonStyle), typeof(Style), typeof(WizardControl), new PropertyMetadata(null));
 
 		/// <summary>
 		/// Gets or sets the title text style.
@@ -214,6 +183,41 @@ namespace DSoft.WizardControl
             }
         }
 
+		/// <summary>
+		/// Gets or sets the button style.
+		/// </summary>
+		/// <value>The button style.</value>
+		public Style ButtonStyle
+		{
+			get { return (Style)GetValue(ButtonStyleProperty); }
+			set { SetValue(ButtonStyleProperty, value); }
+		}
+
+		///// <summary>
+		///// Handles the <see cref="E:ButtonStyleChanged" /> event.
+		///// </summary>
+		///// <param name="d">The d.</param>
+		///// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
+		//private static void OnButtonStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		//{
+		//	WizardControl sh = (WizardControl)d;
+		//	//sh.HeaderTemplate = (Style)e.NewValue;
+
+		//	if (sh.ButtonStyle != null)
+		//	{
+  //              if (sh._btnNext != null)
+  //                  sh._btnNext.Style = sh.ButtonStyle;
+		//		if (sh._btnCancel != null)
+		//			sh._btnCancel.Style = sh.ButtonStyle;
+		//		if (sh._btnFinish != null)
+		//			sh._btnFinish.Style = sh.ButtonStyle;
+		//		if (sh._btnPrevious != null)
+		//			sh._btnPrevious.Style = sh.ButtonStyle;
+		//		if (sh._btnComplete != null)
+		//			sh._btnComplete.Style = sh.ButtonStyle;
+		//	}
+		//}
+
 		#endregion
 
 		#region Pages
@@ -232,15 +236,15 @@ namespace DSoft.WizardControl
 		/// <summary>
 		/// The processing page property
 		/// </summary>
-		public static readonly DependencyProperty ProcessingPageProperty = DependencyProperty.Register("ProcessingPage", typeof(IWizardPage), typeof(WizardControl), new PropertyMetadata(new DefaultProgressView(), OnProcessingPageChanged));
+		public static readonly DependencyProperty ProcessingPageProperty = DependencyProperty.Register("ProcessingPage", typeof(IWizardPage), typeof(WizardControl), new PropertyMetadata(null, OnProcessingPageChanged));
 		/// <summary>
 		/// The complete page property
 		/// </summary>
-		public static readonly DependencyProperty CompletePageProperty = DependencyProperty.Register("CompletePage", typeof(IWizardPage), typeof(WizardControl), new PropertyMetadata(new DefaultCompleteView(), OnCompletePageChanged));
+		public static readonly DependencyProperty CompletePageProperty = DependencyProperty.Register("CompletePage", typeof(IWizardPage), typeof(WizardControl), new PropertyMetadata(null, OnCompletePageChanged));
 		/// <summary>
 		/// The error page property
 		/// </summary>
-		public static readonly DependencyProperty ErrorPageProperty = DependencyProperty.Register("ErrorPage", typeof(IWizardPage), typeof(WizardControl), new PropertyMetadata(new DefaultErrorView(), OnErrorPageChanged));
+		public static readonly DependencyProperty ErrorPageProperty = DependencyProperty.Register("ErrorPage", typeof(IWizardPage), typeof(WizardControl), new PropertyMetadata(null, OnErrorPageChanged));
 
 		/// <summary>
 		/// Gets or sets the index of the selected.
@@ -292,7 +296,8 @@ namespace DSoft.WizardControl
             {
                 var aDict = new Dictionary<int, IWizardPage>();
 
-                var aPages = Pages.Where(x => x.PageConfig.IsHidden.Equals(false) && (!x.Equals(ProcessingPage) && !x.Equals(CompletePage) && !x.Equals(ErrorPage)));
+
+                var aPages = Pages.Where(x => x != null && x.PageConfig != null && x.PageConfig.IsHidden.Equals(false) && (!x.Equals(ProcessingPage) && !x.Equals(CompletePage) && !x.Equals(ErrorPage)));
 
                 if (aPages.Any())
                 {
@@ -325,7 +330,10 @@ namespace DSoft.WizardControl
 		private static void OnPagesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var sh = (WizardControl)d;
-        }
+
+            sh.SetPage(0);
+
+		}
 
 		/// <summary>
 		/// Gets or sets the processing page.
@@ -1193,8 +1201,10 @@ namespace DSoft.WizardControl
 		public WizardControl()
         {
             this.DefaultStyleKey = typeof(WizardControl);
-
-        }
+#if WPF
+			DefaultStyleKeyProperty.OverrideMetadata(typeof(WizardControl), new FrameworkPropertyMetadata(typeof(WizardControl)));
+#endif
+		}
 #if WPF
 		/// <summary>
 		/// When overridden in a derived class, is invoked whenever application code or internal processes call <see cref="M:System.Windows.FrameworkElement.ApplyTemplate" />.
@@ -1221,7 +1231,7 @@ namespace DSoft.WizardControl
             _btnFinish = GetTemplateChild("PART_BTN_FINISH") as Button;
 
 
-            PreviousCommand = new DelegateCommand(() =>
+			PreviousCommand = new DelegateCommand(() =>
             {
                 Navigate(NavigationDirection.Backwards);
             });
@@ -1317,7 +1327,7 @@ namespace DSoft.WizardControl
         }
 
 
-		#region IWizard Elements
+#region IWizard Elements
 
 		/// <summary>
 		/// Starts the processing stage.
@@ -1422,9 +1432,12 @@ namespace DSoft.WizardControl
 
             _buttonVisibility.Clear();
 
-            SelectedPage.PageConfig.OnPageShownHandler?.Invoke(this);
+            if (SelectedPage != null)
+            {
+                SelectedPage.PageConfig.OnPageShownHandler?.Invoke(this);
 
-            _contentGrid.Content = SelectedPage;
+                _contentGrid.Content = SelectedPage;
+            }
 
             RecalculateNavigation();
         }
@@ -1516,10 +1529,17 @@ namespace DSoft.WizardControl
 
             if (Pages != null && Pages.Count != 0)
             {
+                IWizardPage page;
+
                 if (SelectedIndex < 0)
-                    subTitle = Pages[0].PageConfig.Title;
+                    page = Pages[0];
                 else
-                    subTitle = Pages[SelectedIndex].PageConfig.Title;
+					page = Pages[SelectedIndex];
+
+                if (page != null)
+                {
+                    subTitle = page.PageConfig?.Title;
+                }
             }
 
             SubTitle = subTitle;

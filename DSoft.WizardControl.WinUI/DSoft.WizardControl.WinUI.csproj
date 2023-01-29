@@ -10,10 +10,10 @@
     <EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
     <RootNamespace>DSoft.WizardControl</RootNamespace>
-    <AssemblyName>DSoft.WizardControl.Desktop</AssemblyName>
+    <AssemblyName>DSoft.WizardControl.WinUI</AssemblyName>
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
-    <Description>DSoft.WizardControl.Desktop is a simple wizard custom control for WinUI 3.x</Description>
-    <PackageTags>UWP WinUI Wizard</PackageTags>
+    <Description>DSoft.WizardControl.WinUI is a simple wizard custom control for WinUI 3.x</Description>
+    <PackageTags>WinUI Wizard</PackageTags>
     <PackageReleaseNotes>
       Removed UWP support and added .NET 6.x support
     </PackageReleaseNotes>

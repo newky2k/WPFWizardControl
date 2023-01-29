@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-         xmlns:wizard="clr-namespace:Dsoft.WizardControl.WPF;assembly=DSoft.WizardControl"
+         xmlns:wizard="clr-namespace:DSoft.WizardControl;assembly=DSoft.WizardControl.WPF"
         xmlns:local="clr-namespace:WpfAppNetCore"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
@@ -11,7 +11,10 @@
         <local:MainWindowViewModel />
     </Window.DataContext>-->
     <Grid>
-        <wizard:WizardControl x:Name="wzrControl" Title="{Binding Title}"  Pages="{Binding Pages}"  ProcessMode="None"
+        <wizard:WizardControl x:Name="wzrControl" 
+                              Title="{Binding Title}"  
+                              Pages="{Binding Pages, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                              ProcessMode="None"
                               ProcessButtonTitle="Create" CloseButtonTitle="Finish" CancelButtonTitle="Abort" NextButtonTitle="{Binding NextTitle}" PreviousButtonTitle="Back"
                               ProcessingPage="{Binding ProcessPage}" 
                               ErrorPage="{Binding ErrorPage}" 

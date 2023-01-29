@@ -1,5 +1,4 @@
-﻿using Dsoft.WizardControl.WPF;
-using DSoft.WizardControl.Core;
+﻿using DSoft.WizardControl.Core;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

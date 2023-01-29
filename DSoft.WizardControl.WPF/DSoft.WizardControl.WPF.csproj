@@ -14,15 +14,14 @@
 	<PackageReleaseNotes>Updated .NET 6.x support
 	</PackageReleaseNotes>
 	<DefineConstants>$(DefineConstants);WPF</DefineConstants>
-  <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
 <ItemGroup>
-  <Compile Include="..\DSoft.WizardControl.Desktop\DefaultCompleteView.uwp.winui.wpf.cs" Link="DefaultCompleteView.uwp.winui.wpf.cs" />
-  <Compile Include="..\DSoft.WizardControl.Desktop\DefaultErrorView.uwp.winui.wpf.cs" Link="DefaultErrorView.uwp.winui.wpf.cs" />
-  <Compile Include="..\DSoft.WizardControl.Desktop\DefaultProgressView.uwp.winui.wpf.cs" Link="DefaultProgressView.uwp.winui.wpf.cs" />
-  <Compile Include="..\DSoft.WizardControl.Desktop\DelegateCommand.shared.cs" Link="DelegateCommand.shared.cs" />
-  <Compile Include="..\DSoft.WizardControl.Desktop\WizardControl.uwp.winui.wpf.cs" Link="WizardControl.uwp.winui.wpf.cs" />
+  <Compile Include="..\DSoft.WizardControl.WinUI\DefaultCompleteView.uwp.winui.wpf.cs" Link="DefaultCompleteView.uwp.winui.wpf.cs" />
+  <Compile Include="..\DSoft.WizardControl.WinUI\DefaultErrorView.uwp.winui.wpf.cs" Link="DefaultErrorView.uwp.winui.wpf.cs" />
+  <Compile Include="..\DSoft.WizardControl.WinUI\DefaultProgressView.uwp.winui.wpf.cs" Link="DefaultProgressView.uwp.winui.wpf.cs" />
+  <Compile Include="..\DSoft.WizardControl.WinUI\DelegateCommand.shared.cs" Link="DelegateCommand.shared.cs" />
+  <Compile Include="..\DSoft.WizardControl.WinUI\WizardControl.uwp.winui.wpf.cs" Link="WizardControl.uwp.winui.wpf.cs" />
 </ItemGroup>
 	
   <ItemGroup>

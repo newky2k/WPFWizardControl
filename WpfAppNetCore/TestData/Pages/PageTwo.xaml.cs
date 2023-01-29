@@ -1,5 +1,4 @@
-﻿using Dsoft.WizardControl.WPF;
-using DSoft.WizardControl.Core;
+﻿using DSoft.WizardControl.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,7 +40,6 @@ namespace WpfAppNetCore.TestData.Pages
                                                 {
                                                     IsHidden = ViewModel.HidePage2,
                                                     HideButtons = true,
-                                                    NavigationHandler = NavigationHandler
                                                 };
 
         public string Title => "Enter the banking information";
@@ -52,22 +50,5 @@ namespace WpfAppNetCore.TestData.Pages
 		{
 			return Task.FromResult(true);
 		}
-
-		public void NavigationHandler(DSoft.WizardControl.Core.WizardNavigationEventArgs evts)
-        {
-            switch (evts.Direction)
-            {
-                case NavigationDirection.Backwards:
-                    {
-
-                    }
-                    break;
-                case NavigationDirection.Forward:
-                    {
-
-                    }
-                    break;
-            }
-        }
     }
 }

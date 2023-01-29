@@ -12,7 +12,7 @@ namespace DSoft.WizardControl
 	/// Implements the <see cref="ICommand" />
 	/// </summary>
 	/// <seealso cref="ICommand" />
-	public class DelegateCommand : ICommand
+	internal class DelegateCommand : ICommand
     {
 		#region Static Properties
 
