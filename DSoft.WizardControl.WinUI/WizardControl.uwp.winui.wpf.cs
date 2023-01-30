@@ -1494,7 +1494,7 @@ namespace DSoft.WizardControl
             else
             {
                 //set the default hidden mode to collapsed(so that the buttons bunch up)
-                var realVisibilty = (Visibility)visibility;
+                var realVisibilty = (visibility == WizardButtonVisibility.Collapsed) ? Visibility.Collapsed : Visibility.Visible;
 
                 //create a local copy of the buttons array
                 var localButtons = new List<WizardButtons>(buttons);
