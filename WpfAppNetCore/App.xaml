@@ -14,10 +14,14 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Blue.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
+            <Style x:Key="WizarButtons" TargetType="Button" BasedOn="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}">
+
+            </Style>
+            
             <Style TargetType="{x:Type wizcont:WizardControl}">
-                <Setter Property="ButtonStyle" Value="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}">
- 
-                </Setter>
+                <Setter Property="ButtonStyle" Value="{DynamicResource WizarButtons}" />
+
+
                 <Setter Property="TitleTextStyle">
                     <Setter.Value>
                         <Style TargetType="TextBlock">

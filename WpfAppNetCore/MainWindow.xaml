@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
          xmlns:wizard="clr-namespace:DSoft.WizardControl;assembly=DSoft.WizardControl.WPF"
         xmlns:local="clr-namespace:WpfAppNetCore"
+        Background="WhiteSmoke"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <!--<Window.DataContext>
@@ -13,9 +14,9 @@
     <Grid>
         <wizard:WizardControl x:Name="wzrControl" 
                               Title="{Binding Title}"  
-                              Pages="{Binding Pages, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                              Pages="{Binding Pages, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               ProcessMode="None"
-                              ProcessButtonTitle="Create" CloseButtonTitle="Finish" CancelButtonTitle="Abort" NextButtonTitle="{Binding NextTitle}" PreviousButtonTitle="Back"
+                              ProcessButtonTitle="Create" CloseButtonTitle="Finish" CancelButtonTitle="Abort" NextButtonTitle="{Binding NextTitle}" PreviousButtonTitle="Previous"
                               ProcessingPage="{Binding ProcessPage}" 
                               ErrorPage="{Binding ErrorPage}" 
                               CompletePage="{Binding CompletePage}"

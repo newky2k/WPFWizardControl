@@ -149,7 +149,7 @@ namespace DSoft.WizardControl
 		/// <summary>
 		/// The button style property
 		/// </summary>
-		public readonly static DependencyProperty ButtonStyleProperty = DependencyProperty.Register(nameof(ButtonStyle), typeof(Style), typeof(WizardControl), new PropertyMetadata(null));
+		public readonly static DependencyProperty ButtonStyleProperty = DependencyProperty.Register(nameof(ButtonStyle), typeof(Style), typeof(WizardControl), new PropertyMetadata(null, OnButtonStyleChanged));
 
 		/// <summary>
 		/// Gets or sets the title text style.
@@ -193,38 +193,38 @@ namespace DSoft.WizardControl
 			set { SetValue(ButtonStyleProperty, value); }
 		}
 
-		///// <summary>
-		///// Handles the <see cref="E:ButtonStyleChanged" /> event.
-		///// </summary>
-		///// <param name="d">The d.</param>
-		///// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
-		//private static void OnButtonStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		//{
-		//	WizardControl sh = (WizardControl)d;
-		//	//sh.HeaderTemplate = (Style)e.NewValue;
+        /// <summary>
+        /// Handles the <see cref="E:ButtonStyleChanged" /> event.
+        /// </summary>
+        /// <param name="d">The d.</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
+        private static void OnButtonStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            WizardControl sh = (WizardControl)d;
+            //sh.HeaderTemplate = (Style)e.NewValue;
 
-		//	if (sh.ButtonStyle != null)
-		//	{
-  //              if (sh._btnNext != null)
-  //                  sh._btnNext.Style = sh.ButtonStyle;
-		//		if (sh._btnCancel != null)
-		//			sh._btnCancel.Style = sh.ButtonStyle;
-		//		if (sh._btnFinish != null)
-		//			sh._btnFinish.Style = sh.ButtonStyle;
-		//		if (sh._btnPrevious != null)
-		//			sh._btnPrevious.Style = sh.ButtonStyle;
-		//		if (sh._btnComplete != null)
-		//			sh._btnComplete.Style = sh.ButtonStyle;
-		//	}
-		//}
+            if (sh.ButtonStyle != null)
+            {
+                if (sh._btnNext != null)
+                    sh._btnNext.Style = sh.ButtonStyle;
+                if (sh._btnCancel != null)
+                    sh._btnCancel.Style = sh.ButtonStyle;
+                if (sh._btnFinish != null)
+                    sh._btnFinish.Style = sh.ButtonStyle;
+                if (sh._btnPrevious != null)
+                    sh._btnPrevious.Style = sh.ButtonStyle;
+                if (sh._btnComplete != null)
+                    sh._btnComplete.Style = sh.ButtonStyle;
+            }
+        }
 
-		#endregion
+        #endregion
 
-		#region Pages
-		/// <summary>
-		/// The selected index property
-		/// </summary>
-		public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(nameof(SelectedIndex), typeof(int), typeof(WizardControl), new PropertyMetadata(0, OnInternalSelectedIndexChanged));
+        #region Pages
+        /// <summary>
+        /// The selected index property
+        /// </summary>
+        public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(nameof(SelectedIndex), typeof(int), typeof(WizardControl), new PropertyMetadata(0, OnInternalSelectedIndexChanged));
 		/// <summary>
 		/// The selected page property
 		/// </summary>
@@ -1322,6 +1322,20 @@ namespace DSoft.WizardControl
                 SelectedPage = Pages[0];
 
             //sh.RecalculateNavigation();
+
+            if (ButtonStyle != null)
+            {
+				if (_btnNext != null)
+					_btnNext.Style = ButtonStyle;
+				if (_btnCancel != null)
+					_btnCancel.Style = ButtonStyle;
+				if (_btnFinish != null)
+					_btnFinish.Style = ButtonStyle;
+				if (_btnPrevious != null)
+					_btnPrevious.Style = ButtonStyle;
+				if (_btnComplete != null)
+					_btnComplete.Style = ButtonStyle;
+			}
 
             SetPage(0);
         }
