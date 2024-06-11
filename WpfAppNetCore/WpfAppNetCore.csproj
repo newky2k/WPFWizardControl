@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-Windows7.0</TargetFramework>
+    <TargetFramework>net8.0-Windows7.0</TargetFramework>
     <UseWPF>true</UseWPF>
     <SignAssembly>false</SignAssembly>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
@@ -10,14 +10,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DSoft.System.Mvvm" Version="2.4.2109.301" />
-    <PackageReference Include="MahApps.Metro" Version="2.4.9" />
+    <PackageReference Include="DSoft.System.Mvvm" Version="3.3.2405.241" />
+    <PackageReference Include="MahApps.Metro" Version="2.4.10" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DSoft.WizardControl.Core\DSoft.WizardControl.Core.csproj" />
-    <ProjectReference Include="..\Dsoft.WizardControl\DSoft.WizardControl.csproj" />
+    <ProjectReference Include="..\DSoft.WizardControl.WPF\DSoft.WizardControl.WPF.csproj" />
   </ItemGroup>
+
 
   <ItemGroup>
     <Compile Update="TestData\Pages\CompletePageView.xaml.cs">

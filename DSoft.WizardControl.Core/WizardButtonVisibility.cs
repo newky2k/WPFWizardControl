@@ -14,12 +14,8 @@ namespace DSoft.WizardControl.Core
 		/// </summary>
 		Visible = 0,
 		/// <summary>
-		/// The hidden
-		/// </summary>
-		Hidden = 1,
-		/// <summary>
 		/// The collapsed
 		/// </summary>
-		Collapsed = 2,
+		Collapsed = 1,
     }
 }

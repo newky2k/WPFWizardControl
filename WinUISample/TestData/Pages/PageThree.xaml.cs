@@ -1,25 +1,26 @@
-﻿using DSoft.WizardControl.Core;
+using DSoft.WizardControl.Core;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
 
-namespace WpfAppNetCore.TestData.Pages
+// To learn more about WinUI, the WinUI project structure,
+// and more about our project templates, see: http://aka.ms/winui-project-info.
+
+namespace WinUISample.TestData.Pages
 {
-    /// <summary>
-    /// Interaction logic for PageThree.xaml
-    /// </summary>
-    public partial class PageThree : UserControl, IWizardPage
+    public sealed partial class PageThree : UserControl, IWizardPage
     {
         private SharedViewModel _viewModel;
 
@@ -34,22 +35,22 @@ namespace WpfAppNetCore.TestData.Pages
             InitializeComponent();
         }
 
-        public WizardPageConfiguration PageConfig => new WizardPageConfiguration("Select the databases") { CanGoBack = true, NavigationHandler = NavigationHandler, OnPageShownHandler = OnShown};
+        public WizardPageConfiguration PageConfig => new WizardPageConfiguration("Select the databases") { CanGoBack = true, NavigationHandler = NavigationHandler, OnPageShownHandler = OnShown };
 
         public List<KeyValuePair<string, object>> Parameters { get => new List<KeyValuePair<string, object>>(); set => Console.WriteLine(""); }
 
-		public Task<bool> ValidateAsync()
-		{
-			return Task.FromResult(true);
-		}
+        public Task<bool> ValidateAsync()
+        {
+            return Task.FromResult(true);
+        }
 
-		public void NavigationHandler(DSoft.WizardControl.Core.WizardNavigationEventArgs evts)
+        public void NavigationHandler(DSoft.WizardControl.Core.WizardNavigationEventArgs evts)
         {
             switch (evts.Direction)
             {
                 case NavigationDirection.Backwards:
                     {
-                        
+
                     }
                     break;
                 case NavigationDirection.Forward:

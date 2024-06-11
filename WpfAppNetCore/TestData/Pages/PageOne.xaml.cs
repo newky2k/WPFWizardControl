@@ -1,5 +1,4 @@
-﻿using Dsoft.WizardControl.WPF;
-using DSoft.WizardControl.Core;
+﻿using DSoft.WizardControl.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +38,7 @@ namespace WpfAppNetCore.TestData.Pages
             ViewModel = viewModel;
 
             _wizardControl = wizardControl;
+
         }
 
         public WizardPageConfiguration PageConfig => new WizardPageConfiguration("Enter the accounts information"){OnPageShownHandler = OnShown};

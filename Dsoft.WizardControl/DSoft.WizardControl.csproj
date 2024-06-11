@@ -9,6 +9,7 @@
     <Description>DSoft.WizardControl.WPF is a simple wizard user control for WPF</Description>
     <PackageTags>WPF Wizard</PackageTags>
     <PackageReleaseNotes>Removed .NET Framework support and added .NET 6.x support</PackageReleaseNotes>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="DSoft.System.Mvvm" Version="2.4.2109.301" />

@@ -6,12 +6,11 @@ using System.Linq;
 using System.Mvvm;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
-using WpfAppNetCore.TestData;
-using WpfAppNetCore.TestData.Pages;
+using WinUISample.TestData;
+using WinUISample.TestData.Pages;
 
-namespace WpfAppNetCore
+
+namespace WinUISample
 {
     public class MainWindowViewModel : ViewModel
     {
@@ -61,9 +60,11 @@ namespace WpfAppNetCore
         public IWizardPage SelectedPage
         {
             get { return _selectedPage; }
-            set 
-            { 
-                _selectedPage = value; NotifyPropertyChanged(nameof(SelectedPage)); 
+            set
+            {
+                _selectedPage = value;
+                
+                NotifyPropertyChanged(nameof(SelectedPage));
 
                 if (_selectedPage is PageTwo)
                 {
@@ -131,7 +132,7 @@ namespace WpfAppNetCore
         {
             Title = "Create Supplier";
 
-            
+
             SharedViewModel = new SharedViewModel(wizard);
 
             CompletePage = new CompletePageView(SharedViewModel);

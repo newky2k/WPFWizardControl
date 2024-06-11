@@ -5,10 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-#if UAP
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-#elif WPF
+#if WPF
 using System.Windows.Controls;
 using System.Windows;
 #else

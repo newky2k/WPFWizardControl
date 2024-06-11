@@ -1,16 +1,16 @@
-﻿<Window x:Class="WpfAppNetCore.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-         xmlns:wizard="clr-namespace:DSoft.WizardControl;assembly=DSoft.WizardControl.WPF"
-        xmlns:local="clr-namespace:WpfAppNetCore"
-        Background="WhiteSmoke"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <!--<Window.DataContext>
-        <local:MainWindowViewModel />
-    </Window.DataContext>-->
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="WinUISample.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WinUISample"
+    xmlns:wizard="using:DSoft.WizardControl"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    d:DataContext="{d:DesignInstance Type=local:MainWindowViewModel}"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
     <Grid>
         <wizard:WizardControl x:Name="wzrControl" 
                               Title="{Binding Title}"  
@@ -18,7 +18,7 @@
                               ProcessMode="None"
                               ProcessButtonTitle="Create" 
                               CloseButtonTitle="Finish" 
-                              CancelButtonTitle="Abort" 
+                              CancelButtonTitle="End" 
                               NextButtonTitle="{Binding NextTitle}" 
                               PreviousButtonTitle="Previous"
                               ProcessingPage="{Binding ProcessPage}" 
@@ -28,4 +28,4 @@
                               CloseFunction="{Binding CloseFunction}" 
                               CancelFunction="{Binding CancelFunction}" />
     </Grid>
-</Window>
+</Page>
