@@ -1,32 +1,37 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-<PropertyGroup>
-	<TargetFrameworks>netcoreapp3.1;net6.0-windows7.0;net6.0-windows10.0.18362;</TargetFrameworks>
-	<RootNamespace>DSoft.WizardControl</RootNamespace>
-	<AssemblyName>DSoft.WizardControl.WPF</AssemblyName>
-	<Product>$(AssemblyName) ($(TargetFramework))</Product>
-	<UseWPF>true</UseWPF>
-	<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-	<PackageId>DSoft.WizardControl.WPF</PackageId>
-	<Version>2.0.0-preview1</Version>
-	<Description>DSoft.WizardControl.WPF is a simple wizard user control for WPF</Description>
-	<PackageTags>WPF Wizard</PackageTags>
-	<PackageReleaseNotes>Updated .NET 6.x support
-	</PackageReleaseNotes>
-	<DefineConstants>$(DefineConstants);WPF</DefineConstants>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net6.0-windows7.0;net6.0-windows10.0.18362;net8.0-windows7.0;net8.0-windows10.0.18362;</TargetFrameworks>
+		<RootNamespace>DSoft.WizardControl</RootNamespace>
+		<AssemblyName>DSoft.WizardControl.WPF</AssemblyName>
+		<Product>$(AssemblyName) ($(TargetFramework))</Product>
+		<UseWPF>true</UseWPF>
+		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+		<PackageId>DSoft.WizardControl.WPF</PackageId>
+		<Version>2.0.0-preview1</Version>
+		<Description>DSoft.WizardControl.WPF is a simple wizard user control for WPF</Description>
+		<PackageTags>WPF Wizard</PackageTags>
+		<PackageReleaseNotes>
+			Updated to add .NET 8.x support
+		</PackageReleaseNotes>
+		<DefineConstants>$(DefineConstants);WPF</DefineConstants>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+	</PropertyGroup>
 
-<ItemGroup>
-  <Compile Include="..\DSoft.WizardControl.WinUI\DefaultCompleteView.uwp.winui.wpf.cs" Link="DefaultCompleteView.uwp.winui.wpf.cs" />
-  <Compile Include="..\DSoft.WizardControl.WinUI\DefaultErrorView.uwp.winui.wpf.cs" Link="DefaultErrorView.uwp.winui.wpf.cs" />
-  <Compile Include="..\DSoft.WizardControl.WinUI\DefaultProgressView.uwp.winui.wpf.cs" Link="DefaultProgressView.uwp.winui.wpf.cs" />
-  <Compile Include="..\DSoft.WizardControl.WinUI\DelegateCommand.shared.cs" Link="DelegateCommand.shared.cs" />
-  <Compile Include="..\DSoft.WizardControl.WinUI\WizardControl.uwp.winui.wpf.cs" Link="WizardControl.uwp.winui.wpf.cs" />
-</ItemGroup>
-	
-  <ItemGroup>
-    <ProjectReference Include="..\DSoft.WizardControl.Core\DSoft.WizardControl.Core.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Include="..\DSoft.WizardControl.WinUI\DefaultCompleteView.uwp.winui.wpf.cs" Link="DefaultCompleteView.uwp.winui.wpf.cs" />
+		<Compile Include="..\DSoft.WizardControl.WinUI\DefaultErrorView.uwp.winui.wpf.cs" Link="DefaultErrorView.uwp.winui.wpf.cs" />
+		<Compile Include="..\DSoft.WizardControl.WinUI\DefaultProgressView.uwp.winui.wpf.cs" Link="DefaultProgressView.uwp.winui.wpf.cs" />
+		<Compile Include="..\DSoft.WizardControl.WinUI\DelegateCommand.shared.cs" Link="DelegateCommand.shared.cs" />
+		<Compile Include="..\DSoft.WizardControl.WinUI\WizardControl.uwp.winui.wpf.cs" Link="WizardControl.uwp.winui.wpf.cs" />
+	</ItemGroup>
 
+	<ItemGroup>
+		<ProjectReference Include="..\DSoft.WizardControl.Core\DSoft.WizardControl.Core.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
 </Project>
 
