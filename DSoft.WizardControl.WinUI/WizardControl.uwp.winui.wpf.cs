@@ -1219,6 +1219,8 @@ namespace DSoft.WizardControl
         {
             base.OnApplyTemplate();
 
+            Console.WriteLine("Apply Template");
+
             var controlGrid = GetTemplateChild("PART_CONTENT");
 
             _contentGrid = controlGrid as ContentControl;
@@ -1230,7 +1232,7 @@ namespace DSoft.WizardControl
             _btnComplete = GetTemplateChild("PART_BTN_COMPLETE") as Button;
             _btnFinish = GetTemplateChild("PART_BTN_FINISH") as Button;
 
-
+            
 			PreviousCommand = new DelegateCommand(() =>
             {
                 Navigate(NavigationDirection.Backwards);
@@ -1305,6 +1307,14 @@ namespace DSoft.WizardControl
             {
                 CancelFunction?.Invoke();
             });
+
+#if WINUI
+            _btnNext.Command = NextCommand;
+            _btnPrevious.Command = PreviousCommand;
+            _btnCancel.Command = CancelCommand;
+            _btnComplete.Command = CompleteCommand;
+            _btnFinish.Command = ProcessButtonCommand;
+#endif
 
             if (Pages != null)
             {
@@ -1450,7 +1460,8 @@ namespace DSoft.WizardControl
             {
                 SelectedPage.PageConfig.OnPageShownHandler?.Invoke(this);
 
-                _contentGrid.Content = SelectedPage;
+                if (_contentGrid != null)
+                    _contentGrid.Content = SelectedPage;
             }
 
             RecalculateNavigation();
