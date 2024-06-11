@@ -20,9 +20,9 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
   netVersion: '6.0.x'
-  releaseSuffix: '-prerelease'
+  releaseSuffix: ''
 
-name: 2.1.$(date:yyMM).$(date:dd)$(rev:r)
+name: 3.0.$(date:yyMM).$(date:dd)$(rev:r)
 steps:
 - task: NuGetToolInstaller@1
   displayName: Install Latest Nuget

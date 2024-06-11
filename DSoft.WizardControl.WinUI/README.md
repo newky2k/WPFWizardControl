@@ -1,5 +1,5 @@
-# Dsoft.WizardControl.WPF
-Dsoft.WizardControl.WPF is a simple user control for WPF
+# Dsoft.WizardControl.WinUI
+Dsoft.WizardControl.WinUI is a simple user control for WinUI 3.x and above
 
 It supports
 
@@ -10,17 +10,17 @@ It supports
 
 ## Getting Started
 
-The WPF Wizard control is a `UserControl` based element and so it be used in other `UserControl` objects or directly in a `Window`
+The WinUI Wizard control is a `UserControl` based element and so it be used in other `UserControl` objects or directly in a `Window`
 
 Install the Nuget package into you project via the Package Management Console
 
-    Install-Package Dsoft.WizardControl.WPF
+    Install-Package Dsoft.WizardControl.WinUI
 
 Or install it via the Visual Studio Nuget Manager
 
 In your `Window` or `UserControl` add a new namespace
 
-    xmlns:wizard="clr-namespace:Dsoft.WizardControl.WPF;assembly=Dsoft.WizardControl.WPF"
+     xmlns:wizard="using:DSoft.WizardControl"
 
 Then you can add the `WizardControl` to the xaml
 
@@ -92,21 +92,33 @@ You can also change the `ButtonStyle` in the same way
 
 Example styling xaml that can be added to the App.xaml or other xaml resource file
 
-    xmlns:wizcont="clr-namespace:Dsoft.WizardControl.WPF;assembly=Dsoft.WizardControl.WPF"
+    xmlns:wizard="using:DSoft.WizardControl"
 
-    <Style TargetType="{x:Type wizcont:WizardControl}">
-        <Setter Property="ButtonStyle" Value="{StaticResource AccentedSquareButtonStyle}" />
+    <Style x:Key="WizardButtons" TargetType="Button" BasedOn="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}">
+
     </Style>
-    
-    <Style TargetType="{x:Type wizcont:WizardCont}">
-        <Setter Property="HeaderTemplate">
+
+    <Style TargetType="wizard:WizardControl">
+        <Setter Property="ButtonStyle" Value="{DynamicResource WizardButtons}" />
+        <Setter Property="TitleTextStyle">
             <Setter.Value>
-                <DataTemplate>
-                    <StackPanel VerticalAlignment="Center" Orientation="Vertical" Margin="5">
-                        <TextBlock Text="{Binding Title,FallbackValue=Heading}" FontSize="36"  Foreground="{StaticResource AccentColorBrush}"/>
-                        <TextBlock Text="{Binding SubTitle,FallbackValue=SubHeading}" FontSize="12" Foreground="Gray"/>
-                    </StackPanel>
-                </DataTemplate>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontSize" Value="36"/>
+                    <Setter Property="Margin" Value="5,0,0,0" />
+                    <Setter Property="FontFamily" Value="Segoe UI" />
+                    <Setter Property="FontWeight" Value="Light" />
+                    <Setter Property="Foreground" Value="LightBlue" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="SubTitleTextStyle">
+            <Setter.Value>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontSize" Value="24"/>
+                    <Setter Property="FontFamily" Value="Segoe UI" />
+                    <Setter Property="Foreground" Value="Gray" />
+                    <Setter Property="Margin" Value="5,0,0,5" />
+                </Style>
             </Setter.Value>
         </Setter>
     </Style>
