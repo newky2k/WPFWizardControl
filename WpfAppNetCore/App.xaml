@@ -6,21 +6,16 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-
-                <!-- MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive! -->
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Vs/Colors.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/PresentationFramework.Fluent;component/Themes/Fluent.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <Style x:Key="WizarButtons" TargetType="Button" BasedOn="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}">
+            <Style x:Key="WizardButtons" TargetType="Button" BasedOn="{StaticResource AccentButtonStyle}">
+
 
             </Style>
             
             <Style TargetType="{x:Type wizcont:WizardControl}">
-                <Setter Property="ButtonStyle" Value="{DynamicResource WizarButtons}" />
-
+                <Setter Property="ButtonStyle" Value="{DynamicResource WizardButtons}" />
 
                 <Setter Property="TitleTextStyle">
                     <Setter.Value>
@@ -29,7 +24,7 @@
                             <Setter Property="Margin" Value="5,0,0,0" />
                             <Setter Property="FontFamily" Value="Segoe UI" />
                             <Setter Property="FontWeight" Value="Light" />
-                            <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.Accent}" />
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.AccentColorBrushKey}}" />
                         </Style>
                     </Setter.Value>
                 </Setter>
@@ -45,18 +40,6 @@
                 </Setter>
             </Style>
 
-            <!--<Style TargetType="{x:Type wizcont:WizardCont}">
-                <Setter Property="HeaderTemplate">
-                    <Setter.Value>
-                        <DataTemplate>
-                            <StackPanel VerticalAlignment="Center" Orientation="Vertical" Margin="5">
-                                <TextBlock Text="{Binding Title,FallbackValue=Heading}" FontSize="36"  Foreground="{DynamicResource MahApps.Brushes.Accent}"/>
-                                <TextBlock Text="{Binding SubTitle,FallbackValue=SubHeading}" FontSize="12" Foreground="Gray"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>-->
         </ResourceDictionary>
     </Application.Resources>
 </Application>
