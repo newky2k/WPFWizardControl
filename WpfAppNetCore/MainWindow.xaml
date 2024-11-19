@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-         xmlns:wizard="clr-namespace:DSoft.WizardControl;assembly=DSoft.WizardControl.WPF"
+        xmlns:wizard="clr-namespace:DSoft.WizardControl;assembly=DSoft.WizardControl.WPF"
         xmlns:local="clr-namespace:WpfAppNetCore"
         Background="WhiteSmoke"
         mc:Ignorable="d"
