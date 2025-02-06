@@ -1201,15 +1201,19 @@ namespace DSoft.WizardControl
 		public WizardControl()
         {
             this.DefaultStyleKey = typeof(WizardControl);
-#if WPF
-			DefaultStyleKeyProperty.OverrideMetadata(typeof(WizardControl), new FrameworkPropertyMetadata(typeof(WizardControl)));
-#endif
 		}
+
+        static WizardControl()
+        {
 #if WPF
-		/// <summary>
-		/// When overridden in a derived class, is invoked whenever application code or internal processes call <see cref="M:System.Windows.FrameworkElement.ApplyTemplate" />.
-		/// </summary>
-		public override void OnApplyTemplate()
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(WizardControl), new FrameworkPropertyMetadata(typeof(WizardControl)));
+#endif
+        }
+#if WPF
+        /// <summary>
+        /// When overridden in a derived class, is invoked whenever application code or internal processes call <see cref="M:System.Windows.FrameworkElement.ApplyTemplate" />.
+        /// </summary>
+        public override void OnApplyTemplate()
 #else
 		/// <summary>
 		/// Invoked whenever application code or internal processes (such as a rebuilding layout pass) call ApplyTemplate. In simplest terms, this means the method is called just before a UI element displays in your app. Override this method to influence the default post-template logic of a class.
