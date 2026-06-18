@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using DSoft.WizardControl.Core;
@@ -18,17 +19,17 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace DSoft.WizardControl
 {
-	/// <summary>
-	/// Class WizardControl.
-	/// Implements the <see cref="Control" />
-	/// Implements the <see cref="IWizardControl" />
-	/// </summary>
-	/// <seealso cref="Control" />
-	/// <seealso cref="IWizardControl" />
-	public class WizardControl : Control, IWizardControl
+    /// <summary>
+    /// Class WizardControl.
+    /// Implements the <see cref="Control" />
+    /// Implements the <see cref="IWizardControl" />
+    /// </summary>
+    /// <seealso cref="Control" />
+    /// <seealso cref="IWizardControl" />
+    public class WizardControl : Control, IWizardControl
     {
-		#region Controls
-		private ContentControl _contentGrid;
+        #region Controls
+        private ContentControl _contentGrid;
         private Button _btnNext;
         private Button _btnPrevious;
         private Button _btnCancel;
@@ -37,125 +38,125 @@ namespace DSoft.WizardControl
 
         #endregion
         private WizardStage _currentStage = WizardStage.Setup;
-        private Dictionary<WizardButtons, Visibility> _buttonVisibility = new Dictionary<WizardButtons, Visibility>();
+        private Dictionary<WizardButtons, WizardButtonState> _buttonState = new Dictionary<WizardButtons, WizardButtonState>();
 
-		#region Events
+        #region Events
 
-		/// <summary>
-		/// Occurs when [on selected page changed].
-		/// </summary>
-		public event EventHandler<IWizardPage> OnSelectedPageChanged = delegate { };
-		/// <summary>
-		/// Occurs when [on selected index changed].
-		/// </summary>
-		public event EventHandler<int> OnSelectedIndexChanged = delegate { };
-		#endregion
+        /// <summary>
+        /// Occurs when [on selected page changed].
+        /// </summary>
+        public event EventHandler<IWizardPage> OnSelectedPageChanged = delegate { };
+        /// <summary>
+        /// Occurs when [on selected index changed].
+        /// </summary>
+        public event EventHandler<int> OnSelectedIndexChanged = delegate { };
+        #endregion
 
-		#region Titles and Sub-Title
+        #region Titles and Sub-Title
 
 
-		/// <summary>
-		/// The title property
-		/// </summary>
-		public readonly static DependencyProperty TitleProperty = DependencyProperty.Register("Title", typeof(string), typeof(WizardControl), new PropertyMetadata("Wizard Title", OnTitleChanged));
-		/// <summary>
-		/// The process mode property
-		/// </summary>
-		public readonly static DependencyProperty ProcessModeProperty = DependencyProperty.Register("ProcessMode", typeof(ProcessMode), typeof(WizardControl), new PropertyMetadata(ProcessMode.Default, OnProcessModeChanged));
-		/// <summary>
-		/// The sub title property
-		/// </summary>
-		internal readonly static DependencyProperty SubTitleProperty = DependencyProperty.Register(nameof(SubTitle), typeof(string), typeof(WizardControl), new PropertyMetadata("Wizard Sub-Title", OnSubTitleChanged));
+        /// <summary>
+        /// The title property
+        /// </summary>
+        public readonly static DependencyProperty TitleProperty = DependencyProperty.Register("Title", typeof(string), typeof(WizardControl), new PropertyMetadata("Wizard Title", OnTitleChanged));
+        /// <summary>
+        /// The process mode property
+        /// </summary>
+        public readonly static DependencyProperty ProcessModeProperty = DependencyProperty.Register("ProcessMode", typeof(ProcessMode), typeof(WizardControl), new PropertyMetadata(ProcessMode.Default, OnProcessModeChanged));
+        /// <summary>
+        /// The sub title property
+        /// </summary>
+        internal readonly static DependencyProperty SubTitleProperty = DependencyProperty.Register(nameof(SubTitle), typeof(string), typeof(WizardControl), new PropertyMetadata("Wizard Sub-Title", OnSubTitleChanged));
 
-		/// <summary>
-		/// Gets or sets the title.
-		/// </summary>
-		/// <value>The title.</value>
-		public string Title
+        /// <summary>
+        /// Gets or sets the title.
+        /// </summary>
+        /// <value>The title.</value>
+        public string Title
         {
             get { return (string)GetValue(TitleProperty); }
             set { SetValue(TitleProperty, value); }
         }
 
-		/// <summary>
-		/// Gets or sets the sub title.
-		/// </summary>
-		/// <value>The sub title.</value>
-		internal string SubTitle
+        /// <summary>
+        /// Gets or sets the sub title.
+        /// </summary>
+        /// <value>The sub title.</value>
+        internal string SubTitle
         {
             get { return (string)GetValue(SubTitleProperty); }
             set { SetValue(SubTitleProperty, value); }
         }
 
-		/// <summary>
-		/// Handles the <see cref="E:TitleChanged" /> event.
-		/// </summary>
-		/// <param name="d">The d.</param>
-		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
-		private static void OnTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// Handles the <see cref="E:TitleChanged" /> event.
+        /// </summary>
+        /// <param name="d">The d.</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
+        private static void OnTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             WizardControl sh = (WizardControl)d;
             //sh._viewModel.Title = (string)e.NewValue;
         }
 
-		/// <summary>
-		/// Handles the <see cref="E:SubTitleChanged" /> event.
-		/// </summary>
-		/// <param name="d">The d.</param>
-		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
-		private static void OnSubTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// Handles the <see cref="E:SubTitleChanged" /> event.
+        /// </summary>
+        /// <param name="d">The d.</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
+        private static void OnSubTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             WizardControl sh = (WizardControl)d;
             //sh._viewModel.Title = (string)e.NewValue;
         }
 
-		/// <summary>
-		/// Gets or sets the process mode.
-		/// </summary>
-		/// <value>The process mode.</value>
-		public ProcessMode ProcessMode
+        /// <summary>
+        /// Gets or sets the process mode.
+        /// </summary>
+        /// <value>The process mode.</value>
+        public ProcessMode ProcessMode
         {
             get { return (ProcessMode)GetValue(ProcessModeProperty); }
             set { SetValue(ProcessModeProperty, value); }
         }
 
-		/// <summary>
-		/// Handles the <see cref="E:ProcessModeChanged" /> event.
-		/// </summary>
-		/// <param name="d">The d.</param>
-		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
-		private static void OnProcessModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// Handles the <see cref="E:ProcessModeChanged" /> event.
+        /// </summary>
+        /// <param name="d">The d.</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
+        private static void OnProcessModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             WizardControl sh = (WizardControl)d;
 
-         //   sh._viewModel.ProcessMode = (ProcessMode)e.NewValue;
+            //   sh._viewModel.ProcessMode = (ProcessMode)e.NewValue;
         }
 
 
 
-		#endregion
+        #endregion
 
-		#region Header
+        #region Header
 
-		/// <summary>
-		/// The title text style property
-		/// </summary>
-		public static readonly DependencyProperty TitleTextStyleProperty = DependencyProperty.Register(nameof(TitleTextStyle), typeof(Style), typeof(WizardControl), new PropertyMetadata(null));
-		/// <summary>
-		/// The sub title text style property
-		/// </summary>
-		public static readonly DependencyProperty SubTitleTextStyleProperty = DependencyProperty.Register(nameof(SubTitleTextStyle), typeof(Style), typeof(WizardControl), new PropertyMetadata(null));
+        /// <summary>
+        /// The title text style property
+        /// </summary>
+        public static readonly DependencyProperty TitleTextStyleProperty = DependencyProperty.Register(nameof(TitleTextStyle), typeof(Style), typeof(WizardControl), new PropertyMetadata(null));
+        /// <summary>
+        /// The sub title text style property
+        /// </summary>
+        public static readonly DependencyProperty SubTitleTextStyleProperty = DependencyProperty.Register(nameof(SubTitleTextStyle), typeof(Style), typeof(WizardControl), new PropertyMetadata(null));
 
-		/// <summary>
-		/// The button style property
-		/// </summary>
-		public readonly static DependencyProperty ButtonStyleProperty = DependencyProperty.Register(nameof(ButtonStyle), typeof(Style), typeof(WizardControl), new PropertyMetadata(null, OnButtonStyleChanged));
+        /// <summary>
+        /// The button style property
+        /// </summary>
+        public readonly static DependencyProperty ButtonStyleProperty = DependencyProperty.Register(nameof(ButtonStyle), typeof(Style), typeof(WizardControl), new PropertyMetadata(null, OnButtonStyleChanged));
 
-		/// <summary>
-		/// Gets or sets the title text style.
-		/// </summary>
-		/// <value>The title text style.</value>
-		public Style TitleTextStyle
+        /// <summary>
+        /// Gets or sets the title text style.
+        /// </summary>
+        /// <value>The title text style.</value>
+        public Style TitleTextStyle
         {
             get
             {
@@ -167,11 +168,11 @@ namespace DSoft.WizardControl
             }
         }
 
-		/// <summary>
-		/// Gets or sets the sub title text style.
-		/// </summary>
-		/// <value>The sub title text style.</value>
-		public Style SubTitleTextStyle
+        /// <summary>
+        /// Gets or sets the sub title text style.
+        /// </summary>
+        /// <value>The sub title text style.</value>
+        public Style SubTitleTextStyle
         {
             get
             {
@@ -183,15 +184,15 @@ namespace DSoft.WizardControl
             }
         }
 
-		/// <summary>
-		/// Gets or sets the button style.
-		/// </summary>
-		/// <value>The button style.</value>
-		public Style ButtonStyle
-		{
-			get { return (Style)GetValue(ButtonStyleProperty); }
-			set { SetValue(ButtonStyleProperty, value); }
-		}
+        /// <summary>
+        /// Gets or sets the button style.
+        /// </summary>
+        /// <value>The button style.</value>
+        public Style ButtonStyle
+        {
+            get { return (Style)GetValue(ButtonStyleProperty); }
+            set { SetValue(ButtonStyleProperty, value); }
+        }
 
         /// <summary>
         /// Handles the <see cref="E:ButtonStyleChanged" /> event.
@@ -205,16 +206,17 @@ namespace DSoft.WizardControl
 
             if (sh.ButtonStyle != null)
             {
-                if (sh._btnNext != null)
-                    sh._btnNext.Style = sh.ButtonStyle;
-                if (sh._btnCancel != null)
-                    sh._btnCancel.Style = sh.ButtonStyle;
-                if (sh._btnFinish != null)
-                    sh._btnFinish.Style = sh.ButtonStyle;
-                if (sh._btnPrevious != null)
-                    sh._btnPrevious.Style = sh.ButtonStyle;
-                if (sh._btnComplete != null)
-                    sh._btnComplete.Style = sh.ButtonStyle;
+                sh.UpdateButtonStyle(WizardButtons.All, sh.ButtonStyle);
+                //if (sh._btnNext != null)
+                //    sh._btnNext.Style = sh.ButtonStyle;
+                //if (sh._btnCancel != null)
+                //    sh._btnCancel.Style = sh.ButtonStyle;
+                //if (sh._btnFinish != null)
+                //    sh._btnFinish.Style = sh.ButtonStyle;
+                //if (sh._btnPrevious != null)
+                //    sh._btnPrevious.Style = sh.ButtonStyle;
+                //if (sh._btnComplete != null)
+                //    sh._btnComplete.Style = sh.ButtonStyle;
             }
         }
 
@@ -225,32 +227,32 @@ namespace DSoft.WizardControl
         /// The selected index property
         /// </summary>
         public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(nameof(SelectedIndex), typeof(int), typeof(WizardControl), new PropertyMetadata(0, OnInternalSelectedIndexChanged));
-		/// <summary>
-		/// The selected page property
-		/// </summary>
-		public static readonly DependencyProperty SelectedPageProperty = DependencyProperty.Register(nameof(SelectedPage), typeof(IWizardPage), typeof(WizardControl), new PropertyMetadata(null, OnInternalSelectedPageChanged));
-		/// <summary>
-		/// The pages property
-		/// </summary>
-		public static readonly DependencyProperty PagesProperty = DependencyProperty.Register("Pages", typeof(ObservableCollection<IWizardPage>), typeof(WizardControl), new PropertyMetadata(new ObservableCollection<IWizardPage>(), OnPagesChanged));
-		/// <summary>
-		/// The processing page property
-		/// </summary>
-		public static readonly DependencyProperty ProcessingPageProperty = DependencyProperty.Register("ProcessingPage", typeof(IWizardPage), typeof(WizardControl), new PropertyMetadata(null, OnProcessingPageChanged));
-		/// <summary>
-		/// The complete page property
-		/// </summary>
-		public static readonly DependencyProperty CompletePageProperty = DependencyProperty.Register("CompletePage", typeof(IWizardPage), typeof(WizardControl), new PropertyMetadata(null, OnCompletePageChanged));
-		/// <summary>
-		/// The error page property
-		/// </summary>
-		public static readonly DependencyProperty ErrorPageProperty = DependencyProperty.Register("ErrorPage", typeof(IWizardPage), typeof(WizardControl), new PropertyMetadata(null, OnErrorPageChanged));
+        /// <summary>
+        /// The selected page property
+        /// </summary>
+        public static readonly DependencyProperty SelectedPageProperty = DependencyProperty.Register(nameof(SelectedPage), typeof(IWizardPage), typeof(WizardControl), new PropertyMetadata(null, OnInternalSelectedPageChanged));
+        /// <summary>
+        /// The pages property
+        /// </summary>
+        public static readonly DependencyProperty PagesProperty = DependencyProperty.Register("Pages", typeof(ObservableCollection<IWizardPage>), typeof(WizardControl), new PropertyMetadata(new ObservableCollection<IWizardPage>(), OnPagesChanged));
+        /// <summary>
+        /// The processing page property
+        /// </summary>
+        public static readonly DependencyProperty ProcessingPageProperty = DependencyProperty.Register("ProcessingPage", typeof(IWizardPage), typeof(WizardControl), new PropertyMetadata(null, OnProcessingPageChanged));
+        /// <summary>
+        /// The complete page property
+        /// </summary>
+        public static readonly DependencyProperty CompletePageProperty = DependencyProperty.Register("CompletePage", typeof(IWizardPage), typeof(WizardControl), new PropertyMetadata(null, OnCompletePageChanged));
+        /// <summary>
+        /// The error page property
+        /// </summary>
+        public static readonly DependencyProperty ErrorPageProperty = DependencyProperty.Register("ErrorPage", typeof(IWizardPage), typeof(WizardControl), new PropertyMetadata(null, OnErrorPageChanged));
 
-		/// <summary>
-		/// Gets or sets the index of the selected.
-		/// </summary>
-		/// <value>The index of the selected.</value>
-		public int SelectedIndex
+        /// <summary>
+        /// Gets or sets the index of the selected.
+        /// </summary>
+        /// <value>The index of the selected.</value>
+        public int SelectedIndex
         {
             get
             {
@@ -262,23 +264,23 @@ namespace DSoft.WizardControl
             }
         }
 
-		/// <summary>
-		/// Handles the <see cref="E:InternalSelectedIndexChanged" /> event.
-		/// </summary>
-		/// <param name="d">The d.</param>
-		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
-		private static void OnInternalSelectedIndexChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// Handles the <see cref="E:InternalSelectedIndexChanged" /> event.
+        /// </summary>
+        /// <param name="d">The d.</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
+        private static void OnInternalSelectedIndexChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var sh = (WizardControl)d;
 
 
         }
 
-		/// <summary>
-		/// Gets the last index of the active page.
-		/// </summary>
-		/// <value>The last index of the active page.</value>
-		private int LastActivePageIndex
+        /// <summary>
+        /// Gets the last index of the active page.
+        /// </summary>
+        /// <value>The last index of the active page.</value>
+        private int LastActivePageIndex
         {
             get
             {
@@ -286,11 +288,11 @@ namespace DSoft.WizardControl
             }
         }
 
-		/// <summary>
-		/// Gets the active pages.
-		/// </summary>
-		/// <value>The active pages.</value>
-		public Dictionary<int, IWizardPage> ActivePages
+        /// <summary>
+        /// Gets the active pages.
+        /// </summary>
+        /// <value>The active pages.</value>
+        public Dictionary<int, IWizardPage> ActivePages
         {
             get
             {
@@ -312,45 +314,45 @@ namespace DSoft.WizardControl
             }
         }
 
-		/// <summary>
-		/// Gets or sets the pages.
-		/// </summary>
-		/// <value>The pages.</value>
-		public ObservableCollection<IWizardPage> Pages
+        /// <summary>
+        /// Gets or sets the pages.
+        /// </summary>
+        /// <value>The pages.</value>
+        public ObservableCollection<IWizardPage> Pages
         {
             get { return (ObservableCollection<IWizardPage>)GetValue(PagesProperty); }
             set { SetValue(PagesProperty, value); }
         }
 
-		/// <summary>
-		/// Handles the <see cref="E:PagesChanged" /> event.
-		/// </summary>
-		/// <param name="d">The d.</param>
-		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
-		private static void OnPagesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// Handles the <see cref="E:PagesChanged" /> event.
+        /// </summary>
+        /// <param name="d">The d.</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
+        private static void OnPagesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var sh = (WizardControl)d;
 
             sh.SetPage(0);
 
-		}
+        }
 
-		/// <summary>
-		/// Gets or sets the processing page.
-		/// </summary>
-		/// <value>The processing page.</value>
-		public IWizardPage ProcessingPage
+        /// <summary>
+        /// Gets or sets the processing page.
+        /// </summary>
+        /// <value>The processing page.</value>
+        public IWizardPage ProcessingPage
         {
             get { return (IWizardPage)GetValue(ProcessingPageProperty); }
             set { SetValue(ProcessingPageProperty, value); }
         }
 
-		/// <summary>
-		/// Handles the <see cref="E:ProcessingPageChanged" /> event.
-		/// </summary>
-		/// <param name="d">The d.</param>
-		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
-		private static void OnProcessingPageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// Handles the <see cref="E:ProcessingPageChanged" /> event.
+        /// </summary>
+        /// <param name="d">The d.</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
+        private static void OnProcessingPageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var sh = (WizardControl)d;
 
@@ -360,48 +362,48 @@ namespace DSoft.WizardControl
             }
         }
 
-		/// <summary>
-		/// Gets or sets the complete page.
-		/// </summary>
-		/// <value>The complete page.</value>
-		public IWizardPage CompletePage
+        /// <summary>
+        /// Gets or sets the complete page.
+        /// </summary>
+        /// <value>The complete page.</value>
+        public IWizardPage CompletePage
         {
             get { return (IWizardPage)GetValue(CompletePageProperty); }
             set { SetValue(CompletePageProperty, value); }
         }
 
-		/// <summary>
-		/// Handles the <see cref="E:CompletePageChanged" /> event.
-		/// </summary>
-		/// <param name="d">The d.</param>
-		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
-		private static void OnCompletePageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// Handles the <see cref="E:CompletePageChanged" /> event.
+        /// </summary>
+        /// <param name="d">The d.</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
+        private static void OnCompletePageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var sh = (WizardControl)d;
 
-            if (e.NewValue != null && sh.CompletePage  != e.NewValue)
+            if (e.NewValue != null && sh.CompletePage != e.NewValue)
             {
                 sh.ReplacePage(sh.CompletePage, (IWizardPage)e.NewValue);
             }
 
         }
 
-		/// <summary>
-		/// Gets or sets the error page.
-		/// </summary>
-		/// <value>The error page.</value>
-		public IWizardPage ErrorPage
+        /// <summary>
+        /// Gets or sets the error page.
+        /// </summary>
+        /// <value>The error page.</value>
+        public IWizardPage ErrorPage
         {
             get { return (IWizardPage)GetValue(ErrorPageProperty); }
             set { SetValue(ErrorPageProperty, value); }
         }
 
-		/// <summary>
-		/// Handles the <see cref="E:ErrorPageChanged" /> event.
-		/// </summary>
-		/// <param name="d">The d.</param>
-		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
-		private static void OnErrorPageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// Handles the <see cref="E:ErrorPageChanged" /> event.
+        /// </summary>
+        /// <param name="d">The d.</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
+        private static void OnErrorPageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var sh = (WizardControl)d;
 
@@ -412,153 +414,153 @@ namespace DSoft.WizardControl
 
         }
 
-		/// <summary>
-		/// Gets or sets the selected page.
-		/// </summary>
-		/// <value>The selected page.</value>
-		public IWizardPage SelectedPage
+        /// <summary>
+        /// Gets or sets the selected page.
+        /// </summary>
+        /// <value>The selected page.</value>
+        public IWizardPage SelectedPage
         {
             get { return (IWizardPage)GetValue(SelectedPageProperty); }
             set { SetValue(SelectedPageProperty, value); }
         }
 
-		/// <summary>
-		/// Handles the <see cref="E:InternalSelectedPageChanged" /> event.
-		/// </summary>
-		/// <param name="d">The d.</param>
-		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
-		private static void OnInternalSelectedPageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// Handles the <see cref="E:InternalSelectedPageChanged" /> event.
+        /// </summary>
+        /// <param name="d">The d.</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
+        private static void OnInternalSelectedPageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var sh = (WizardControl)d;
 
 
         }
-		#endregion
+        #endregion
 
-		#region Button Titles
+        #region Button Titles
 
-		/// <summary>
-		/// The process button title property
-		/// </summary>
-		public readonly static DependencyProperty ProcessButtonTitleProperty = DependencyProperty.Register("ProcessButtonTitle", typeof(string), typeof(WizardControl), new PropertyMetadata("Process", OnProcessButtonTitleChanged));
-		/// <summary>
-		/// The close button title property
-		/// </summary>
-		public readonly static DependencyProperty CloseButtonTitleProperty = DependencyProperty.Register("CloseButtonTitle", typeof(string), typeof(WizardControl), new PropertyMetadata("Close", OnCloseButtonTitleChanged));
-		/// <summary>
-		/// The cancel button title property
-		/// </summary>
-		public readonly static DependencyProperty CancelButtonTitleProperty = DependencyProperty.Register("CancelButtonTitle", typeof(string), typeof(WizardControl), new PropertyMetadata("Cancel", OnCancelButtonTitleChanged));
-		/// <summary>
-		/// The next button title property
-		/// </summary>
-		public readonly static DependencyProperty NextButtonTitleProperty = DependencyProperty.Register("NextButtonTitle", typeof(string), typeof(WizardControl), new PropertyMetadata("Next", OnNextButtonTitleChanged));
-		/// <summary>
-		/// The previous button title property
-		/// </summary>
-		public readonly static DependencyProperty PreviousButtonTitleProperty = DependencyProperty.Register("PreviousButtonTitle", typeof(string), typeof(WizardControl), new PropertyMetadata("Previous", OnPreviousButtonTitleChanged));
+        /// <summary>
+        /// The process button title property
+        /// </summary>
+        public readonly static DependencyProperty ProcessButtonTitleProperty = DependencyProperty.Register("ProcessButtonTitle", typeof(string), typeof(WizardControl), new PropertyMetadata("Process", OnProcessButtonTitleChanged));
+        /// <summary>
+        /// The close button title property
+        /// </summary>
+        public readonly static DependencyProperty CloseButtonTitleProperty = DependencyProperty.Register("CloseButtonTitle", typeof(string), typeof(WizardControl), new PropertyMetadata("Close", OnCloseButtonTitleChanged));
+        /// <summary>
+        /// The cancel button title property
+        /// </summary>
+        public readonly static DependencyProperty CancelButtonTitleProperty = DependencyProperty.Register("CancelButtonTitle", typeof(string), typeof(WizardControl), new PropertyMetadata("Cancel", OnCancelButtonTitleChanged));
+        /// <summary>
+        /// The next button title property
+        /// </summary>
+        public readonly static DependencyProperty NextButtonTitleProperty = DependencyProperty.Register("NextButtonTitle", typeof(string), typeof(WizardControl), new PropertyMetadata("Next", OnNextButtonTitleChanged));
+        /// <summary>
+        /// The previous button title property
+        /// </summary>
+        public readonly static DependencyProperty PreviousButtonTitleProperty = DependencyProperty.Register("PreviousButtonTitle", typeof(string), typeof(WizardControl), new PropertyMetadata("Previous", OnPreviousButtonTitleChanged));
 
 
-		/// <summary>
-		/// Gets or sets the process button title.
-		/// </summary>
-		/// <value>The process button title.</value>
-		public string ProcessButtonTitle
+        /// <summary>
+        /// Gets or sets the process button title.
+        /// </summary>
+        /// <value>The process button title.</value>
+        public string ProcessButtonTitle
         {
             get { return (string)GetValue(ProcessButtonTitleProperty); }
             set { SetValue(ProcessButtonTitleProperty, value); }
         }
 
-		/// <summary>
-		/// Handles the <see cref="E:ProcessButtonTitleChanged" /> event.
-		/// </summary>
-		/// <param name="d">The d.</param>
-		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
-		private static void OnProcessButtonTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// Handles the <see cref="E:ProcessButtonTitleChanged" /> event.
+        /// </summary>
+        /// <param name="d">The d.</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
+        private static void OnProcessButtonTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var sh = (WizardControl)d;
             //sh._viewModel.ProcessButtonTitle = (string)e.NewValue;
         }
 
-		/// <summary>
-		/// Gets or sets the close button title.
-		/// </summary>
-		/// <value>The close button title.</value>
-		public string CloseButtonTitle
+        /// <summary>
+        /// Gets or sets the close button title.
+        /// </summary>
+        /// <value>The close button title.</value>
+        public string CloseButtonTitle
         {
             get => (string)GetValue(CloseButtonTitleProperty);
             set => SetValue(CloseButtonTitleProperty, value);
         }
 
-		/// <summary>
-		/// Handles the <see cref="E:CloseButtonTitleChanged" /> event.
-		/// </summary>
-		/// <param name="d">The d.</param>
-		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
-		private static void OnCloseButtonTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// Handles the <see cref="E:CloseButtonTitleChanged" /> event.
+        /// </summary>
+        /// <param name="d">The d.</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
+        private static void OnCloseButtonTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var sh = (WizardControl)d;
             //sh._viewModel.CloseButtonTitle = (string)e.NewValue;
         }
 
-		/// <summary>
-		/// Gets or sets the cancel button title.
-		/// </summary>
-		/// <value>The cancel button title.</value>
-		public string CancelButtonTitle
+        /// <summary>
+        /// Gets or sets the cancel button title.
+        /// </summary>
+        /// <value>The cancel button title.</value>
+        public string CancelButtonTitle
         {
             get => (string)GetValue(CancelButtonTitleProperty);
             set => SetValue(CancelButtonTitleProperty, value);
         }
 
-		/// <summary>
-		/// Handles the <see cref="E:CancelButtonTitleChanged" /> event.
-		/// </summary>
-		/// <param name="d">The d.</param>
-		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
-		private static void OnCancelButtonTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// Handles the <see cref="E:CancelButtonTitleChanged" /> event.
+        /// </summary>
+        /// <param name="d">The d.</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
+        private static void OnCancelButtonTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var sh = (WizardControl)d;
             //sh._viewModel.CancelButtonTitle = (string)e.NewValue;
         }
 
-		/// <summary>
-		/// Gets or sets the next button title.
-		/// </summary>
-		/// <value>The next button title.</value>
-		public string NextButtonTitle
+        /// <summary>
+        /// Gets or sets the next button title.
+        /// </summary>
+        /// <value>The next button title.</value>
+        public string NextButtonTitle
         {
             get { return (string)GetValue(NextButtonTitleProperty); }
             set { SetValue(NextButtonTitleProperty, value); }
         }
 
-		/// <summary>
-		/// Handles the <see cref="E:NextButtonTitleChanged" /> event.
-		/// </summary>
-		/// <param name="d">The d.</param>
-		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
-		private static void OnNextButtonTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// Handles the <see cref="E:NextButtonTitleChanged" /> event.
+        /// </summary>
+        /// <param name="d">The d.</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
+        private static void OnNextButtonTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var sh = (WizardControl)d;
             //sh._viewModel.NextButtonTitle = (string)e.NewValue;
         }
 
-		/// <summary>
-		/// Gets or sets the previous button title.
-		/// </summary>
-		/// <value>The previous button title.</value>
-		public string PreviousButtonTitle
+        /// <summary>
+        /// Gets or sets the previous button title.
+        /// </summary>
+        /// <value>The previous button title.</value>
+        public string PreviousButtonTitle
         {
             get { return (string)GetValue(PreviousButtonTitleProperty); }
             set { SetValue(PreviousButtonTitleProperty, value); }
         }
 
-		/// <summary>
-		/// Handles the <see cref="E:PreviousButtonTitleChanged" /> event.
-		/// </summary>
-		/// <param name="d">The d.</param>
-		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
-		private static void OnPreviousButtonTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// Handles the <see cref="E:PreviousButtonTitleChanged" /> event.
+        /// </summary>
+        /// <param name="d">The d.</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
+        private static void OnPreviousButtonTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var sh = (WizardControl)d;
             //sh._viewModel.PreviousButtonTitle = (string)e.NewValue;
@@ -572,55 +574,101 @@ namespace DSoft.WizardControl
         internal static readonly DependencyProperty ProcessEnabledProperty = DependencyProperty.Register(nameof(ProcessEnabled), typeof(bool), typeof(WizardControl), new PropertyMetadata(null));
         internal static readonly DependencyProperty CancelEnabledProperty = DependencyProperty.Register(nameof(CancelEnabled), typeof(bool), typeof(WizardControl), new PropertyMetadata(null));
         internal static readonly DependencyProperty CompleteEnabledProperty = DependencyProperty.Register(nameof(CompleteEnabled), typeof(bool), typeof(WizardControl), new PropertyMetadata(null));
-		/// <summary>
-		/// Is previous button enabled
-		/// </summary>
-		/// <value><c>true</c> if [previous enabled]; otherwise, <c>false</c>.</value>
-		internal bool PreviousEnabled
+        /// <summary>
+        /// Is previous button enabled
+        /// </summary>
+        /// <value><c>true</c> if [previous enabled]; otherwise, <c>false</c>.</value>
+        internal bool PreviousEnabled
         {
             get { return (bool)GetValue(PreviousEnabledProperty); }
             set { SetValue(PreviousEnabledProperty, value); }
         }
 
-		/// <summary>
-		/// Is next button enabled
-		/// </summary>
-		/// <value><c>true</c> if [next enabled]; otherwise, <c>false</c>.</value>
-		internal bool NextEnabled
+        /// <summary>
+        /// Is next button enabled
+        /// </summary>
+        /// <value><c>true</c> if [next enabled]; otherwise, <c>false</c>.</value>
+        internal bool NextEnabled
         {
             get { return (bool)GetValue(NextEnabledProperty); }
             set { SetValue(NextEnabledProperty, value); }
         }
 
-		/// <summary>
-		/// Is finish button enabled
-		/// </summary>
-		/// <value><c>true</c> if [process enabled]; otherwise, <c>false</c>.</value>
-		internal bool ProcessEnabled
+        /// <summary>
+        /// Is finish button enabled
+        /// </summary>
+        /// <value><c>true</c> if [process enabled]; otherwise, <c>false</c>.</value>
+        internal bool ProcessEnabled
         {
             get { return (bool)GetValue(ProcessEnabledProperty); }
             set { SetValue(ProcessEnabledProperty, value); }
         }
 
-		/// <summary>
-		/// Is previous button enabled
-		/// </summary>
-		/// <value><c>true</c> if [cancel enabled]; otherwise, <c>false</c>.</value>
-		internal bool CancelEnabled
+        /// <summary>
+        /// Is previous button enabled
+        /// </summary>
+        /// <value><c>true</c> if [cancel enabled]; otherwise, <c>false</c>.</value>
+        internal bool CancelEnabled
         {
             get { return (bool)GetValue(CancelEnabledProperty); }
             set { SetValue(CancelEnabledProperty, value); }
         }
 
-		/// <summary>
-		/// Gets or sets a value indicating whether [complete enabled].
-		/// </summary>
-		/// <value><c>true</c> if [complete enabled]; otherwise, <c>false</c>.</value>
-		internal bool CompleteEnabled
+        /// <summary>
+        /// Gets or sets a value indicating whether [complete enabled].
+        /// </summary>
+        /// <value><c>true</c> if [complete enabled]; otherwise, <c>false</c>.</value>
+        internal bool CompleteEnabled
         {
             get { return (bool)GetValue(CompleteEnabledProperty); }
             set { SetValue(CompleteEnabledProperty, value); }
         }
+
+        #endregion
+
+        #region Button Styles
+        internal static readonly DependencyProperty CompleteButtonStyleProperty = DependencyProperty.Register(nameof(CompleteButtonStyle), typeof(Style), typeof(WizardControl), new PropertyMetadata(null));
+        internal static readonly DependencyProperty CancelButtonStyleProperty = DependencyProperty.Register(nameof(CancelButtonStyle), typeof(Style), typeof(WizardControl), new PropertyMetadata(null));
+        internal static readonly DependencyProperty ProcessButtonStyleProperty = DependencyProperty.Register(nameof(ProcessButtonStyle), typeof(Style), typeof(WizardControl), new PropertyMetadata(null));
+        //internal static readonly DependencyProperty ButtonStackStyleProperty = DependencyProperty.Register(nameof(ButtonStackStyle), typeof(Style), typeof(WizardControl), new PropertyMetadata(null));
+        internal static readonly DependencyProperty NextButtonStyleProperty = DependencyProperty.Register(nameof(NextButtonStyle), typeof(Style), typeof(WizardControl), new PropertyMetadata(null));
+        internal static readonly DependencyProperty PreviousButtonStyleProperty = DependencyProperty.Register(nameof(PreviousButtonStyle), typeof(Style), typeof(WizardControl), new PropertyMetadata(null));
+
+        internal Style CompleteButtonStyle
+        {
+            get => (Style)this.GetValue(CompleteButtonStyleProperty);
+            set => this.SetValue(CompleteButtonStyleProperty, value);
+        }
+
+        internal Style CancelButtonStyle
+        {
+            get => (Style)this.GetValue(CancelButtonStyleProperty);
+            set => this.SetValue(CancelButtonStyleProperty, value);
+        }
+
+        internal Style ProcessButtonStyle
+        {
+            get => (Style)this.GetValue(ProcessButtonStyleProperty);
+            set => this.SetValue(ProcessButtonStyleProperty, value);
+        }
+
+        internal Style NextButtonStyle
+        {
+            get => (Style)this.GetValue(NextButtonStyleProperty);
+            set => this.SetValue(NextButtonStyleProperty, value);
+        }
+
+        internal Style PreviousButtonStyle
+        {
+            get => (Style)this.GetValue(PreviousButtonStyleProperty);
+            set => this.SetValue(PreviousButtonStyleProperty, value);
+        }
+
+        //internal Style ButtonStackStyle
+        //{
+        //    get => (Style)this.GetValue(ButtonStackStyleProperty);
+        //    set => this.SetValue(ButtonStackStyleProperty, value);
+        //}
 
         #endregion
 
@@ -633,11 +681,11 @@ namespace DSoft.WizardControl
         internal static readonly DependencyProperty NextButtonVisibilityProperty = DependencyProperty.Register(nameof(NextButtonVisibility), typeof(Visibility), typeof(WizardControl), new PropertyMetadata(null));
         internal static readonly DependencyProperty PreviousButtonVisibilityProperty = DependencyProperty.Register(nameof(PreviousButtonVisibility), typeof(Visibility), typeof(WizardControl), new PropertyMetadata(null));
 
-		/// <summary>
-		/// Gets or sets the complete button visibility.
-		/// </summary>
-		/// <value>The complete button visibility.</value>
-		internal Visibility CompleteButtonVisibility
+        /// <summary>
+        /// Gets or sets the complete button visibility.
+        /// </summary>
+        /// <value>The complete button visibility.</value>
+        internal Visibility CompleteButtonVisibility
         {
             get
             {
@@ -650,11 +698,11 @@ namespace DSoft.WizardControl
 
         }
 
-		/// <summary>
-		/// Gets or sets the cancel button visibility.
-		/// </summary>
-		/// <value>The cancel button visibility.</value>
-		internal Visibility CancelButtonVisibility
+        /// <summary>
+        /// Gets or sets the cancel button visibility.
+        /// </summary>
+        /// <value>The cancel button visibility.</value>
+        internal Visibility CancelButtonVisibility
         {
             get
             {
@@ -667,11 +715,11 @@ namespace DSoft.WizardControl
 
         }
 
-		/// <summary>
-		/// Gets or sets the process button visibility.
-		/// </summary>
-		/// <value>The process button visibility.</value>
-		internal Visibility ProcessButtonVisibility
+        /// <summary>
+        /// Gets or sets the process button visibility.
+        /// </summary>
+        /// <value>The process button visibility.</value>
+        internal Visibility ProcessButtonVisibility
         {
             get
             {
@@ -684,11 +732,11 @@ namespace DSoft.WizardControl
 
         }
 
-		/// <summary>
-		/// Gets or sets the button stack visibility.
-		/// </summary>
-		/// <value>The button stack visibility.</value>
-		internal Visibility ButtonStackVisibility
+        /// <summary>
+        /// Gets or sets the button stack visibility.
+        /// </summary>
+        /// <value>The button stack visibility.</value>
+        internal Visibility ButtonStackVisibility
         {
             get
             {
@@ -700,11 +748,11 @@ namespace DSoft.WizardControl
             }
         }
 
-		/// <summary>
-		/// Gets or sets the next button visibility.
-		/// </summary>
-		/// <value>The next button visibility.</value>
-		internal Visibility NextButtonVisibility
+        /// <summary>
+        /// Gets or sets the next button visibility.
+        /// </summary>
+        /// <value>The next button visibility.</value>
+        internal Visibility NextButtonVisibility
         {
             get
             {
@@ -717,11 +765,11 @@ namespace DSoft.WizardControl
 
         }
 
-		/// <summary>
-		/// Gets or sets the previous button visibility.
-		/// </summary>
-		/// <value>The previous button visibility.</value>
-		internal Visibility PreviousButtonVisibility
+        /// <summary>
+        /// Gets or sets the previous button visibility.
+        /// </summary>
+        /// <value>The previous button visibility.</value>
+        internal Visibility PreviousButtonVisibility
         {
             get
             {
@@ -734,82 +782,82 @@ namespace DSoft.WizardControl
 
         }
 
-		#endregion
+        #endregion
 
 
-		#region Functions
+        #region Functions
 
-		/// <summary>
-		/// The process function property
-		/// </summary>
-		public static readonly DependencyProperty ProcessFunctionProperty = DependencyProperty.Register("ProcessFunction", typeof(Func<Task<WizardProcessResult>>), typeof(WizardControl), new PropertyMetadata(null, OnProcessFunctionChanged));
-		/// <summary>
-		/// The close function property
-		/// </summary>
-		public static readonly DependencyProperty CloseFunctionProperty = DependencyProperty.Register("CloseFunction", typeof(Action), typeof(WizardControl), new PropertyMetadata(null, OnCloseFunctionChanged));
-		/// <summary>
-		/// The cancel function property
-		/// </summary>
-		public static readonly DependencyProperty CancelFunctionProperty = DependencyProperty.Register("CancelFunction", typeof(Action), typeof(WizardControl), new PropertyMetadata(null, OnCancelFunctionChanged));
+        /// <summary>
+        /// The process function property
+        /// </summary>
+        public static readonly DependencyProperty ProcessFunctionProperty = DependencyProperty.Register("ProcessFunction", typeof(Func<Task<WizardProcessResult>>), typeof(WizardControl), new PropertyMetadata(null, OnProcessFunctionChanged));
+        /// <summary>
+        /// The close function property
+        /// </summary>
+        public static readonly DependencyProperty CloseFunctionProperty = DependencyProperty.Register("CloseFunction", typeof(Action), typeof(WizardControl), new PropertyMetadata(null, OnCloseFunctionChanged));
+        /// <summary>
+        /// The cancel function property
+        /// </summary>
+        public static readonly DependencyProperty CancelFunctionProperty = DependencyProperty.Register("CancelFunction", typeof(Action), typeof(WizardControl), new PropertyMetadata(null, OnCancelFunctionChanged));
 
-		/// <summary>
-		/// Gets or sets the process function.
-		/// </summary>
-		/// <value>The process function.</value>
-		public Func<Task<WizardProcessResult>> ProcessFunction
+        /// <summary>
+        /// Gets or sets the process function.
+        /// </summary>
+        /// <value>The process function.</value>
+        public Func<Task<WizardProcessResult>> ProcessFunction
         {
             get { return (Func<Task<WizardProcessResult>>)GetValue(ProcessFunctionProperty); }
             set { SetValue(ProcessFunctionProperty, value); }
         }
 
-		/// <summary>
-		/// Handles the <see cref="E:ProcessFunctionChanged" /> event.
-		/// </summary>
-		/// <param name="d">The d.</param>
-		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
-		private static void OnProcessFunctionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// Handles the <see cref="E:ProcessFunctionChanged" /> event.
+        /// </summary>
+        /// <param name="d">The d.</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
+        private static void OnProcessFunctionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             WizardControl sh = (WizardControl)d;
             //sh._viewModel.ProcessFunction = (Func<Task<WizardProcessResult>>)e.NewValue;
         }
 
-		/// <summary>
-		/// Gets or sets the close function.
-		/// </summary>
-		/// <value>The close function.</value>
-		public Action CloseFunction
+        /// <summary>
+        /// Gets or sets the close function.
+        /// </summary>
+        /// <value>The close function.</value>
+        public Action CloseFunction
         {
             get { return (Action)GetValue(CloseFunctionProperty); }
             set { SetValue(CloseFunctionProperty, value); }
         }
 
-		/// <summary>
-		/// Handles the <see cref="E:CloseFunctionChanged" /> event.
-		/// </summary>
-		/// <param name="d">The d.</param>
-		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
-		private static void OnCloseFunctionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// Handles the <see cref="E:CloseFunctionChanged" /> event.
+        /// </summary>
+        /// <param name="d">The d.</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
+        private static void OnCloseFunctionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             WizardControl sh = (WizardControl)d;
             //sh._viewModel.CloseFunction = (Action)e.NewValue;
         }
 
-		/// <summary>
-		/// Gets or sets the cancel function.
-		/// </summary>
-		/// <value>The cancel function.</value>
-		public Action CancelFunction
+        /// <summary>
+        /// Gets or sets the cancel function.
+        /// </summary>
+        /// <value>The cancel function.</value>
+        public Action CancelFunction
         {
             get { return (Action)GetValue(CancelFunctionProperty); }
             set { SetValue(CancelFunctionProperty, value); }
         }
 
-		/// <summary>
-		/// Handles the <see cref="E:CancelFunctionChanged" /> event.
-		/// </summary>
-		/// <param name="d">The d.</param>
-		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
-		private static void OnCancelFunctionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// Handles the <see cref="E:CancelFunctionChanged" /> event.
+        /// </summary>
+        /// <param name="d">The d.</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
+        private static void OnCancelFunctionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             WizardControl sh = (WizardControl)d;
             //sh._viewModel.CancelFunction = (Action)e.NewValue;
@@ -828,11 +876,11 @@ namespace DSoft.WizardControl
 
 
 
-		/// <summary>
-		/// Gets the previous command.
-		/// </summary>
-		/// <value>The previous command.</value>
-		internal ICommand PreviousCommand
+        /// <summary>
+        /// Gets the previous command.
+        /// </summary>
+        /// <value>The previous command.</value>
+        internal ICommand PreviousCommand
         {
             get
             {
@@ -844,11 +892,11 @@ namespace DSoft.WizardControl
             }
         }
 
-		/// <summary>
-		/// Gets the next command.
-		/// </summary>
-		/// <value>The next command.</value>
-		internal ICommand NextCommand
+        /// <summary>
+        /// Gets the next command.
+        /// </summary>
+        /// <value>The next command.</value>
+        internal ICommand NextCommand
         {
             get
             {
@@ -860,11 +908,11 @@ namespace DSoft.WizardControl
             }
         }
 
-		/// <summary>
-		/// Gets or sets the process button command.
-		/// </summary>
-		/// <value>The process button command.</value>
-		internal ICommand ProcessButtonCommand
+        /// <summary>
+        /// Gets or sets the process button command.
+        /// </summary>
+        /// <value>The process button command.</value>
+        internal ICommand ProcessButtonCommand
         {
             get
             {
@@ -876,11 +924,11 @@ namespace DSoft.WizardControl
             }
         }
 
-		/// <summary>
-		/// Command to be called when the wizard completes.  Should be set in the View to be called by the view model
-		/// </summary>
-		/// <value>The complete command.</value>
-		internal ICommand CompleteCommand
+        /// <summary>
+        /// Command to be called when the wizard completes.  Should be set in the View to be called by the view model
+        /// </summary>
+        /// <value>The complete command.</value>
+        internal ICommand CompleteCommand
         {
             get
             {
@@ -892,11 +940,11 @@ namespace DSoft.WizardControl
             }
         }
 
-		/// <summary>
-		/// Gets or sets the cancel command.
-		/// </summary>
-		/// <value>The cancel command.</value>
-		internal ICommand CancelCommand
+        /// <summary>
+        /// Gets or sets the cancel command.
+        /// </summary>
+        /// <value>The cancel command.</value>
+        internal ICommand CancelCommand
         {
             get
             {
@@ -908,21 +956,21 @@ namespace DSoft.WizardControl
             }
         }
 
-		/// <summary>
-		/// Gets the available pages.
-		/// </summary>
-		/// <value>The available pages.</value>
-		public List<IWizardPage> AvailablePages => Pages?.ToList();
+        /// <summary>
+        /// Gets the available pages.
+        /// </summary>
+        /// <value>The available pages.</value>
+        public List<IWizardPage> AvailablePages => Pages?.ToList();
 
-		#endregion
+        #endregion
 
-		#region Internal Enabled
+        #region Internal Enabled
 
-		/// <summary>
-		/// Is previous button enabled
-		/// </summary>
-		/// <value><c>true</c> if this instance is previous enabled; otherwise, <c>false</c>.</value>
-		private bool IsPreviousEnabled
+        /// <summary>
+        /// Is previous button enabled
+        /// </summary>
+        /// <value><c>true</c> if this instance is previous enabled; otherwise, <c>false</c>.</value>
+        private bool IsPreviousEnabled
         {
             get
             {
@@ -951,11 +999,11 @@ namespace DSoft.WizardControl
             }
         }
 
-		/// <summary>
-		/// Is next button enabled
-		/// </summary>
-		/// <value><c>true</c> if this instance is next enabled; otherwise, <c>false</c>.</value>
-		private bool IsNextEnabled
+        /// <summary>
+        /// Is next button enabled
+        /// </summary>
+        /// <value><c>true</c> if this instance is next enabled; otherwise, <c>false</c>.</value>
+        private bool IsNextEnabled
         {
             get
             {
@@ -980,11 +1028,11 @@ namespace DSoft.WizardControl
             }
         }
 
-		/// <summary>
-		/// Is finish button enabled
-		/// </summary>
-		/// <value><c>true</c> if this instance is process enabled; otherwise, <c>false</c>.</value>
-		private bool IsProcessEnabled
+        /// <summary>
+        /// Is finish button enabled
+        /// </summary>
+        /// <value><c>true</c> if this instance is process enabled; otherwise, <c>false</c>.</value>
+        private bool IsProcessEnabled
         {
             get
             {
@@ -1010,11 +1058,11 @@ namespace DSoft.WizardControl
             }
         }
 
-		/// <summary>
-		/// Is previous button enabled
-		/// </summary>
-		/// <value><c>true</c> if this instance is cancel enabled; otherwise, <c>false</c>.</value>
-		private bool IsCancelEnabled
+        /// <summary>
+        /// Is previous button enabled
+        /// </summary>
+        /// <value><c>true</c> if this instance is cancel enabled; otherwise, <c>false</c>.</value>
+        private bool IsCancelEnabled
         {
             get
             {
@@ -1039,11 +1087,11 @@ namespace DSoft.WizardControl
             }
         }
 
-		/// <summary>
-		/// Gets a value indicating whether this instance is complete enabled.
-		/// </summary>
-		/// <value><c>true</c> if this instance is complete enabled; otherwise, <c>false</c>.</value>
-		private bool IsCompleteEnabled
+        /// <summary>
+        /// Gets a value indicating whether this instance is complete enabled.
+        /// </summary>
+        /// <value><c>true</c> if this instance is complete enabled; otherwise, <c>false</c>.</value>
+        private bool IsCompleteEnabled
         {
             get
             {
@@ -1070,23 +1118,23 @@ namespace DSoft.WizardControl
         }
 
 
-		#endregion
+        #endregion
 
 
-		#region Visibility
+        #region Visibility
 
 
-		/// <summary>
-		/// Gets the is complete button visibility.
-		/// </summary>
-		/// <value>The is complete button visibility.</value>
-		internal Visibility IsCompleteButtonVisibility
+        /// <summary>
+        /// Gets the is complete button visibility.
+        /// </summary>
+        /// <value>The is complete button visibility.</value>
+        internal Visibility IsCompleteButtonVisibility
         {
             get
             {
 
-                if (_buttonVisibility.ContainsKey(WizardButtons.Complete))
-                    return _buttonVisibility[WizardButtons.Complete];
+                if (_buttonState.ContainsKey(WizardButtons.Complete))
+                    return _buttonState[WizardButtons.Complete].GUIVisibility;
 
                 if (!CompleteEnabled)
                     return Visibility.Collapsed;
@@ -1096,16 +1144,16 @@ namespace DSoft.WizardControl
 
         }
 
-		/// <summary>
-		/// Gets the is cancel button visibility.
-		/// </summary>
-		/// <value>The is cancel button visibility.</value>
-		internal Visibility IsCancelButtonVisibility
+        /// <summary>
+        /// Gets the is cancel button visibility.
+        /// </summary>
+        /// <value>The is cancel button visibility.</value>
+        internal Visibility IsCancelButtonVisibility
         {
             get
             {
-                if (_buttonVisibility.ContainsKey(WizardButtons.Cancel))
-                    return _buttonVisibility[WizardButtons.Cancel];
+                if (_buttonState.ContainsKey(WizardButtons.Cancel))
+                    return _buttonState[WizardButtons.Cancel].GUIVisibility;
 
                 if (!CancelEnabled)
                     return Visibility.Collapsed;
@@ -1115,35 +1163,35 @@ namespace DSoft.WizardControl
 
         }
 
-		/// <summary>
-		/// Gets the is process button visibility.
-		/// </summary>
-		/// <value>The is process button visibility.</value>
-		internal Visibility IsProcessButtonVisibility
+        /// <summary>
+        /// Gets the is process button visibility.
+        /// </summary>
+        /// <value>The is process button visibility.</value>
+        internal Visibility IsProcessButtonVisibility
         {
             get
             {
                 if (!ProcessEnabled)
                     return Visibility.Collapsed;
 
-                if (_buttonVisibility.ContainsKey(WizardButtons.Process))
-                    return _buttonVisibility[WizardButtons.Process];
+                if (_buttonState.ContainsKey(WizardButtons.Process))
+                    return _buttonState[WizardButtons.Process].GUIVisibility;
 
                 return Visibility.Visible;
             }
 
         }
 
-		/// <summary>
-		/// Gets the is button stack visibility.
-		/// </summary>
-		/// <value>The is button stack visibility.</value>
-		internal Visibility IsButtonStackVisibility
+        /// <summary>
+        /// Gets the is button stack visibility.
+        /// </summary>
+        /// <value>The is button stack visibility.</value>
+        internal Visibility IsButtonStackVisibility
         {
             get
             {
-                if (_buttonVisibility.ContainsKey(WizardButtons.All))
-                    return _buttonVisibility[WizardButtons.All];
+                if (_buttonState.ContainsKey(WizardButtons.All))
+                    return _buttonState[WizardButtons.All].GUIVisibility;
 
                 if (SelectedPage != null)
                 {
@@ -1154,38 +1202,38 @@ namespace DSoft.WizardControl
             }
         }
 
-		/// <summary>
-		/// Gets the is next button visibility.
-		/// </summary>
-		/// <value>The is next button visibility.</value>
-		internal Visibility IsNextButtonVisibility
+        /// <summary>
+        /// Gets the is next button visibility.
+        /// </summary>
+        /// <value>The is next button visibility.</value>
+        internal Visibility IsNextButtonVisibility
         {
             get
             {
                 if (!NextEnabled)
                     return Visibility.Collapsed;
 
-                if (_buttonVisibility.ContainsKey(WizardButtons.Next))
-                    return _buttonVisibility[WizardButtons.Next];
+                if (_buttonState.ContainsKey(WizardButtons.Next))
+                    return _buttonState[WizardButtons.Next].GUIVisibility;
 
                 return Visibility.Visible;
             }
 
         }
 
-		/// <summary>
-		/// Gets the is previous button visibility.
-		/// </summary>
-		/// <value>The is previous button visibility.</value>
-		internal Visibility IsPreviousButtonVisibility
+        /// <summary>
+        /// Gets the is previous button visibility.
+        /// </summary>
+        /// <value>The is previous button visibility.</value>
+        internal Visibility IsPreviousButtonVisibility
         {
             get
             {
                 if (!PreviousEnabled)
                     return Visibility.Collapsed;
 
-                if (_buttonVisibility.ContainsKey(WizardButtons.Previous))
-                    return _buttonVisibility[WizardButtons.Previous];
+                if (_buttonState.ContainsKey(WizardButtons.Previous))
+                    return _buttonState[WizardButtons.Previous].GUIVisibility;
 
                 return Visibility.Visible;
 
@@ -1193,15 +1241,15 @@ namespace DSoft.WizardControl
 
         }
 
-		#endregion
+        #endregion
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="WizardControl" /> class.
-		/// </summary>
-		public WizardControl()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WizardControl" /> class.
+        /// </summary>
+        public WizardControl()
         {
             this.DefaultStyleKey = typeof(WizardControl);
-		}
+        }
 
         static WizardControl()
         {
@@ -1236,8 +1284,8 @@ namespace DSoft.WizardControl
             _btnComplete = GetTemplateChild("PART_BTN_COMPLETE") as Button;
             _btnFinish = GetTemplateChild("PART_BTN_FINISH") as Button;
 
-            
-			PreviousCommand = new DelegateCommand(() =>
+
+            PreviousCommand = new DelegateCommand(() =>
             {
                 Navigate(NavigationDirection.Backwards);
             });
@@ -1260,7 +1308,7 @@ namespace DSoft.WizardControl
 #endif
 
                     {
-            try
+                        try
                         {
                             SetPage(Pages.IndexOf(ProcessingPage));
 
@@ -1339,61 +1387,52 @@ namespace DSoft.WizardControl
 
             if (ButtonStyle != null)
             {
-				if (_btnNext != null)
-					_btnNext.Style = ButtonStyle;
-				if (_btnCancel != null)
-					_btnCancel.Style = ButtonStyle;
-				if (_btnFinish != null)
-					_btnFinish.Style = ButtonStyle;
-				if (_btnPrevious != null)
-					_btnPrevious.Style = ButtonStyle;
-				if (_btnComplete != null)
-					_btnComplete.Style = ButtonStyle;
-			}
+                UpdateButtonStyle(WizardButtons.All, ButtonStyle);
+            }
 
             SetPage(0);
         }
 
 
-#region IWizard Elements
+        #region IWizard Elements
 
-		/// <summary>
-		/// Starts the processing stage.
-		/// </summary>
-		public void StartProcessingStage()
+        /// <summary>
+        /// Starts the processing stage.
+        /// </summary>
+        public void StartProcessingStage()
         {
             _currentStage = WizardStage.Working;
         }
 
-		/// <summary>
-		/// Starts the completion stage.
-		/// </summary>
-		public void StartCompletionStage()
+        /// <summary>
+        /// Starts the completion stage.
+        /// </summary>
+        public void StartCompletionStage()
         {
             _currentStage = WizardStage.Complete;
         }
 
-		/// <summary>
-		/// Starts the setup stage.
-		/// </summary>
-		public void StartSetupStage()
+        /// <summary>
+        /// Starts the setup stage.
+        /// </summary>
+        public void StartSetupStage()
         {
             _currentStage = WizardStage.Setup;
         }
 
-		/// <summary>
-		/// Starts the error stage.
-		/// </summary>
-		public void StartErrorStage()
+        /// <summary>
+        /// Starts the error stage.
+        /// </summary>
+        public void StartErrorStage()
         {
             _currentStage = WizardStage.Error;
         }
 
-		/// <summary>
-		/// Navigates the specified direction.
-		/// </summary>
-		/// <param name="direction">The direction.</param>
-		public async void Navigate(NavigationDirection direction)
+        /// <summary>
+        /// Navigates the specified direction.
+        /// </summary>
+        /// <param name="direction">The direction.</param>
+        public async void Navigate(NavigationDirection direction)
         {
             switch (direction)
             {
@@ -1426,11 +1465,11 @@ namespace DSoft.WizardControl
             }
         }
 
-		/// <summary>
-		/// Sets the page.
-		/// </summary>
-		/// <param name="newIndex">The new index.</param>
-		internal void SetPage(int newIndex)
+        /// <summary>
+        /// Sets the page.
+        /// </summary>
+        /// <param name="newIndex">The new index.</param>
+        internal void SetPage(int newIndex)
         {
             if (Pages == null || Pages.Count == 0)
             {
@@ -1458,7 +1497,7 @@ namespace DSoft.WizardControl
             this.SelectedIndex = newIndex;
             SelectedPage = Pages[SelectedIndex];
 
-            _buttonVisibility.Clear();
+            _buttonState.Clear();
 
             if (SelectedPage != null)
             {
@@ -1471,13 +1510,13 @@ namespace DSoft.WizardControl
             RecalculateNavigation();
         }
 
-		/// <summary>
-		/// Determines whether this instance can navigate the specified direction.
-		/// </summary>
-		/// <param name="direction">The direction.</param>
-		/// <param name="curItem">The current item.</param>
-		/// <returns><c>true</c> if this instance can navigate the specified direction; otherwise, <c>false</c>.</returns>
-		private bool CanNavigate(NavigationDirection direction, IWizardPage curItem)
+        /// <summary>
+        /// Determines whether this instance can navigate the specified direction.
+        /// </summary>
+        /// <param name="direction">The direction.</param>
+        /// <param name="curItem">The current item.</param>
+        /// <returns><c>true</c> if this instance can navigate the specified direction; otherwise, <c>false</c>.</returns>
+        private bool CanNavigate(NavigationDirection direction, IWizardPage curItem)
         {
             if (curItem.PageConfig.NavigationHandler != null)
             {
@@ -1495,16 +1534,197 @@ namespace DSoft.WizardControl
 
         }
 
-		/// <summary>
-		/// Updates the button visibility.
-		/// </summary>
-		/// <param name="visibility">The visibility.</param>
-		/// <param name="buttons">The buttons.</param>
-		public void UpdateButtonVisibility(WizardButtonVisibility visibility, params WizardButtons[] buttons)
+        /// <summary>
+        /// Retrieves the current style associated with the specified wizard button.
+        /// </summary>
+        /// <param name="button">The wizard button for which to obtain the style.</param>
+        /// <returns>A Style object representing the current style of the specified button. If no specific style is set for the
+        /// button, the default button style is returned.</returns>
+        public Style GetButtonStyle(WizardButtons button)
+        {
+            if (_buttonState.ContainsKey(button))
+            {
+                return _buttonState[button].ButtonStyleCurrent;
+            }
+            else
+            {
+                return ButtonStyle;
+            }
+        }
+
+        /// <summary>
+        /// Retrieves a style resource with the specified key from the control's resources or the application resources.
+        /// </summary>
+        /// <remarks>The method first searches the control's resources for the specified style key. If not
+        /// found, it searches the application-level resources. This allows for both local and global style
+        /// lookups.</remarks>
+        /// <param name="styleKey">The key of the style resource to retrieve. Cannot be null or empty.</param>
+        /// <returns>A Style object associated with the specified key, or null if no matching style is found.</returns>
+        public Style? GetUserControlStyle(string styleKey)
+        {
+            if (string.IsNullOrWhiteSpace(styleKey))
+                return null;
+
+            if (SelectedPage is FrameworkElement selectedPageElement)
+            {
+                var selectedPageStyle = GetStyleFromResourceDictionary(selectedPageElement.Resources, styleKey);
+
+                if (selectedPageStyle != null)
+                    return selectedPageStyle;
+            }
+
+#if WPF
+            if (string.Equals(styleKey, typeof(WizardControl).Name, StringComparison.Ordinal) ||
+                string.Equals(styleKey, typeof(WizardControl).FullName, StringComparison.Ordinal))
+            {
+                var implicitControlStyle = this.TryFindResource(typeof(WizardControl)) as Style;
+                if (implicitControlStyle != null)
+                    return implicitControlStyle;
+            }
+
+            var directStyle = this.TryFindResource(styleKey) as Style;
+            if (directStyle != null)
+                return directStyle;
+#endif
+
+            var style = GetStyleFromResourceDictionary(this.Resources, styleKey);
+
+            if (style != null)
+                return style;
+
+            return GetStyleFromResourceDictionary(Application.Current?.Resources, styleKey);
+        }
+
+        private static Style? GetStyleFromResourceDictionary(ResourceDictionary? resourceDictionary, string styleKey)
+        {
+            if (resourceDictionary == null)
+                return null;
+
+            try
+            {
+                if (resourceDictionary[styleKey] is Style style)
+                    return style;
+            }
+            catch
+            {
+            }
+
+#if WPF
+            foreach (DictionaryEntry entry in resourceDictionary)
+            {
+                if (entry.Value is Style entryStyle)
+                {
+                    if (entry.Key is Type typeKey &&
+                        (string.Equals(typeKey.Name, styleKey, StringComparison.Ordinal) ||
+                         string.Equals(typeKey.FullName, styleKey, StringComparison.Ordinal)))
+                    {
+                        return entryStyle;
+                    }
+                }
+            }
+#endif
+
+            if (resourceDictionary.MergedDictionaries != null)
+            {
+                foreach (var mergedDictionary in resourceDictionary.MergedDictionaries)
+                {
+                    var style = GetStyleFromResourceDictionary(mergedDictionary, styleKey);
+
+                    if (style != null)
+                        return style;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Sets the button style. Use this to set the style of a specific button.  
+        /// If you want to set the style for all buttons, use the WizardButtons.All or ButtonStyle property.
+        /// </summary>
+        /// <param name="button">The button to update.</param>
+        /// <param name="styleKey">The style key (name) to apply.</param>
+        public void UpdateButtonStyle(WizardButtons button, string styleKey)
+        {
+            var style = GetUserControlStyle(styleKey);
+            UpdateButtonStyle(button, style);
+        }
+
+        /// <summary>
+        /// Sets the button style. Use this to set the style of a specific button.  
+        /// If you want to set the style for all buttons, use the WizardButtons.All or ButtonStyle property.
+        /// </summary>
+        /// <param name="button">The button to update.</param>
+        /// <param name="style">The style to apply.</param>
+        public void UpdateButtonStyle(WizardButtons button, Style? style)
+        {
+            if (style == null)
+                return;
+
+            if (button == WizardButtons.All)
+            {
+                // for each button in enumeration aside from .All call UpdateButtonStyleInternal
+                foreach (WizardButtons btn in Enum.GetValues(typeof(WizardButtons)))
+                {
+                    if (btn != WizardButtons.All)
+                    {
+                        UpdateButtonStyleInternal(btn, style);
+                    }
+                }
+            }
+            else
+            {
+                // if it is a specific button, just update that one
+                UpdateButtonStyleInternal(button, style);
+            }
+        }
+
+        /// <summary>
+        /// Sets the button style. Use this to set the style of a specific button (i.e. do not pass WizardButtons.All).  
+        /// If you want to set the style for all buttons, use the ButtonStyle property or 
+        /// UpdateButtonStyle(WizardButtons.All).
+        /// </summary>
+        /// <param name="button">The button to update.</param>
+        /// <param name="style">The style to apply.</param>
+        private void UpdateButtonStyleInternal(WizardButtons button, Style style)
+        {
+            if (_buttonState.ContainsKey(button))
+            {
+                _buttonState[button].ButtonStyleCurrent = style;
+            }
+            else
+            {
+                var buttonState = new WizardButtonState(
+                     button,
+                     WizardButtonVisibility.Visible,
+                     style,
+                     ButtonStyle
+                     );
+                _buttonState.Add(button, buttonState);
+            }
+            // trigger update of the style property for the button to ensure the UI reflects the change
+            var buttonName = Enum.GetName(typeof(WizardButtons), button);
+            var propertyName = buttonName + "ButtonStyle";
+            var dependencyPropertyField = typeof(WizardControl).GetField(
+                propertyName + "Property",
+                System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic);
+
+            if (dependencyPropertyField?.GetValue(null) is DependencyProperty dependencyProperty)
+            {
+                SetValue(dependencyProperty, style);
+            }
+        }
+
+        /// <summary>
+        /// Updates the button visibility.
+        /// </summary>
+        /// <param name="visibility">The visibility.</param>
+        /// <param name="buttons">The buttons.</param>
+        public void UpdateButtonVisibility(WizardButtonVisibility visibility, params WizardButtons[] buttons)
         {
             if (buttons == null || buttons.Length == 0)
             {
-                _buttonVisibility.Clear();
+                _buttonState.Clear();
             }
             else
             {
@@ -1514,7 +1734,7 @@ namespace DSoft.WizardControl
                 //create a local copy of the buttons array
                 var localButtons = new List<WizardButtons>(buttons);
 
-                //if the buttons array conatains WizardButtons.All, rebuild the localbuttons variable all the buttons.  TODO:// This could be update to loop through the Enum instead of being hardcoded
+                //if the buttons array contains WizardButtons.All, rebuild the localbuttons variable all the buttons.  TODO:// This could be update to loop through the Enum instead of being hardcoded
                 if (buttons.Contains(WizardButtons.All))
                 {
                     localButtons = new List<WizardButtons>() { WizardButtons.Cancel, WizardButtons.Complete, WizardButtons.Next, WizardButtons.Previous, WizardButtons.Process };
@@ -1524,13 +1744,19 @@ namespace DSoft.WizardControl
                 foreach (var button in localButtons)
                 {
                     //if all buttons use hide not collapsed when hiding all buttons
-                    if (_buttonVisibility.ContainsKey(button))
+                    if (_buttonState.ContainsKey(button))
                     {
-                        _buttonVisibility[button] = realVisibilty;
+                        _buttonState[button].GUIVisibility = realVisibilty;
                     }
                     else
                     {
-                        _buttonVisibility.Add(button, realVisibilty);
+                        var buttonState = new WizardButtonState(
+                            button,
+                            WizardButtonVisibility.Visible,
+                            ButtonStyle,
+                            ButtonStyle
+                        );
+                        _buttonState.Add(button, buttonState);
                     }
                 }
             }
@@ -1538,21 +1764,21 @@ namespace DSoft.WizardControl
             RecalculateNavigation();
         }
 
-		/// <summary>
-		/// Updates the stage.
-		/// </summary>
-		/// <param name="stage">The stage.</param>
-		public void UpdateStage(WizardStage stage)
+        /// <summary>
+        /// Updates the stage.
+        /// </summary>
+        /// <param name="stage">The stage.</param>
+        public void UpdateStage(WizardStage stage)
         {
             _currentStage = stage;
 
             RecalculateNavigation();
         }
 
-		/// <summary>
-		/// Recalculates the navigation.
-		/// </summary>
-		public void RecalculateNavigation()
+        /// <summary>
+        /// Recalculates the navigation.
+        /// </summary>
+        public void RecalculateNavigation()
         {
             var subTitle = string.Empty;
 
@@ -1563,7 +1789,7 @@ namespace DSoft.WizardControl
                 if (SelectedIndex < 0)
                     page = Pages[0];
                 else
-					page = Pages[SelectedIndex];
+                    page = Pages[SelectedIndex];
 
                 if (page != null)
                 {
@@ -1585,9 +1811,9 @@ namespace DSoft.WizardControl
             //calculate visibility after enabled status
             var buttonStackVisibility = Visibility.Visible;
 
-            if (_buttonVisibility.ContainsKey(WizardButtons.All))
+            if (_buttonState.ContainsKey(WizardButtons.All))
             {
-                buttonStackVisibility = _buttonVisibility[WizardButtons.All];
+                buttonStackVisibility = _buttonState[WizardButtons.All].GUIVisibility;
             }
             else if (SelectedPage != null)
             {
@@ -1606,12 +1832,12 @@ namespace DSoft.WizardControl
             SubTitle = SubTitle;
         }
 
-		/// <summary>
-		/// Gets the index of the previous page.
-		/// </summary>
-		/// <param name="currentIndex">Index of the current.</param>
-		/// <returns>System.Int32.</returns>
-		private int GetPreviousPageIndex(int currentIndex)
+        /// <summary>
+        /// Gets the index of the previous page.
+        /// </summary>
+        /// <param name="currentIndex">Index of the current.</param>
+        /// <returns>System.Int32.</returns>
+        private int GetPreviousPageIndex(int currentIndex)
         {
             if (currentIndex == 0)
                 return currentIndex;
@@ -1625,12 +1851,12 @@ namespace DSoft.WizardControl
             return newIndex;
         }
 
-		/// <summary>
-		/// Gets the index of the next page.
-		/// </summary>
-		/// <param name="currentIndex">Index of the current.</param>
-		/// <returns>System.Int32.</returns>
-		private int GetNextPageIndex(int currentIndex)
+        /// <summary>
+        /// Gets the index of the next page.
+        /// </summary>
+        /// <param name="currentIndex">Index of the current.</param>
+        /// <returns>System.Int32.</returns>
+        private int GetNextPageIndex(int currentIndex)
         {
             if (currentIndex == ActivePages.Max(x => x.Key))
                 return currentIndex;
@@ -1643,12 +1869,12 @@ namespace DSoft.WizardControl
             return newIndex;
         }
 
-		/// <summary>
-		/// Replaces the page.
-		/// </summary>
-		/// <param name="oldPage">The old page.</param>
-		/// <param name="newPage">The new page.</param>
-		private void ReplacePage(IWizardPage oldPage, IWizardPage newPage)
+        /// <summary>
+        /// Replaces the page.
+        /// </summary>
+        /// <param name="oldPage">The old page.</param>
+        /// <param name="newPage">The new page.</param>
+        private void ReplacePage(IWizardPage oldPage, IWizardPage newPage)
         {
 
             if (Pages.Contains(oldPage))
@@ -1669,7 +1895,7 @@ namespace DSoft.WizardControl
 
         }
 
-#endregion
+        #endregion
 
 
     }

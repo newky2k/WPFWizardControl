@@ -5,12 +5,20 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/Generic.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid Margin="10">
         <StackPanel>
             <TextBlock>Code</TextBlock>
             <TextBox Text="{Binding Code, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
             <CheckBox IsChecked="{Binding HidePage2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">Hide Page 2</CheckBox>
             <Button Content="Finish" Command="{Binding SetFinishCommand}" />
+            <Button Content="Test" Style="{StaticResource WizardTestRedButtonStyle}"/>
         </StackPanel>
     </Grid>
 </UserControl>

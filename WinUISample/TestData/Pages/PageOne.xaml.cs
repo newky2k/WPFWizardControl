@@ -48,7 +48,7 @@ namespace WinUISample.TestData.Pages
         public void OnShown(IWizardControl wizard)
         {
             //wizard.SetButtonVisibility(WizardButtonVisibility.Hidden, WizardButtons.All);
-
+            wizard.UpdateButtonStyle(WizardButtons.Next, "WizardTestRedButtonStyle");
         }
 
         public Task<bool> ValidateAsync()

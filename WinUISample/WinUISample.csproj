@@ -13,18 +13,17 @@
 		<SignAssembly>false</SignAssembly>
 		<GenerateDocumentationFile>false</GenerateDocumentationFile>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+		<WindowsAppSDKSelfContained>false</WindowsAppSDKSelfContained>
 	</PropertyGroup>
 	<ItemGroup>
-	  <None Remove="MainPage.xaml" />
-	  <None Remove="TestData\Pages\CompletePageView.xaml" />
-	  <None Remove="TestData\Pages\ErrorPage.xaml" />
-	  <None Remove="TestData\Pages\PageOne.xaml" />
-	  <None Remove="TestData\Pages\PageThree.xaml" />
-	  <None Remove="TestData\Pages\PageTwo.xaml" />
-	  <None Remove="TestData\Pages\ProcessingPage.xaml" />
+		<None Remove="MainPage.xaml" />
+		<None Remove="TestData\Pages\CompletePageView.xaml" />
+		<None Remove="TestData\Pages\ErrorPage.xaml" />
+		<None Remove="TestData\Pages\PageOne.xaml" />
+		<None Remove="TestData\Pages\PageThree.xaml" />
+		<None Remove="TestData\Pages\PageTwo.xaml" />
+		<None Remove="TestData\Pages\ProcessingPage.xaml" />
 	</ItemGroup>
-
 	<ItemGroup>
 		<Content Include="Assets\SplashScreen.scale-200.png" />
 		<Content Include="Assets\LockScreenLogo.scale-200.png" />
@@ -36,9 +35,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="DSoft.System.Mvvm" Version="3.3.2405.241" />
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240607001" />
+		<PackageReference Include="DSoft.System.Mvvm" Version="3.5.2604.111" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.1721" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.260317003" />
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
 
@@ -51,42 +50,47 @@
 		<ProjectCapability Include="Msix" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\DSoft.WizardControl.WinUI\DSoft.WizardControl.WinUI.csproj" />
+		<ProjectReference Include="..\DSoft.WizardControl.WinUI\DSoft.WizardControl.WinUI.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Page Update="MainPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
+		<Page Update="MainPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
 	</ItemGroup>
 	<ItemGroup>
-	  <Page Update="TestData\Pages\ProcessingPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
+		<Page Update="TestData\Pages\ProcessingPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
 	</ItemGroup>
 	<ItemGroup>
-	  <Page Update="TestData\Pages\PageTwo.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
+		<Page Update="TestData\Pages\PageTwo.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
 	</ItemGroup>
 	<ItemGroup>
-	  <Page Update="TestData\Pages\PageThree.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
+		<Page Update="TestData\Pages\PageThree.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
 	</ItemGroup>
 	<ItemGroup>
-	  <Page Update="TestData\Pages\PageOne.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
+		<Page Update="TestData\Pages\PageOne.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
 	</ItemGroup>
 	<ItemGroup>
-	  <Page Update="TestData\Pages\ErrorPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
+		<Page Update="TestData\Pages\ErrorPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
 	</ItemGroup>
 	<ItemGroup>
-	  <Page Update="TestData\Pages\CompletePageView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
+		<Page Update="TestData\Pages\CompletePageView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+	</ItemGroup>
+ <ItemGroup>
+		<Page Update="Themes\Generic.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
 	</ItemGroup>
 
 	<!--

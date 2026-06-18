@@ -29,10 +29,17 @@ namespace DSoft.WizardControl.Core
 		void UpdateButtonVisibility(WizardButtonVisibility visibility, params WizardButtons[] buttons);
 
 		/// <summary>
-		/// Updates the stage.
+		/// Updates the button style.
 		/// </summary>
-		/// <param name="stage">The stage.</param>
-		void UpdateStage(WizardStage stage);
+		/// <param name="buttons">The buttons.</param>
+		/// <param name="styleKey">The style key (name).</param>
+		void UpdateButtonStyle(WizardButtons buttons, string styleKey);
+
+        /// <summary>
+        /// Updates the stage.
+        /// </summary>
+        /// <param name="stage">The stage.</param>
+        void UpdateStage(WizardStage stage);
 
 		/// <summary>
 		/// Recalculates the navigation.

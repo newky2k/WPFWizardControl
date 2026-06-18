@@ -90,7 +90,9 @@ Below is an example ViewModel using `System.Mvvm`
 
 The appearance of the `WizardControl` header can be modified by overriding the theme
 
-You can also change the `ButtonStyle` in the same way
+You can also change the `ButtonStyle` in the same way. Whilst `ButtonStyle` can be used to assign one button style to all visible buttons,
+individual button styles can be set as well. For individual button styles use code-behind, 
+e.g. `wizard.UpdateButtonStyle(ButtonType.Next, "WizardRedButtonStyle");` or via property binding, e.g. `NextButtonStyle="{StaticResource WizardRedButtonStyle}"`.
 
 Example styling xaml that can be added to the App.xaml or other xaml resource file
 

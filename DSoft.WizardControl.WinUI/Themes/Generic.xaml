@@ -48,11 +48,11 @@
 
 
                         <StackPanel x:Name="PART_BUTTONROW" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5" Visibility="{TemplateBinding ButtonStackVisibility}">
-                            <Button Name="PART_BTN_PREVIOUS" Content="{TemplateBinding PreviousButtonTitle}"  Margin="0,0,5,0" IsEnabled="{TemplateBinding PreviousEnabled}" Command="{TemplateBinding PreviousCommand}" Visibility="{TemplateBinding PreviousButtonVisibility}"/>
-                            <Button Name="PART_BTN_NEXT" Content="{TemplateBinding NextButtonTitle}" Margin="0,0,5,0" IsEnabled="{TemplateBinding NextEnabled}" Command="{TemplateBinding NextCommand}" Visibility="{TemplateBinding NextButtonVisibility}"/>
-                            <Button Name="PART_BTN_FINISH" Content="{TemplateBinding ProcessButtonTitle}" Margin="0,0,5,0" IsEnabled="{TemplateBinding ProcessEnabled}" Command="{TemplateBinding ProcessButtonCommand}" Visibility="{TemplateBinding ProcessButtonVisibility}" />
-                            <Button Name="PART_BTN_CANCEL"  Content="{TemplateBinding CancelButtonTitle}" Margin="0,0,5,0" IsEnabled="{TemplateBinding CancelEnabled}" Command="{TemplateBinding CancelCommand}"  Visibility="{TemplateBinding CancelButtonVisibility}" />
-                            <Button Name="PART_BTN_COMPLETE" Content="{TemplateBinding CloseButtonTitle}" Margin="0,0,5,0" IsEnabled="{TemplateBinding CompleteEnabled}" Command="{TemplateBinding CompleteCommand}"  Visibility="{TemplateBinding CompleteButtonVisibility}"/>
+                            <Button Name="PART_BTN_CANCEL"  Content="{TemplateBinding CancelButtonTitle}" Margin="0,0,5,0" IsEnabled="{TemplateBinding CancelEnabled}" Command="{TemplateBinding CancelCommand}"  Visibility="{TemplateBinding CancelButtonVisibility}" Style="{TemplateBinding CancelButtonStyle}"/>
+                            <Button Name="PART_BTN_PREVIOUS" Content="{TemplateBinding PreviousButtonTitle}"  Margin="0,0,5,0" IsEnabled="{TemplateBinding PreviousEnabled}" Command="{TemplateBinding PreviousCommand}" Visibility="{TemplateBinding PreviousButtonVisibility}" Style="{TemplateBinding PreviousButtonStyle}"/>
+                            <Button Name="PART_BTN_NEXT" Content="{TemplateBinding NextButtonTitle}" Margin="0,0,5,0" IsEnabled="{TemplateBinding NextEnabled}" Command="{TemplateBinding NextCommand}" Visibility="{TemplateBinding NextButtonVisibility}" Style="{TemplateBinding NextButtonStyle}"/>
+                            <Button Name="PART_BTN_FINISH" Content="{TemplateBinding ProcessButtonTitle}" Margin="0,0,5,0" IsEnabled="{TemplateBinding ProcessEnabled}" Command="{TemplateBinding ProcessButtonCommand}" Visibility="{TemplateBinding ProcessButtonVisibility}" Style="{TemplateBinding ProcessButtonStyle}"/>
+                            <Button Name="PART_BTN_COMPLETE" Content="{TemplateBinding CloseButtonTitle}" Margin="0,0,5,0" IsEnabled="{TemplateBinding CompleteEnabled}" Command="{TemplateBinding CompleteCommand}"  Visibility="{TemplateBinding CompleteButtonVisibility}" Style="{TemplateBinding CompleteButtonStyle}"/>
                         </StackPanel>
                     </Grid>
                 </ControlTemplate>
