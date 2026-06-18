@@ -1,10 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0-windows10.0.19041.0; net8.0-windows10.0.19041.0;net9.0-windows10.0.19041.0;net10.0-windows10.0.19041.0</TargetFrameworks>
+		<TargetFrameworks>net10.0-windows10.0.19041.0;</TargetFrameworks>
 		<TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
-		<RuntimeIdentifiers Condition="$([MSBuild]::GetTargetFrameworkVersion('$(TargetFramework)')) &gt;= 8">win-x86;win-x64;win-arm64</RuntimeIdentifiers>
-		<RuntimeIdentifiers Condition="$([MSBuild]::GetTargetFrameworkVersion('$(TargetFramework)')) &lt; 8">win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+		<RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
 		<UseWinUI>true</UseWinUI>
 		<DefineConstants>$(DefineConstants);WINUI</DefineConstants>
 		<EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
@@ -14,7 +13,7 @@
 		<Product>$(AssemblyName) ($(TargetFramework))</Product>
 		<Description>DSoft.WizardControl.WinUI is a simple wizard custom control for WinUI 3.x</Description>
 		<PackageTags>WinUI Wizard</PackageTags>
-		<PackageReleaseNotes>Removed UWP support and added .NET 6.x support
+		<PackageReleaseNotes>Added .NET 10 support and removed support for .NET 6, 8 and 9
 		</PackageReleaseNotes>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>

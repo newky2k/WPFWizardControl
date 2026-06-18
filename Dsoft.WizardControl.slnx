@@ -1,0 +1,29 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="ARM" />
+    <Platform Name="ARM64" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/.ci/">
+    <File Path="azure-pipelines-mergetest.yml" />
+    <File Path="azure-pipelines-release.yml" />
+    <File Path="Directory.Build.props" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/Samples/">
+    <Project Path="WinUISample/WinUISample.csproj">
+      <Platform Solution="*|Any CPU" Project="x64" />
+      <Platform Solution="*|ARM" Project="x64" />
+      <Platform Solution="*|ARM64" Project="ARM64" />
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="*|x86" Project="x86" />
+      <Deploy />
+    </Project>
+    <Project Path="WpfAppNetCore/WpfAppNetCore.csproj" />
+  </Folder>
+  <Project Path="DSoft.WizardControl.Core/DSoft.WizardControl.Core.csproj" />
+  <Project Path="DSoft.WizardControl.WinUI/DSoft.WizardControl.WinUI.csproj" />
+  <Project Path="DSoft.WizardControl.WPF/DSoft.WizardControl.WPF.csproj" />
+</Solution>

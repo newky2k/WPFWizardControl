@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0-windows7.0;net6.0-windows10.0.18362;net8.0-windows7.0;net8.0-windows10.0.18362;net9.0-windows7.0;net9.0-windows10.0.18362;net10.0-windows</TargetFrameworks>
+		<TargetFrameworks>net10.0-windows7.0;net10.0-windows10.0.18362;</TargetFrameworks>
 		<RootNamespace>DSoft.WizardControl</RootNamespace>
 		<AssemblyName>DSoft.WizardControl.WPF</AssemblyName>
 		<Product>$(AssemblyName) ($(TargetFramework))</Product>
@@ -12,7 +12,7 @@
 		<Description>DSoft.WizardControl.WPF is a simple wizard user control for WPF</Description>
 		<PackageTags>WPF Wizard</PackageTags>
 		<PackageReleaseNotes>
-			Updated to add .NET 9.x support
+			Added .NET 10 support and removed support for .NET 6, 8 and 9
 		</PackageReleaseNotes>
 		<DefineConstants>$(DefineConstants);WPF</DefineConstants>
 		<PackageReadmeFile>README.md</PackageReadmeFile>

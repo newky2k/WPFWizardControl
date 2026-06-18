@@ -1,44 +1,61 @@
-# Dsoft.WizardControl.WPF
-Dsoft.WizardControl.WPF is a simple user control for WPF
+# DSoft.WizardControl
+
+A reusable wizard `UserControl` for XAML apps, distributed as NuGet packages for two UI stacks:
+
+| Package | UI stack | Target frameworks |
+| --- | --- | --- |
+| `DSoft.WizardControl.WPF` | WPF | `net10.0-windows7.0`, `net10.0-windows10.0.18362` |
+| `DSoft.WizardControl.WinUI` | WinUI 3 | `net10.0-windows10.0.19041.0` |
+| `DSoft.WizardControl.Core` | UI-agnostic core (interfaces, enums, page config) | `netstandard2.0` |
+
+Both controls are built from one shared set of source files and a common `Core` library, so the WPF and WinUI APIs match.
 
 It supports
 
- - Databiding
+ - Databinding
  - Multiple pages
  - Validation
- - Themeing
+ - Theming
 
 ## Getting Started
 
-The WPF Wizard control is a `UserControl` based element and so it be used in other `UserControl` objects or directly in a `Window`
+The Wizard control is a `UserControl` based element, so it can be used inside other `UserControl` objects or directly in a `Window`.
 
-Install the Nuget package into you project via the Package Management Console
+Install the NuGet package for your platform via the Package Manager Console
 
-    Install-Package Dsoft.WizardControl.WPF
+    # WPF
+    Install-Package DSoft.WizardControl.WPF
 
-Or install it via the Visual Studio Nuget Manager
+    # WinUI 3
+    Install-Package DSoft.WizardControl.WinUI
 
-In your `Window` or `UserControl` add a new namespace
+Or install it via the Visual Studio NuGet Manager.
 
-    xmlns:wizard="clr-namespace:Dsoft.WizardControl.WPF;assembly=Dsoft.WizardControl.WPF"
+Add the namespace to your `Window` or `UserControl`
 
-Then you can add the `WizardControl` to the xaml
+    <!-- WPF -->
+    xmlns:wizard="clr-namespace:Dsoft.WizardControl.WPF;assembly=DSoft.WizardControl.WPF"
+
+    <!-- WinUI -->
+    xmlns:wizard="using:DSoft.WizardControl"
+
+Then add the `WizardControl` to the XAML
 
     <Grid>
-        <wizard:WizardControl 
-            Title="{Binding Title}"  
-            Pages="{Binding Pages}"  
-            CancelCommand="{Binding CancelCommand}" 
+        <wizard:WizardControl
+            Title="{Binding Title}"
+            Pages="{Binding Pages}"
+            CancelCommand="{Binding CancelCommand}"
             FinishCommand="{Binding FinishCommand}"/>
-    </Grid
+    </Grid>
 
 ## Pages
 
-The `WizardControl` uses `UserControl` that implements the `IWizardPage` interface.
+The `WizardControl` hosts `UserControl` pages that implement the `IWizardPage` interface.
 
-The `Pages` property of the `WizardControl` is expecting a `ObservableCollection<IWizardPage>` object which can be databound to a viewmodel or provided explicitly.
+`IWizardPage` exposes a `WizardPageConfiguration PageConfig` (per-page title, `CanGoBack`, `IsHidden`, `HideButtons`, plus `NavigationHandler` / `OnPageShownHandler` callbacks) and a `Task<bool> ValidateAsync()` method.
 
-The `Title`, `CancelCommand` and `FinishCommand` can also be databound or provided explicitly.
+The `Pages` property expects an `ObservableCollection<IWizardPage>` which can be databound to a viewmodel or set explicitly. `Title`, `CancelCommand` and `FinishCommand` can likewise be databound or set explicitly.
 
 Below is an example ViewModel using `System.Mvvm`
 
@@ -86,27 +103,50 @@ Below is an example ViewModel using `System.Mvvm`
 
 ## Theming
 
-The appearance of the `WizardControl` header can be modified by overriding the theme
+The appearance of the `WizardControl` header can be modified by overriding the theme. You can also change the `ButtonStyle` in the same way.
 
-You can also change the `ButtonStyle` in the same way
+Example WPF styling that can be added to App.xaml or another XAML resource file
 
-Example styling xaml that can be added to the App.xaml or other xaml resource file
-
-    xmlns:wizcont="clr-namespace:Dsoft.WizardControl.WPF;assembly=Dsoft.WizardControl.WPF"
+    xmlns:wizcont="clr-namespace:Dsoft.WizardControl.WPF;assembly=DSoft.WizardControl.WPF"
 
     <Style TargetType="{x:Type wizcont:WizardControl}">
         <Setter Property="ButtonStyle" Value="{StaticResource AccentedSquareButtonStyle}" />
     </Style>
-    
-    <Style TargetType="{x:Type wizcont:WizardCont}">
+
+    <Style TargetType="{x:Type wizcont:WizardControl}">
         <Setter Property="HeaderTemplate">
             <Setter.Value>
                 <DataTemplate>
                     <StackPanel VerticalAlignment="Center" Orientation="Vertical" Margin="5">
-                        <TextBlock Text="{Binding Title,FallbackValue=Heading}" FontSize="36"  Foreground="{StaticResource AccentColorBrush}"/>
+                        <TextBlock Text="{Binding Title,FallbackValue=Heading}" FontSize="36" Foreground="{StaticResource AccentColorBrush}"/>
                         <TextBlock Text="{Binding SubTitle,FallbackValue=SubHeading}" FontSize="12" Foreground="Gray"/>
                     </StackPanel>
                 </DataTemplate>
             </Setter.Value>
         </Setter>
     </Style>
+
+For WinUI theming examples, see [DSoft.WizardControl.WinUI/README.md](DSoft.WizardControl.WinUI/README.md).
+
+## Samples
+
+Runnable sample apps (grouped under the `Samples` solution folder):
+
+ - `WpfAppNetCore` — WPF sample
+ - `WinUISample` — WinUI 3 sample
+
+## Building
+
+Use the `Dsoft.WizardControl.slnx` solution.
+
+    # Build everything (Release produces the NuGet packages)
+    dotnet build Dsoft.WizardControl.slnx -c Release
+
+    # Run the WPF sample
+    dotnet run --project WpfAppNetCore/WpfAppNetCore.csproj
+
+WinUI builds require a Windows RID/platform (x64/x86/ARM64), not `Any CPU`.
+
+## License
+
+MIT

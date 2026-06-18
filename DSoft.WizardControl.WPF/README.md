@@ -1,26 +1,28 @@
-# Dsoft.WizardControl.WPF
-Dsoft.WizardControl.WPF is a simple user control for WPF
+# DSoft.WizardControl.WPF
+DSoft.WizardControl.WPF is a simple, customisable wizard `UserControl` for WPF, targeting .NET 10 (`net10.0-windows7.0` and `net10.0-windows10.0.18362`).
 
 It supports
 
- - Databiding
+ - Databinding
  - Multiple pages
  - Validation
- - Themeing
+ - Theming
+
+The shared, UI-agnostic types (`IWizardPage`, `WizardPageConfiguration`, enums, event args) live in the [DSoft.WizardControl.Core](https://www.nuget.org/packages/DSoft.WizardControl.Core) package, which this package depends on.
 
 ## Getting Started
 
-The WPF Wizard control is a `UserControl` based element and so it be used in other `UserControl` objects or directly in a `Window`
+The WPF Wizard control is a `UserControl` based element, so it can be used inside other `UserControl` objects or directly in a `Window`.
 
-Install the Nuget package into you project via the Package Management Console
+Install the NuGet package into your project via the Package Manager Console
 
     Install-Package Dsoft.WizardControl.WPF
 
-Or install it via the Visual Studio Nuget Manager
+Or install it via the Visual Studio NuGet Manager
 
 In your `Window` or `UserControl` add a new namespace
 
-    xmlns:wizard="clr-namespace:Dsoft.WizardControl.WPF;assembly=Dsoft.WizardControl.WPF"
+    xmlns:wizard="clr-namespace:Dsoft.WizardControl.WPF;assembly=DSoft.WizardControl.WPF"
 
 Then you can add the `WizardControl` to the xaml
 
@@ -34,9 +36,9 @@ Then you can add the `WizardControl` to the xaml
 
 ## Pages
 
-The `WizardControl` uses `UserControl` that implements the `IWizardPage` interface.
+The `WizardControl` hosts `UserControl` pages that implement the `IWizardPage` interface. `IWizardPage` exposes a `WizardPageConfiguration PageConfig` (per-page title, `CanGoBack`, `IsHidden`, `HideButtons`, plus `NavigationHandler` / `OnPageShownHandler` callbacks) and a `Task<bool> ValidateAsync()` method.
 
-The `Pages` property of the `WizardControl` is expecting a `ObservableCollection<IWizardPage>` object which can be databound to a viewmodel or provided explicitly.
+The `Pages` property of the `WizardControl` is expecting an `ObservableCollection<IWizardPage>` object which can be databound to a viewmodel or provided explicitly.
 
 The `Title`, `CancelCommand` and `FinishCommand` can also be databound or provided explicitly.
 
@@ -94,13 +96,13 @@ e.g. `wizard.UpdateButtonStyle(ButtonType.Next, "WizardRedButtonStyle");` or via
 
 Example styling xaml that can be added to the App.xaml or other xaml resource file
 
-    xmlns:wizcont="clr-namespace:Dsoft.WizardControl.WPF;assembly=Dsoft.WizardControl.WPF"
+    xmlns:wizcont="clr-namespace:Dsoft.WizardControl.WPF;assembly=DSoft.WizardControl.WPF"
 
     <Style TargetType="{x:Type wizcont:WizardControl}">
         <Setter Property="ButtonStyle" Value="{StaticResource AccentedSquareButtonStyle}" />
     </Style>
     
-    <Style TargetType="{x:Type wizcont:WizardCont}">
+    <Style TargetType="{x:Type wizcont:WizardControl}">
         <Setter Property="HeaderTemplate">
             <Setter.Value>
                 <DataTemplate>

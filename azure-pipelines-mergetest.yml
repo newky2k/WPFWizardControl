@@ -9,10 +9,10 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: '**/*.sln'
+  solution: '**/*.slnx'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  netVersion: '9.x'
+  netVersion: '10.x'
 
 steps:  
 - task: NuGetToolInstaller@1
@@ -34,7 +34,7 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'restore'
-    projects: '*.sln'
+    projects: '$(solution)'
   
 - task: DotNetCoreCLI@2
   displayName: dotnet build

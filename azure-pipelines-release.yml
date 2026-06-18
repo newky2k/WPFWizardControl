@@ -16,10 +16,10 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: '**/*.sln'
+  solution: '**/*.slnx'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  netVersion: '9.x'
+  netVersion: '10.x'
   releaseSuffix: ''
 
 name: 3.0.$(date:yyMM).$(date:dd)$(rev:r)
