@@ -47,7 +47,7 @@ namespace WpfAppNetCore.TestData.Pages
 
         public void OnShown(IWizardControl wizard)
         {
-            //wizard.SetButtonVisibility(WizardButtonVisibility.Hidden, WizardButtons.All);
+            //wizard.UpdateButtonVisibility(WizardButtonVisibility.Collapsed, WizardButtons.All);
             wizard.UpdateButtonStyle(WizardButtons.Next, "WizardTestRedButtonStyle");
 
         }
