@@ -1,0 +1,32 @@
+# Pull request validation: builds Release (WPF and WinUI need Windows). Publishes nothing.
+name: CI
+
+on:
+  pull_request:
+    branches: [master, dev]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: |
+            10.x
+            11.x
+
+      - name: Restore
+        run: dotnet restore Dsoft.WizardControl.slnx
+
+      - name: Build
+        run: dotnet build Dsoft.WizardControl.slnx --configuration Release --no-restore /p:Platform="Any CPU"

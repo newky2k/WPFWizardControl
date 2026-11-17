@@ -11,8 +11,8 @@ A reusable wizard control distributed as NuGet packages for two XAML UI stacks: 
 Use `Dsoft.WizardControl.slnx` (new XML solution format) — it is the current solution. `Dsoft.WizardControl.sln` is the legacy MSBuild solution. The `slnx` contains:
 
 - `DSoft.WizardControl.Core` — interfaces, enums, event args, page configuration. No UI dependency.
-- `DSoft.WizardControl.WPF` — WPF NuGet package (targets net10 `-windows7.0` and `-windows10.0.18362`).
-- `DSoft.WizardControl.WinUI` — WinUI 3 NuGet package (targets net10 `-windows10.0.19041.0`).
+- `DSoft.WizardControl.WPF` — WPF NuGet package (targets net10.0 and net11.0, each with `-windows7.0` and `-windows10.0.18362`).
+- `DSoft.WizardControl.WinUI` — WinUI 3 NuGet package (targets net10.0 and net11.0 with `-windows10.0.19041.0`).
 - `WpfAppNetCore`, `WinUISample` — runnable sample apps under the `Samples/` folder.
 
 `Dsoft.WizardControl/Dsoft.WizardControl.WPFOld.csproj` is a legacy .NET Framework 4.6.1 project, **not** part of `slnx`. Do not modify it for new work.
@@ -60,7 +60,7 @@ Applies to all projects: documentation XML generation, `GeneratePackageOnBuild`,
 
 ## Versioning & CI
 
-- Azure Pipelines (`azure-pipelines-release.yml`) builds `master` on `windows-latest` with the .NET 10 SDK, stamps version from build number (`3.0.$(date...)`), and publishes `DSoft.*.nupkg` artifacts. `azure-pipelines-mergetest.yml` validates merges.
+- GitHub Actions (`.github/workflows/`) on `windows-latest` with the .NET 10 and .NET 11 SDKs. `ci.yml` builds Release for pull requests into `master` and `dev` and publishes nothing. `release.yml` runs on every push to `master`, builds Release as `3.1.<yyMM>.<run number>`, pushes the `DSoft.*` packages to nuget.org with Trusted Publishing (OIDC, `NUGET_USER` secret, `nuget` environment), then tags the commit and creates a GitHub release.
 - Package versions are set per-project in the `.csproj` (`<Version>`); CI overrides via `/p:Version=`.
 
 ## Git

@@ -41,7 +41,7 @@ namespace WinUISample
 
         private void OnCloseWindowRequest(object? sender, bool e)
         {
-            
+            Application.Current.Exit();
         }
     }
 }
