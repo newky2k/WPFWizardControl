@@ -1,4 +1,4 @@
-# Release: on every push to master, builds Release and pushes the
+# Release: on every push to main, builds Release and pushes the
 # DSoft.WizardControl.* packages to nuget.org as 3.1.yyMM.<run number>, then tags the
 # commit and creates a GitHub release with the packages attached.
 # RELEASE_SUFFIX is empty for a stable version; set it to a suffix such as
@@ -8,7 +8,7 @@ name: Release
 
 on:
   push:
-    branches: [master]
+    branches: [main]
     paths-ignore:
       - '**.md'
       - '.github/workflows/**'
