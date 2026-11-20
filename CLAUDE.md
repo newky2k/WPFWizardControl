@@ -60,9 +60,9 @@ Applies to all projects: documentation XML generation, `GeneratePackageOnBuild`,
 
 ## Versioning & CI
 
-- GitHub Actions (`.github/workflows/`) on `windows-latest` with the .NET 10 and .NET 11 SDKs. `ci.yml` builds Release for pull requests into `master` and `dev` and publishes nothing. `release.yml` runs on every push to `master`, builds Release as `3.1.<yyMM>.<run number>`, pushes the `DSoft.*` packages to nuget.org with Trusted Publishing (OIDC, `NUGET_USER` secret, `nuget` environment), then tags the commit and creates a GitHub release.
+- GitHub Actions (`.github/workflows/`) on `windows-latest` with the .NET 10 and .NET 11 SDKs. `ci.yml` builds Release for pull requests into `main` and `development` and publishes nothing. `release.yml` runs on every push to `main`, builds Release as `3.1.<yyMM>.<run number>`, pushes the `DSoft.*` packages to nuget.org with Trusted Publishing (OIDC, `NUGET_USER` secret, `nuget` environment), then tags the commit and creates a GitHub release.
 - Package versions are set per-project in the `.csproj` (`<Version>`); CI overrides via `/p:Version=`.
 
 ## Git
 
-`master` is the release/PR target; active work happens on `dev`.
+`main` is the release branch; active work happens on `development`.
